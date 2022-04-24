@@ -58,6 +58,7 @@ namespace V_Speeds
         {
             //ignore change in mass => extra safety margin
             //ignore wind => extra safety margin (headwind would increase IAS and decrease GS, thus less distance travelled on runway...)
+            //ignore speedbrakes => more safety margin because longer braking distance...
             //using EAS to approximate IAS...
             double p = _qfe * mmair / (igc * _oat);
             double easfactor = Math.Sqrt(p / p0);
@@ -71,12 +72,12 @@ namespace V_Speeds
                 double drag = Math.Pow(eas, 2) * p * _csa * _cd / 2;
                 double acc = (_thr - drag) / _gw;
                 rwl -= (tas*t + acc*Math.Pow(t, 2)/2);
-
+                double rwl2 = rwl - (tas * 5); // allow for 5 seconds of "rollout" (engine cooldown) time before actual braking takes effect...
                 double totalbrake = _bf + drag + (_thr * _rtr);
                 double dec = totalbrake / _gw;
                 double tntb = tas / dec; // time needed to brake...
                 double bdist = (tas * tntb) - (dec * Math.Pow(tntb, 2) / 2);
-                if (bdist > rwl) stop = true;
+                if (bdist > rwl2) stop = true;
                 tas += (acc * t);
                 //Console.WriteLine(String.Format("TAS={0}, RWL={1}, EAS={2}, DRAG={3}, ACC={4}, TOTBR={5}, DEC={6}, TNTB={7}, BDIST={8}",
                 //    tas, rwl, eas, drag, acc, totalbrake, dec, tntb, bdist));
