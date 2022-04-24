@@ -41,6 +41,19 @@ namespace V_Speeds
         public double Cd { get => _cd; set => _cd = value; }
         public double Rtr { get => _rtr; set => _rtr = value; }
 
+        // internal setter-functions for Form1
+        internal void SetGw(double value) => Gw = value;
+        internal void SetOat(double value) => Oat = value;
+        internal void SetQfe(double value) => Qfe = value;
+        internal void SetLsa(double value) => Lsa = value;
+        internal void SetCl(double value) => Cl = value;
+        internal void SetThr(double value) => Thr = value;
+        internal void SetBf(double value) => Bf = value;
+        internal void SetRl(double value) => Rl = value;
+        internal void SetCsa(double value) => Csa = value;
+        internal void SetCd(double value) => Cd = value;
+        internal void SetRtr(double value) => Rtr = value;
+
         public double CalcV1()
         {
             //ignore change in mass => extra safety margin
