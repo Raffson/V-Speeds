@@ -61,7 +61,6 @@ namespace V_Speeds
             //using EAS to approximate IAS...
             double p = _qfe * mmair / (igc * _oat);
             double easfactor = Math.Sqrt(p / p0);
-            Console.WriteLine(easfactor);
             bool stop = false;
             double t = 0.1;   // time interval 0.1 seconds
             double tas = 0.0; // assuming no headwind (extra safety) => tas = gs
