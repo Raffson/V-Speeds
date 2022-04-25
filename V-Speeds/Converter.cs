@@ -1,6 +1,6 @@
 ﻿namespace V_Speeds
 {
-    class Converter
+    static class Converter
     {
         public static double do_nothing(double val) => val;
         public static double lbs2kgs(double lbs) => lbs * 0.45359237;
