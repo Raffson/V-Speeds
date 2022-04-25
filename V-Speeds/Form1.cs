@@ -23,6 +23,12 @@ namespace V_Speeds
         // mapping numericUpDowns to their setter-function for model, combobox + converters to ensure metric data is passed...
         private readonly Dictionary<NumericUpDown, (Action<double>, ComboBox, Func<double, double>, Func<double, double>)> model_map;
 
+        // list of inputs to be (un)locked if profile is selected...
+        private readonly NumericUpDown[] fixed_inputs;
+
+
+        private int lastProfileIndex = 0;
+
         public Form1()
         {
             System.Globalization.CultureInfo customCulture = 
@@ -32,6 +38,9 @@ namespace V_Speeds
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
             
             InitializeComponent();
+            fixed_inputs = new NumericUpDown[] { lsa_input, cl_input, bf_input, csa_input, cd_input, rtr_input };
+            apSelect.SelectedIndex = 0;
+            apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
             unit_map = new Dictionary<ComboBox, (MyIndex, NumericUpDown, Func<decimal, decimal>, Func<decimal, decimal>)> {
                     { weightUnit, (new MyIndex(), gw_input, Converter.lbs2kgs, Converter.kgs2lbs) },
                     { oatUnit, (new MyIndex(), oat_input, Converter.fahr2celc, Converter.celc2fahr) },
@@ -60,6 +69,31 @@ namespace V_Speeds
                     { cd_input, (vcalc.SetCd, null, null, null) },
                     { rtr_input, (vcalc.SetRtr, null, null, null) }
                 };
+        }
+
+        private void ProfileChanged(object sender, EventArgs e)
+        {
+            ComboBox cb = sender as ComboBox;
+            if (cb.SelectedIndex == lastProfileIndex) return;
+            lastProfileIndex = cb.SelectedIndex;
+            if (cb.SelectedIndex == 0) // unlock
+                foreach (var input in fixed_inputs) input.Enabled = true;
+            else // lock & load
+            {
+                //vcalc.SetProfile(AircraftProfile.Indexer[cb.SelectedIndex]);
+                foreach (var input in fixed_inputs)
+                {
+                    // update actual value in input, must first set units to metric...
+                    if (model_map[input].Item2 != null)
+                    {
+                        unit_map[model_map[input].Item2].Item1.Index = 0; // to prevent converters...
+                        model_map[input].Item2.SelectedIndex = 0; // set metric, triggers "UnitChanged"...
+                    }
+                    input.Enabled = false;
+                }
+                var profile = AircraftProfile.Indexer[cb.SelectedIndex];
+                (lsa_input.Value, cl_input.Value, bf_input.Value, csa_input.Value, cd_input.Value, rtr_input.Value) = profile;
+            }
         }
 
         private void NumericUpDown_Focus(object sender, EventArgs e)

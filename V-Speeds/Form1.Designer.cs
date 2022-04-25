@@ -48,6 +48,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.cl_input = new System.Windows.Forms.NumericUpDown();
             this.qfe_input = new System.Windows.Forms.NumericUpDown();
             this.gw_input = new System.Windows.Forms.NumericUpDown();
@@ -69,6 +70,7 @@
             this.csa_input = new System.Windows.Forms.NumericUpDown();
             this.v2_output = new System.Windows.Forms.TextBox();
             this.calcV1 = new System.Windows.Forms.Button();
+            this.apSelect = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.oat_input)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lsa_input)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cl_input)).BeginInit();
@@ -236,7 +238,7 @@
             this.label9.Size = new System.Drawing.Size(22, 13);
             this.label9.TabIndex = 21;
             this.label9.Text = "BF";
-            this.toolTip1.SetToolTip(this.label9, "Brake Force");
+            this.toolTip1.SetToolTip(this.label9, "Brake Force (consider the brakes only)");
             // 
             // label10
             // 
@@ -304,6 +306,17 @@
             this.label15.Text = "V2 =";
             this.toolTip1.SetToolTip(this.label15, "Minimum IAS for level flight");
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(26, 241);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(88, 13);
+            this.label16.TabIndex = 42;
+            this.label16.Text = "Aircraft Profile";
+            this.toolTip1.SetToolTip(this.label16, "Select a profile to lock certain parameters");
+            // 
             // cl_input
             // 
             this.cl_input.AccessibleName = "";
@@ -319,6 +332,11 @@
             0,
             0,
             0});
+            this.cl_input.Minimum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            -2147483648});
             this.cl_input.Name = "cl_input";
             this.cl_input.Size = new System.Drawing.Size(98, 20);
             this.cl_input.TabIndex = 9;
@@ -593,6 +611,11 @@
             0,
             0,
             0});
+            this.cd_input.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
             this.cd_input.Name = "cd_input";
             this.cd_input.Size = new System.Drawing.Size(98, 20);
             this.cd_input.TabIndex = 31;
@@ -660,11 +683,24 @@
             this.calcV1.UseVisualStyleBackColor = true;
             this.calcV1.Click += new System.EventHandler(this.CalcV1);
             // 
+            // apSelect
+            // 
+            this.apSelect.FormattingEnabled = true;
+            this.apSelect.Items.AddRange(new object[] {
+            "Custom...",
+            "F-16C_blk50"});
+            this.apSelect.Location = new System.Drawing.Point(120, 238);
+            this.apSelect.Name = "apSelect";
+            this.apSelect.Size = new System.Drawing.Size(121, 21);
+            this.apSelect.TabIndex = 43;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 441);
+            this.Controls.Add(this.apSelect);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.calcV1);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.v2_output);
@@ -765,6 +801,8 @@
         private System.Windows.Forms.TextBox v2_output;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button calcV1;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox apSelect;
     }
 }
 
