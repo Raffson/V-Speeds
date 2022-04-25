@@ -80,12 +80,12 @@ namespace V_Speeds
                 foreach (var input in fixed_inputs) input.Enabled = true;
             else // lock & load
             {
-                //vcalc.SetProfile(AircraftProfile.Indexer[cb.SelectedIndex]);
+                Queue<int> backups = new Queue<int>();
                 foreach (var input in fixed_inputs)
                 {
-                    // update actual value in input, must first set units to metric...
-                    if (model_map[input].Item2 != null)
+                    if (model_map[input].Item2 != null) // change unit only if there is one...
                     {
+                        backups.Enqueue(model_map[input].Item2.SelectedIndex);
                         unit_map[model_map[input].Item2].Item1.Index = 0; // to prevent converters...
                         model_map[input].Item2.SelectedIndex = 0; // set metric, triggers "UnitChanged"...
                     }
@@ -93,6 +93,9 @@ namespace V_Speeds
                 }
                 var profile = AircraftProfile.Indexer[cb.SelectedIndex];
                 (lsa_input.Value, cl_input.Value, bf_input.Value, csa_input.Value, cd_input.Value, rtr_input.Value) = profile;
+                foreach (var input in fixed_inputs)
+                    if (model_map[input].Item2 != null)
+                        model_map[input].Item2.SelectedIndex = backups.Dequeue();
             }
         }
 
