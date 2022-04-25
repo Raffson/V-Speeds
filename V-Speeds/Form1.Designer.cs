@@ -31,8 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
-            this.oat_input = new System.Windows.Forms.NumericUpDown();
-            this.lsa_input = new System.Windows.Forms.NumericUpDown();
+            this.oat_in = new System.Windows.Forms.NumericUpDown();
+            this.lsa_in = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label3 = new System.Windows.Forms.Label();
@@ -49,9 +49,9 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.cl_input = new System.Windows.Forms.NumericUpDown();
-            this.qfe_input = new System.Windows.Forms.NumericUpDown();
-            this.gw_input = new System.Windows.Forms.NumericUpDown();
+            this.cl_in = new System.Windows.Forms.NumericUpDown();
+            this.qfe_in = new System.Windows.Forms.NumericUpDown();
+            this.gw_in = new System.Windows.Forms.NumericUpDown();
             this.weightUnit = new System.Windows.Forms.ComboBox();
             this.oatUnit = new System.Windows.Forms.ComboBox();
             this.qfeUnit = new System.Windows.Forms.ComboBox();
@@ -59,29 +59,29 @@
             this.v1_output = new System.Windows.Forms.TextBox();
             this.calcV2 = new System.Windows.Forms.Button();
             this.thrUnit = new System.Windows.Forms.ComboBox();
-            this.thr_input = new System.Windows.Forms.NumericUpDown();
+            this.thr_in = new System.Windows.Forms.NumericUpDown();
             this.bfUnit = new System.Windows.Forms.ComboBox();
-            this.bf_input = new System.Windows.Forms.NumericUpDown();
+            this.bf_in = new System.Windows.Forms.NumericUpDown();
             this.rlUnit = new System.Windows.Forms.ComboBox();
-            this.rl_input = new System.Windows.Forms.NumericUpDown();
-            this.rtr_input = new System.Windows.Forms.NumericUpDown();
-            this.cd_input = new System.Windows.Forms.NumericUpDown();
+            this.rl_in = new System.Windows.Forms.NumericUpDown();
+            this.rtr_in = new System.Windows.Forms.NumericUpDown();
+            this.cd_in = new System.Windows.Forms.NumericUpDown();
             this.csaUnit = new System.Windows.Forms.ComboBox();
-            this.csa_input = new System.Windows.Forms.NumericUpDown();
+            this.csa_in = new System.Windows.Forms.NumericUpDown();
             this.v2_output = new System.Windows.Forms.TextBox();
             this.calcV1 = new System.Windows.Forms.Button();
             this.apSelect = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.oat_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lsa_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cl_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.qfe_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gw_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thr_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bf_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rl_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rtr_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cd_input)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.csa_input)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.oat_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lsa_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cl_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qfe_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gw_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thr_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bf_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rl_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rtr_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cd_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.csa_in)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -97,58 +97,58 @@
             // 
             // oat_input
             // 
-            this.oat_input.AccessibleName = "";
-            this.oat_input.DecimalPlaces = 2;
-            this.oat_input.Increment = new decimal(new int[] {
+            this.oat_in.AccessibleName = "";
+            this.oat_in.DecimalPlaces = 2;
+            this.oat_in.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.oat_input.Location = new System.Drawing.Point(60, 41);
-            this.oat_input.Maximum = new decimal(new int[] {
+            this.oat_in.Location = new System.Drawing.Point(60, 41);
+            this.oat_in.Maximum = new decimal(new int[] {
             9999,
             0,
             0,
             0});
-            this.oat_input.Minimum = new decimal(new int[] {
+            this.oat_in.Minimum = new decimal(new int[] {
             273,
             0,
             0,
             -2147483648});
-            this.oat_input.Name = "oat_input";
-            this.oat_input.Size = new System.Drawing.Size(98, 20);
-            this.oat_input.TabIndex = 6;
-            this.oat_input.ThousandsSeparator = true;
-            this.oat_input.Value = new decimal(new int[] {
+            this.oat_in.Name = "oat_input";
+            this.oat_in.Size = new System.Drawing.Size(98, 20);
+            this.oat_in.TabIndex = 6;
+            this.oat_in.ThousandsSeparator = true;
+            this.oat_in.Value = new decimal(new int[] {
             15,
             0,
             0,
             0});
-            this.oat_input.ValueChanged += new System.EventHandler(this.UpdateModel);
-            this.oat_input.Enter += new System.EventHandler(this.NumericUpDown_Focus);
+            this.oat_in.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.oat_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
             // lsa_input
             // 
-            this.lsa_input.AccessibleName = "";
-            this.lsa_input.DecimalPlaces = 2;
-            this.lsa_input.Location = new System.Drawing.Point(60, 93);
-            this.lsa_input.Maximum = new decimal(new int[] {
+            this.lsa_in.AccessibleName = "";
+            this.lsa_in.DecimalPlaces = 2;
+            this.lsa_in.Location = new System.Drawing.Point(60, 93);
+            this.lsa_in.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
-            this.lsa_input.Name = "lsa_input";
-            this.lsa_input.Size = new System.Drawing.Size(98, 20);
-            this.lsa_input.TabIndex = 8;
-            this.lsa_input.Tag = "LSA";
-            this.lsa_input.ThousandsSeparator = true;
-            this.lsa_input.Value = new decimal(new int[] {
+            this.lsa_in.Name = "lsa_input";
+            this.lsa_in.Size = new System.Drawing.Size(98, 20);
+            this.lsa_in.TabIndex = 8;
+            this.lsa_in.Tag = "LSA";
+            this.lsa_in.ThousandsSeparator = true;
+            this.lsa_in.Value = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.lsa_input.ValueChanged += new System.EventHandler(this.UpdateModel);
-            this.lsa_input.Enter += new System.EventHandler(this.NumericUpDown_Focus);
+            this.lsa_in.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.lsa_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
             // label2
             // 
@@ -319,85 +319,85 @@
             // 
             // cl_input
             // 
-            this.cl_input.AccessibleName = "";
-            this.cl_input.DecimalPlaces = 2;
-            this.cl_input.Increment = new decimal(new int[] {
+            this.cl_in.AccessibleName = "";
+            this.cl_in.DecimalPlaces = 2;
+            this.cl_in.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.cl_input.Location = new System.Drawing.Point(60, 119);
-            this.cl_input.Maximum = new decimal(new int[] {
+            this.cl_in.Location = new System.Drawing.Point(60, 119);
+            this.cl_in.Maximum = new decimal(new int[] {
             99,
             0,
             0,
             0});
-            this.cl_input.Minimum = new decimal(new int[] {
+            this.cl_in.Minimum = new decimal(new int[] {
             99,
             0,
             0,
             -2147483648});
-            this.cl_input.Name = "cl_input";
-            this.cl_input.Size = new System.Drawing.Size(98, 20);
-            this.cl_input.TabIndex = 9;
-            this.cl_input.Tag = "LSA";
-            this.cl_input.ThousandsSeparator = true;
-            this.cl_input.Value = new decimal(new int[] {
+            this.cl_in.Name = "cl_input";
+            this.cl_in.Size = new System.Drawing.Size(98, 20);
+            this.cl_in.TabIndex = 9;
+            this.cl_in.Tag = "LSA";
+            this.cl_in.ThousandsSeparator = true;
+            this.cl_in.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.cl_input.ValueChanged += new System.EventHandler(this.UpdateModel);
-            this.cl_input.Enter += new System.EventHandler(this.NumericUpDown_Focus);
+            this.cl_in.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.cl_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
             // qfe_input
             // 
-            this.qfe_input.AccessibleName = "";
-            this.qfe_input.DecimalPlaces = 2;
-            this.qfe_input.Increment = new decimal(new int[] {
+            this.qfe_in.AccessibleName = "";
+            this.qfe_in.DecimalPlaces = 2;
+            this.qfe_in.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.qfe_input.Location = new System.Drawing.Point(61, 67);
-            this.qfe_input.Maximum = new decimal(new int[] {
+            this.qfe_in.Location = new System.Drawing.Point(61, 67);
+            this.qfe_in.Maximum = new decimal(new int[] {
             9999,
             0,
             0,
             0});
-            this.qfe_input.Name = "qfe_input";
-            this.qfe_input.Size = new System.Drawing.Size(98, 20);
-            this.qfe_input.TabIndex = 7;
-            this.qfe_input.ThousandsSeparator = true;
-            this.qfe_input.Value = new decimal(new int[] {
+            this.qfe_in.Name = "qfe_input";
+            this.qfe_in.Size = new System.Drawing.Size(98, 20);
+            this.qfe_in.TabIndex = 7;
+            this.qfe_in.ThousandsSeparator = true;
+            this.qfe_in.Value = new decimal(new int[] {
             101325,
             0,
             0,
             131072});
-            this.qfe_input.ValueChanged += new System.EventHandler(this.UpdateModel);
-            this.qfe_input.Enter += new System.EventHandler(this.NumericUpDown_Focus);
+            this.qfe_in.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.qfe_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
             // gw_input
             // 
-            this.gw_input.AccessibleName = "";
-            this.gw_input.DecimalPlaces = 2;
-            this.gw_input.Location = new System.Drawing.Point(60, 15);
-            this.gw_input.Maximum = new decimal(new int[] {
+            this.gw_in.AccessibleName = "";
+            this.gw_in.DecimalPlaces = 2;
+            this.gw_in.Location = new System.Drawing.Point(60, 15);
+            this.gw_in.Maximum = new decimal(new int[] {
             99999999,
             0,
             0,
             0});
-            this.gw_input.Name = "gw_input";
-            this.gw_input.Size = new System.Drawing.Size(98, 20);
-            this.gw_input.TabIndex = 5;
-            this.gw_input.ThousandsSeparator = true;
-            this.gw_input.Value = new decimal(new int[] {
+            this.gw_in.Name = "gw_input";
+            this.gw_in.Size = new System.Drawing.Size(98, 20);
+            this.gw_in.TabIndex = 5;
+            this.gw_in.ThousandsSeparator = true;
+            this.gw_in.Value = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.gw_input.ValueChanged += new System.EventHandler(this.UpdateModel);
-            this.gw_input.Enter += new System.EventHandler(this.NumericUpDown_Focus);
+            this.gw_in.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.gw_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
             // weightUnit
             // 
@@ -488,24 +488,24 @@
             // 
             // thr_input
             // 
-            this.thr_input.AccessibleName = "";
-            this.thr_input.DecimalPlaces = 2;
-            this.thr_input.Location = new System.Drawing.Point(367, 15);
-            this.thr_input.Maximum = new decimal(new int[] {
+            this.thr_in.AccessibleName = "";
+            this.thr_in.DecimalPlaces = 2;
+            this.thr_in.Location = new System.Drawing.Point(367, 15);
+            this.thr_in.Maximum = new decimal(new int[] {
             99999999,
             0,
             0,
             0});
-            this.thr_input.Name = "thr_input";
-            this.thr_input.Size = new System.Drawing.Size(98, 20);
-            this.thr_input.TabIndex = 19;
-            this.thr_input.ThousandsSeparator = true;
-            this.thr_input.Value = new decimal(new int[] {
+            this.thr_in.Name = "thr_input";
+            this.thr_in.Size = new System.Drawing.Size(98, 20);
+            this.thr_in.TabIndex = 19;
+            this.thr_in.ThousandsSeparator = true;
+            this.thr_in.Value = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.thr_input.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.thr_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // bfUnit
             // 
@@ -522,24 +522,24 @@
             // 
             // bf_input
             // 
-            this.bf_input.AccessibleName = "";
-            this.bf_input.DecimalPlaces = 2;
-            this.bf_input.Location = new System.Drawing.Point(367, 41);
-            this.bf_input.Maximum = new decimal(new int[] {
+            this.bf_in.AccessibleName = "";
+            this.bf_in.DecimalPlaces = 2;
+            this.bf_in.Location = new System.Drawing.Point(367, 41);
+            this.bf_in.Maximum = new decimal(new int[] {
             99999999,
             0,
             0,
             0});
-            this.bf_input.Name = "bf_input";
-            this.bf_input.Size = new System.Drawing.Size(98, 20);
-            this.bf_input.TabIndex = 22;
-            this.bf_input.ThousandsSeparator = true;
-            this.bf_input.Value = new decimal(new int[] {
+            this.bf_in.Name = "bf_input";
+            this.bf_in.Size = new System.Drawing.Size(98, 20);
+            this.bf_in.TabIndex = 22;
+            this.bf_in.ThousandsSeparator = true;
+            this.bf_in.Value = new decimal(new int[] {
             500,
             0,
             0,
             0});
-            this.bf_input.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.bf_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // rlUnit
             // 
@@ -556,76 +556,76 @@
             // 
             // rl_input
             // 
-            this.rl_input.AccessibleName = "";
-            this.rl_input.DecimalPlaces = 2;
-            this.rl_input.Location = new System.Drawing.Point(367, 67);
-            this.rl_input.Maximum = new decimal(new int[] {
+            this.rl_in.AccessibleName = "";
+            this.rl_in.DecimalPlaces = 2;
+            this.rl_in.Location = new System.Drawing.Point(367, 67);
+            this.rl_in.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
-            this.rl_input.Name = "rl_input";
-            this.rl_input.Size = new System.Drawing.Size(98, 20);
-            this.rl_input.TabIndex = 25;
-            this.rl_input.ThousandsSeparator = true;
-            this.rl_input.Value = new decimal(new int[] {
+            this.rl_in.Name = "rl_input";
+            this.rl_in.Size = new System.Drawing.Size(98, 20);
+            this.rl_in.TabIndex = 25;
+            this.rl_in.ThousandsSeparator = true;
+            this.rl_in.Value = new decimal(new int[] {
             2500,
             0,
             0,
             0});
-            this.rl_input.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.rl_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // rtr_input
             // 
-            this.rtr_input.AccessibleName = "";
-            this.rtr_input.DecimalPlaces = 3;
-            this.rtr_input.Increment = new decimal(new int[] {
+            this.rtr_in.AccessibleName = "";
+            this.rtr_in.DecimalPlaces = 3;
+            this.rtr_in.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.rtr_input.Location = new System.Drawing.Point(367, 147);
-            this.rtr_input.Maximum = new decimal(new int[] {
+            this.rtr_in.Location = new System.Drawing.Point(367, 147);
+            this.rtr_in.Maximum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.rtr_input.Name = "rtr_input";
-            this.rtr_input.Size = new System.Drawing.Size(98, 20);
-            this.rtr_input.TabIndex = 33;
-            this.rtr_input.ThousandsSeparator = true;
-            this.rtr_input.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.rtr_in.Name = "rtr_input";
+            this.rtr_in.Size = new System.Drawing.Size(98, 20);
+            this.rtr_in.TabIndex = 33;
+            this.rtr_in.ThousandsSeparator = true;
+            this.rtr_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // cd_input
             // 
-            this.cd_input.AccessibleName = "";
-            this.cd_input.DecimalPlaces = 2;
-            this.cd_input.Increment = new decimal(new int[] {
+            this.cd_in.AccessibleName = "";
+            this.cd_in.DecimalPlaces = 2;
+            this.cd_in.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.cd_input.Location = new System.Drawing.Point(367, 121);
-            this.cd_input.Maximum = new decimal(new int[] {
+            this.cd_in.Location = new System.Drawing.Point(367, 121);
+            this.cd_in.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.cd_input.Minimum = new decimal(new int[] {
+            this.cd_in.Minimum = new decimal(new int[] {
             10,
             0,
             0,
             -2147483648});
-            this.cd_input.Name = "cd_input";
-            this.cd_input.Size = new System.Drawing.Size(98, 20);
-            this.cd_input.TabIndex = 31;
-            this.cd_input.ThousandsSeparator = true;
-            this.cd_input.Value = new decimal(new int[] {
+            this.cd_in.Name = "cd_input";
+            this.cd_in.Size = new System.Drawing.Size(98, 20);
+            this.cd_in.TabIndex = 31;
+            this.cd_in.ThousandsSeparator = true;
+            this.cd_in.Value = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.cd_input.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.cd_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // csaUnit
             // 
@@ -642,24 +642,24 @@
             // 
             // csa_input
             // 
-            this.csa_input.AccessibleName = "";
-            this.csa_input.DecimalPlaces = 2;
-            this.csa_input.Location = new System.Drawing.Point(367, 95);
-            this.csa_input.Maximum = new decimal(new int[] {
+            this.csa_in.AccessibleName = "";
+            this.csa_in.DecimalPlaces = 2;
+            this.csa_in.Location = new System.Drawing.Point(367, 95);
+            this.csa_in.Maximum = new decimal(new int[] {
             999,
             0,
             0,
             0});
-            this.csa_input.Name = "csa_input";
-            this.csa_input.Size = new System.Drawing.Size(98, 20);
-            this.csa_input.TabIndex = 28;
-            this.csa_input.ThousandsSeparator = true;
-            this.csa_input.Value = new decimal(new int[] {
+            this.csa_in.Name = "csa_input";
+            this.csa_in.Size = new System.Drawing.Size(98, 20);
+            this.csa_in.TabIndex = 28;
+            this.csa_in.ThousandsSeparator = true;
+            this.csa_in.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.csa_input.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.csa_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // v2_output
             // 
@@ -706,20 +706,20 @@
             this.Controls.Add(this.v2_output);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.csaUnit);
-            this.Controls.Add(this.csa_input);
+            this.Controls.Add(this.csa_in);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.cd_input);
+            this.Controls.Add(this.cd_in);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.rtr_input);
+            this.Controls.Add(this.rtr_in);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.rlUnit);
-            this.Controls.Add(this.rl_input);
+            this.Controls.Add(this.rl_in);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.bfUnit);
-            this.Controls.Add(this.bf_input);
+            this.Controls.Add(this.bf_in);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.thrUnit);
-            this.Controls.Add(this.thr_input);
+            this.Controls.Add(this.thr_in);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.calcV2);
             this.Controls.Add(this.label7);
@@ -729,32 +729,32 @@
             this.Controls.Add(this.qfeUnit);
             this.Controls.Add(this.oatUnit);
             this.Controls.Add(this.weightUnit);
-            this.Controls.Add(this.gw_input);
+            this.Controls.Add(this.gw_in);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.qfe_input);
+            this.Controls.Add(this.qfe_in);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.cl_input);
+            this.Controls.Add(this.cl_in);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.lsa_input);
+            this.Controls.Add(this.lsa_in);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.oat_input);
+            this.Controls.Add(this.oat_in);
             this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "Form1";
             this.Text = "V-Speeds";
-            ((System.ComponentModel.ISupportInitialize)(this.oat_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lsa_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cl_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.qfe_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gw_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thr_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bf_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rl_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rtr_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cd_input)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.csa_input)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.oat_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lsa_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cl_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qfe_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gw_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thr_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bf_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rl_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rtr_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cd_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.csa_in)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -763,15 +763,15 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown oat_input;
-        private System.Windows.Forms.NumericUpDown lsa_input;
+        private System.Windows.Forms.NumericUpDown oat_in;
+        private System.Windows.Forms.NumericUpDown lsa_in;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.NumericUpDown cl_input;
+        private System.Windows.Forms.NumericUpDown cl_in;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown qfe_input;
+        private System.Windows.Forms.NumericUpDown qfe_in;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown gw_input;
+        private System.Windows.Forms.NumericUpDown gw_in;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox weightUnit;
         private System.Windows.Forms.ComboBox oatUnit;
@@ -782,20 +782,20 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button calcV2;
         private System.Windows.Forms.ComboBox thrUnit;
-        private System.Windows.Forms.NumericUpDown thr_input;
+        private System.Windows.Forms.NumericUpDown thr_in;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox bfUnit;
-        private System.Windows.Forms.NumericUpDown bf_input;
+        private System.Windows.Forms.NumericUpDown bf_in;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox rlUnit;
-        private System.Windows.Forms.NumericUpDown rl_input;
+        private System.Windows.Forms.NumericUpDown rl_in;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown rtr_input;
+        private System.Windows.Forms.NumericUpDown rtr_in;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.NumericUpDown cd_input;
+        private System.Windows.Forms.NumericUpDown cd_in;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox csaUnit;
-        private System.Windows.Forms.NumericUpDown csa_input;
+        private System.Windows.Forms.NumericUpDown csa_in;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox v2_output;

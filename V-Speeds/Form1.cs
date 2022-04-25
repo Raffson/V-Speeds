@@ -38,18 +38,18 @@ namespace V_Speeds
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
             
             InitializeComponent();
-            fixed_inputs = new NumericUpDown[] { lsa_input, cl_input, bf_input, csa_input, cd_input, rtr_input };
+            fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in };
             apSelect.SelectedIndex = 0;
             apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
             unit_map = new Dictionary<ComboBox, (MyIndex, NumericUpDown, Func<decimal, decimal>, Func<decimal, decimal>)> {
-                    { weightUnit, (new MyIndex(), gw_input, Converter.lbs2kgs, Converter.kgs2lbs) },
-                    { oatUnit, (new MyIndex(), oat_input, Converter.fahr2celc, Converter.celc2fahr) },
-                    { qfeUnit, (new MyIndex(), qfe_input, Converter.inHg2mbar, Converter.mbar2inHg) },
-                    { lsaUnit, (new MyIndex(), lsa_input, Converter.sqft2sqm, Converter.sqm2sqft) },
-                    { thrUnit, (new MyIndex(), thr_input, Converter.lbf2newton, Converter.newton2lbf) },
-                    { bfUnit, (new MyIndex(), bf_input, Converter.lbf2newton, Converter.newton2lbf) },
-                    { rlUnit, (new MyIndex(), rl_input, Converter.ft2m, Converter.m2ft) },
-                    { csaUnit, (new MyIndex(), csa_input, Converter.sqft2sqm, Converter.sqm2sqft) }
+                    { weightUnit, (new MyIndex(), gw_in, Converter.lbs2kgs, Converter.kgs2lbs) },
+                    { oatUnit, (new MyIndex(), oat_in, Converter.fahr2celc, Converter.celc2fahr) },
+                    { qfeUnit, (new MyIndex(), qfe_in, Converter.inHg2mbar, Converter.mbar2inHg) },
+                    { lsaUnit, (new MyIndex(), lsa_in, Converter.sqft2sqm, Converter.sqm2sqft) },
+                    { thrUnit, (new MyIndex(), thr_in, Converter.lbf2newton, Converter.newton2lbf) },
+                    { bfUnit, (new MyIndex(), bf_in, Converter.lbf2newton, Converter.newton2lbf) },
+                    { rlUnit, (new MyIndex(), rl_in, Converter.ft2m, Converter.m2ft) },
+                    { csaUnit, (new MyIndex(), csa_in, Converter.sqft2sqm, Converter.sqm2sqft) }
                 };
             foreach (var entry in unit_map)
             {
@@ -57,17 +57,17 @@ namespace V_Speeds
                 entry.Key.SelectedIndexChanged += new System.EventHandler(UnitChanged);
             }
             model_map = new Dictionary<NumericUpDown, (Action<double>, ComboBox, Func<double, double>, Func<double, double>)> {
-                    { gw_input, (vcalc.SetGw, weightUnit, Converter.do_nothing, Converter.lbs2kgs) },
-                    { oat_input, (vcalc.SetOat, oatUnit, Converter.celc2kel, Converter.fahr2kel) },
-                    { qfe_input, (vcalc.SetQfe, qfeUnit, Converter.mbar2pa, Converter.inHg2pa) },
-                    { lsa_input, (vcalc.SetLsa, lsaUnit, Converter.do_nothing, Converter.sqft2sqm) },
-                    { cl_input, (vcalc.SetCl, null, null, null) },
-                    { thr_input, (vcalc.SetThr, thrUnit, Converter.do_nothing, Converter.lbf2newton) },
-                    { bf_input, (vcalc.SetBf, bfUnit, Converter.do_nothing, Converter.lbf2newton) },
-                    { rl_input, (vcalc.SetRl, rlUnit, Converter.do_nothing, Converter.ft2m) },
-                    { csa_input, (vcalc.SetCsa, csaUnit, Converter.do_nothing, Converter.sqft2sqm) },
-                    { cd_input, (vcalc.SetCd, null, null, null) },
-                    { rtr_input, (vcalc.SetRtr, null, null, null) }
+                    { gw_in, (vcalc.SetGw, weightUnit, Converter.do_nothing, Converter.lbs2kgs) },
+                    { oat_in, (vcalc.SetOat, oatUnit, Converter.celc2kel, Converter.fahr2kel) },
+                    { qfe_in, (vcalc.SetQfe, qfeUnit, Converter.mbar2pa, Converter.inHg2pa) },
+                    { lsa_in, (vcalc.SetLsa, lsaUnit, Converter.do_nothing, Converter.sqft2sqm) },
+                    { cl_in, (vcalc.SetCl, null, null, null) },
+                    { thr_in, (vcalc.SetThr, thrUnit, Converter.do_nothing, Converter.lbf2newton) },
+                    { bf_in, (vcalc.SetBf, bfUnit, Converter.do_nothing, Converter.lbf2newton) },
+                    { rl_in, (vcalc.SetRl, rlUnit, Converter.do_nothing, Converter.ft2m) },
+                    { csa_in, (vcalc.SetCsa, csaUnit, Converter.do_nothing, Converter.sqft2sqm) },
+                    { cd_in, (vcalc.SetCd, null, null, null) },
+                    { rtr_in, (vcalc.SetRtr, null, null, null) }
                 };
         }
 
@@ -92,8 +92,8 @@ namespace V_Speeds
                     input.Enabled = false;
                 }
                 var profile = AircraftProfile.Indexer[cb.SelectedIndex];
-                (lsa_input.Value, cl_input.Value, bf_input.Value, csa_input.Value, cd_input.Value, rtr_input.Value) = profile;
-                foreach (var input in fixed_inputs)
+                (lsa_in.Value, cl_in.Value, bf_in.Value, csa_in.Value, cd_in.Value, rtr_in.Value) = profile;
+                foreach (var input in fixed_inputs) // restore units...
                     if (model_map[input].Item2 != null)
                         model_map[input].Item2.SelectedIndex = backups.Dequeue();
             }
