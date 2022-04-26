@@ -9,10 +9,10 @@ namespace V_Speeds
         private readonly V_Calculator vcalc = new V_Calculator();
 
         // mapping unit to a delegate with lastSelectedIndex, respective numericUpDown, Conversion functions
-        private readonly Dictionary<ComboBox, UnitDelegate> unit_map;
+        private readonly Dictionary<ComboBox, BaseDelegate> unit_map;
 
         // mapping numericUpDowns to their setter-function for model, combobox + converters to ensure metric data is passed...
-        private readonly Dictionary<NumericUpDown, (Action<double>, ComboBox, Func<double, double>, Func<double, double>)> model_map;
+        private readonly Dictionary<NumericUpDown, BaseDelegate> model_map;
 
         // list of inputs to be (un)locked if profile is selected...
         private readonly NumericUpDown[] fixed_inputs;
@@ -36,33 +36,33 @@ namespace V_Speeds
             profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in };
             apSelect.SelectedIndex = 0;
             apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
-            unit_map = new Dictionary<ComboBox, UnitDelegate> {
-                    { weightUnit, new WeightDelegate(gw_in) },
-                    { oatUnit, new TemperatureDelegate(oat_in) },
-                    { qfeUnit, new PressureDelegate(qfe_in) },
-                    { lsaUnit, new AreaDelegate(lsa_in) },
-                    { thrUnit, new ForceDelegate(thr_in) },
-                    { bfUnit,  new ForceDelegate(bf_in) },
-                    { rlUnit,  new DistanceDelegate(rl_in) },
-                    { csaUnit, new AreaDelegate(csa_in) }
+            unit_map = new Dictionary<ComboBox, BaseDelegate> {
+                    { weightUnit, new WeightDelegate(gw_in, vcalc.SetGw, weightUnit) },
+                    { oatUnit, new TemperatureDelegate(oat_in, vcalc.SetOat, oatUnit) },
+                    { qfeUnit, new PressureDelegate(qfe_in, vcalc.SetQfe, qfeUnit) },
+                    { lsaUnit, new AreaDelegate(lsa_in, vcalc.SetLsa, lsaUnit) },
+                    { thrUnit, new ForceDelegate(thr_in, vcalc.SetThr, thrUnit) },
+                    { bfUnit,  new ForceDelegate(bf_in, vcalc.SetBf, bfUnit) },
+                    { rlUnit,  new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit) },
+                    { csaUnit, new AreaDelegate(csa_in, vcalc.SetCsa, csaUnit) }
                 };
             foreach (var entry in unit_map)
             {
                 entry.Key.SelectedIndex = 0;
                 entry.Key.SelectedIndexChanged += new System.EventHandler(UnitChanged);
             }
-            model_map = new Dictionary<NumericUpDown, (Action<double>, ComboBox, Func<double, double>, Func<double, double>)> {
-                    { gw_in, (vcalc.SetGw, weightUnit, Converter.do_nothing, Converter.lbs2kgs) },
-                    { oat_in, (vcalc.SetOat, oatUnit, Converter.celc2kel, Converter.fahr2kel) },
-                    { qfe_in, (vcalc.SetQfe, qfeUnit, Converter.mbar2pa, Converter.inHg2pa) },
-                    { lsa_in, (vcalc.SetLsa, lsaUnit, Converter.do_nothing, Converter.sqft2sqm) },
-                    { cl_in, (vcalc.SetCl, null, null, null) },
-                    { thr_in, (vcalc.SetThr, thrUnit, Converter.do_nothing, Converter.lbf2newton) },
-                    { bf_in, (vcalc.SetBf, bfUnit, Converter.do_nothing, Converter.lbf2newton) },
-                    { rl_in, (vcalc.SetRl, rlUnit, Converter.do_nothing, Converter.ft2m) },
-                    { csa_in, (vcalc.SetCsa, csaUnit, Converter.do_nothing, Converter.sqft2sqm) },
-                    { cd_in, (vcalc.SetCd, null, null, null) },
-                    { rtr_in, (vcalc.SetRtr, null, null, null) }
+            model_map = new Dictionary<NumericUpDown, BaseDelegate> {
+                    { gw_in, unit_map[weightUnit] }, // don't make new objects, use same delagates...
+                    { oat_in, unit_map[oatUnit] },
+                    { qfe_in, unit_map[qfeUnit] },
+                    { lsa_in, unit_map[lsaUnit] },
+                    { cl_in, new UnitlessDelegate(cl_in, vcalc.SetCl) },
+                    { thr_in, unit_map[thrUnit] },
+                    { bf_in, unit_map[bfUnit] },
+                    { rl_in, unit_map[rlUnit] },
+                    { csa_in, unit_map[csaUnit] },
+                    { cd_in, new UnitlessDelegate(cd_in, vcalc.SetCd) },
+                    { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr) }
                 };
         }
 
@@ -78,18 +78,18 @@ namespace V_Speeds
                 Queue<int> backups = new Queue<int>();
                 foreach (var input in profile_inputs)
                 {
-                    if (model_map[input].Item2 != null) // change unit only if there is one...
+                    if (model_map[input].Unit != null) // change unit only if there is one...
                     {
-                        backups.Enqueue(model_map[input].Item2.SelectedIndex);
-                        unit_map[model_map[input].Item2].LastIndex = 0; // to prevent converters...
-                        model_map[input].Item2.SelectedIndex = 0; // set metric, triggers "UnitChanged"...
+                        backups.Enqueue(model_map[input].Unit.SelectedIndex);
+                        model_map[input].LastIndex = 0; // to prevent converters...
+                        model_map[input].Unit.SelectedIndex = 0; // set metric, triggers "UnitChanged"...
                     }
                 }
                 var profile = AircraftProfile.Indexer[cb.SelectedIndex];
                 (lsa_in.Value, cl_in.Value, bf_in.Value, csa_in.Value, cd_in.Value, rtr_in.Value) = profile;
                 foreach (var input in profile_inputs) // restore units...
-                    if (model_map[input].Item2 != null)
-                        model_map[input].Item2.SelectedIndex = backups.Dequeue();
+                    if (model_map[input].Unit != null)
+                        model_map[input].Unit.SelectedIndex = backups.Dequeue();
             }
         }
 
@@ -126,13 +126,13 @@ namespace V_Speeds
         {
             NumericUpDown nud = sender as NumericUpDown;
             double nudval = (double)nud.Value;
-            if (model_map[nud].Item2 is null) model_map[nud].Item1(nudval);
+            if (model_map[nud].Unit is null) model_map[nud].Setter(nudval);
             else
             {
-                Func<double, double> f1 = model_map[nud].Item3;
-                Func<double, double> f2 = model_map[nud].Item4;
-                nudval = model_map[nud].Item2.SelectedIndex == 0 ? f1(nudval) : f2(nudval);
-                model_map[nud].Item1(nudval);
+                Func<double, double> f1 = model_map[nud].M2SI;
+                Func<double, double> f2 = model_map[nud].I2SI;
+                nudval = model_map[nud].Unit.SelectedIndex == 0 ? f1(nudval) : f2(nudval);
+                model_map[nud].Setter(nudval);
             }
         }
     }
