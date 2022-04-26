@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace V_Speeds
@@ -36,34 +37,29 @@ namespace V_Speeds
             profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in };
             apSelect.SelectedIndex = 0;
             apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
-            unit_map = new Dictionary<ComboBox, BaseDelegate> {
-                    { weightUnit, new WeightDelegate(gw_in, vcalc.SetGw, weightUnit) },
-                    { oatUnit, new TemperatureDelegate(oat_in, vcalc.SetOat, oatUnit) },
-                    { qfeUnit, new PressureDelegate(qfe_in, vcalc.SetQfe, qfeUnit) },
-                    { lsaUnit, new AreaDelegate(lsa_in, vcalc.SetLsa, lsaUnit) },
-                    { thrUnit, new ForceDelegate(thr_in, vcalc.SetThr, thrUnit) },
-                    { bfUnit,  new ForceDelegate(bf_in, vcalc.SetBf, bfUnit) },
-                    { rlUnit,  new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit) },
-                    { csaUnit, new AreaDelegate(csa_in, vcalc.SetCsa, csaUnit) }
-                };
-            foreach (var entry in unit_map)
-            {
-                entry.Key.SelectedIndex = 0;
-                entry.Key.SelectedIndexChanged += new System.EventHandler(UnitChanged);
-            }
+
             model_map = new Dictionary<NumericUpDown, BaseDelegate> {
-                    { gw_in, unit_map[weightUnit] }, // don't make new objects, use same delagates...
-                    { oat_in, unit_map[oatUnit] },
-                    { qfe_in, unit_map[qfeUnit] },
-                    { lsa_in, unit_map[lsaUnit] },
+                    { gw_in, new WeightDelegate(gw_in, vcalc.SetGw, weightUnit) },
+                    { oat_in, new TemperatureDelegate(oat_in, vcalc.SetOat, oatUnit) },
+                    { qfe_in, new PressureDelegate(qfe_in, vcalc.SetQfe, qfeUnit) },
+                    { lsa_in, new AreaDelegate(lsa_in, vcalc.SetLsa, lsaUnit) },
                     { cl_in, new UnitlessDelegate(cl_in, vcalc.SetCl) },
-                    { thr_in, unit_map[thrUnit] },
-                    { bf_in, unit_map[bfUnit] },
-                    { rl_in, unit_map[rlUnit] },
-                    { csa_in, unit_map[csaUnit] },
+                    { thr_in, new ForceDelegate(thr_in, vcalc.SetThr, thrUnit) },
+                    { bf_in, new ForceDelegate(bf_in, vcalc.SetBf, bfUnit) },
+                    { rl_in, new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit) },
+                    { csa_in, new AreaDelegate(csa_in, vcalc.SetCsa, csaUnit) },
                     { cd_in, new UnitlessDelegate(cd_in, vcalc.SetCd) },
                     { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr) }
                 };
+            var units = new ComboBox[] { weightUnit, oatUnit, qfeUnit, lsaUnit, thrUnit, bfUnit, rlUnit, csaUnit };
+            var inputs = new NumericUpDown[] { gw_in, oat_in, qfe_in, lsa_in, thr_in, bf_in, rl_in, csa_in };
+            var pairs = Enumerable.Zip(units, inputs, (key, value) => new { key, value });
+            foreach (var pair in pairs)
+            {
+                unit_map.Add(pair.key, model_map[pair.value]);
+                pair.key.SelectedIndex = 0;
+                pair.key.SelectedIndexChanged += new System.EventHandler(UnitChanged);
+            }
         }
 
         private void ProfileChanged(object sender, EventArgs e)
