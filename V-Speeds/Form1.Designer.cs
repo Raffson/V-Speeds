@@ -688,7 +688,8 @@
             this.apSelect.FormattingEnabled = true;
             this.apSelect.Items.AddRange(new object[] {
             "Custom...",
-            "F-16C_blk50"});
+            "F-16C blk50 (AB)",
+            "F-16C blk50 (MIL)"});
             this.apSelect.Location = new System.Drawing.Point(120, 238);
             this.apSelect.Name = "apSelect";
             this.apSelect.Size = new System.Drawing.Size(121, 21);

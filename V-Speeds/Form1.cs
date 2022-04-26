@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -9,11 +10,11 @@ namespace V_Speeds
     {
         private readonly V_Calculator vcalc = new V_Calculator();
 
-        // mapping unit to a delegate with lastSelectedIndex, respective numericUpDown, Conversion functions
-        private readonly Dictionary<ComboBox, BaseDelegate> unit_map = new Dictionary<ComboBox, BaseDelegate>();
-
         // mapping numericUpDowns to their setter-function for model, combobox + converters to ensure metric data is passed...
         private readonly Dictionary<NumericUpDown, BaseDelegate> model_map;
+
+        // mapping unit to a delegate with lastSelectedIndex, respective numericUpDown, Conversion functions
+        private readonly Dictionary<ComboBox, BaseDelegate> unit_map = new Dictionary<ComboBox, BaseDelegate>();
 
         // list of inputs to be (un)locked if profile is selected...
         private readonly NumericUpDown[] fixed_inputs;
@@ -35,22 +36,22 @@ namespace V_Speeds
             InitializeComponent();
 
             fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in };
-            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in };
+            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in, gw_in, thr_in };
 
             apSelect.SelectedIndex = 0;
             apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
 
             model_map = new Dictionary<NumericUpDown, BaseDelegate> {
-                    { gw_in, new WeightDelegate(gw_in, vcalc.SetGw, weightUnit) },
+                    { gw_in,  new WeightDelegate(gw_in, vcalc.SetGw, weightUnit) },
                     { oat_in, new TemperatureDelegate(oat_in, vcalc.SetOat, oatUnit) },
                     { qfe_in, new PressureDelegate(qfe_in, vcalc.SetQfe, qfeUnit) },
                     { lsa_in, new AreaDelegate(lsa_in, vcalc.SetLsa, lsaUnit) },
-                    { cl_in, new UnitlessDelegate(cl_in, vcalc.SetCl) },
+                    { cl_in,  new UnitlessDelegate(cl_in, vcalc.SetCl) },
                     { thr_in, new ForceDelegate(thr_in, vcalc.SetThr, thrUnit) },
-                    { bf_in, new ForceDelegate(bf_in, vcalc.SetBf, bfUnit) },
-                    { rl_in, new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit) },
+                    { bf_in,  new ForceDelegate(bf_in, vcalc.SetBf, bfUnit) },
+                    { rl_in,  new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit) },
                     { csa_in, new AreaDelegate(csa_in, vcalc.SetCsa, csaUnit) },
-                    { cd_in, new UnitlessDelegate(cd_in, vcalc.SetCd) },
+                    { cd_in,  new UnitlessDelegate(cd_in, vcalc.SetCd) },
                     { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr) }
                 };
             var units = new ComboBox[] { weightUnit, oatUnit, qfeUnit, lsaUnit, thrUnit, bfUnit, rlUnit, csaUnit };
@@ -73,6 +74,8 @@ namespace V_Speeds
             foreach (var input in fixed_inputs) input.Enabled = enabled; // (un)lock
             if (cb.SelectedIndex > 0) // locked, now load!
             {
+                var ap = AircraftProfile.Indexer[cb.SelectedIndex];
+                ImmutableArray<decimal>.Enumerator iter = ap.GetEnumerator();
                 Queue<int> backups = new Queue<int>(); // for backing up the units...
                 foreach (var input in profile_inputs)
                 {
@@ -82,12 +85,11 @@ namespace V_Speeds
                         model_map[input].LastIndex = 0; // to prevent converters...
                         model_map[input].Unit.SelectedIndex = 0; // set metric, triggers "UnitChanged"...
                     }
+                    iter.MoveNext();
+                    input.Value = iter.Current;
+                    if (model_map[input].Unit != null) 
+                        model_map[input].Unit.SelectedIndex = backups.Dequeue(); // restore unit...
                 }
-                var profile = AircraftProfile.Indexer[cb.SelectedIndex];
-                (lsa_in.Value, cl_in.Value, bf_in.Value, csa_in.Value, cd_in.Value, rtr_in.Value) = profile;
-                foreach (var input in profile_inputs) // restore units...
-                    if (model_map[input].Unit != null)
-                        model_map[input].Unit.SelectedIndex = backups.Dequeue();
             }
         }
 
