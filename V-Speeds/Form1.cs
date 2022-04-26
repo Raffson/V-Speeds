@@ -10,7 +10,7 @@ namespace V_Speeds
         private readonly V_Calculator vcalc = new V_Calculator();
 
         // mapping unit to a delegate with lastSelectedIndex, respective numericUpDown, Conversion functions
-        private readonly Dictionary<ComboBox, BaseDelegate> unit_map;
+        private readonly Dictionary<ComboBox, BaseDelegate> unit_map = new Dictionary<ComboBox, BaseDelegate>();
 
         // mapping numericUpDowns to their setter-function for model, combobox + converters to ensure metric data is passed...
         private readonly Dictionary<NumericUpDown, BaseDelegate> model_map;
@@ -33,8 +33,10 @@ namespace V_Speeds
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
             
             InitializeComponent();
+
             fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in };
             profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in };
+
             apSelect.SelectedIndex = 0;
             apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
 
@@ -71,7 +73,7 @@ namespace V_Speeds
             foreach (var input in fixed_inputs) input.Enabled = enabled; // (un)lock
             if (cb.SelectedIndex > 0) // locked, now load!
             {
-                Queue<int> backups = new Queue<int>();
+                Queue<int> backups = new Queue<int>(); // for backing up the units...
                 foreach (var input in profile_inputs)
                 {
                     if (model_map[input].Unit != null) // change unit only if there is one...
