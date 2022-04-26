@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Windows.Forms;
+﻿using System.Collections.Immutable;
 
 namespace V_Speeds
 {
@@ -65,12 +61,12 @@ namespace V_Speeds
             }
         }
 
-        private void ProfileChanged(object sender, EventArgs e)
+        private void ProfileChanged(object? sender, EventArgs e)
         {
-            ComboBox cb = sender as ComboBox;
-            if (cb.SelectedIndex == lastProfileIndex) return;
+            ComboBox? cb = sender as ComboBox;
+            if (cb == null || cb.SelectedIndex == lastProfileIndex) return;
             lastProfileIndex = cb.SelectedIndex;
-            bool enabled = cb.SelectedIndex == 0 ? true : false;
+            bool enabled = cb.SelectedIndex == 0;
             foreach (var input in fixed_inputs) input.Enabled = enabled; // (un)lock
             if (cb.SelectedIndex > 0) // locked, now load!
             {
@@ -93,26 +89,26 @@ namespace V_Speeds
             }
         }
 
-        private void NumericUpDown_Focus(object sender, EventArgs e)
+        private void NumericUpDown_Focus(object? sender, EventArgs e)
         {
-            NumericUpDown nud = sender as NumericUpDown;
-            nud.Select(0, nud.ToString().Length);
+            NumericUpDown? nud = sender as NumericUpDown;
+            if (nud != null) nud.Select(0, nud.ToString().Length);
         }
 
-        private void CalcV1(object sender, EventArgs e)
+        private void CalcV1(object? sender, EventArgs e)
         {
             v1_output.Text = Converter.mps2kts(vcalc.CalcV1()).ToString("N2");
         }
 
-        private void CalcV2(object sender, EventArgs e)
+        private void CalcV2(object? sender, EventArgs e)
         {
             v2_output.Text = Converter.mps2kts(vcalc.CalcV2()).ToString("N2");
         }
 
-        private void UnitChanged(object sender, EventArgs e)
+        private void UnitChanged(object? sender, EventArgs e)
         {
-            ComboBox cb = sender as ComboBox;
-            if (cb.SelectedIndex == unit_map[cb].LastIndex) return; // no change in selection, thus nothing to do...
+            ComboBox? cb = sender as ComboBox;
+            if (cb == null || cb.SelectedIndex == unit_map[cb].LastIndex) return; // no change in selection, thus nothing to do...
             NumericUpDown input = unit_map[cb].Input;
             Func<decimal, decimal> f1 = unit_map[cb].I2M; // imperial to metric
             Func<decimal, decimal> f2 = unit_map[cb].M2I; // metric to imperial
@@ -122,9 +118,10 @@ namespace V_Speeds
             input.ValueChanged += new System.EventHandler(UpdateModel); // re-enable model update...
         }
 
-        private void UpdateModel(object sender, EventArgs e)
+        private void UpdateModel(object? sender, EventArgs e)
         {
-            NumericUpDown nud = sender as NumericUpDown;
+            NumericUpDown? nud = sender as NumericUpDown;
+            if (nud == null) return;
             double nudval = (double)nud.Value;
             if (model_map[nud].Unit is null) model_map[nud].Setter(nudval);
             else

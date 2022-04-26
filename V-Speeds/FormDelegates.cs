@@ -25,19 +25,19 @@ namespace V_Speeds
         private int _index;
         private readonly NumericUpDown _input;
         private readonly Action<double> _setter;
-        private readonly ComboBox _unit;
-        private readonly Func<decimal, decimal> _m2i;
-        private readonly Func<decimal, decimal> _i2m;
-        private readonly Func<double, double> _m2si;
-        private readonly Func<double, double> _i2si;
+        private readonly ComboBox? _unit;
+        private readonly Func<decimal, decimal>? _m2i;
+        private readonly Func<decimal, decimal>? _i2m;
+        private readonly Func<double, double>? _m2si;
+        private readonly Func<double, double>? _i2si;
 
         public BaseDelegate(NumericUpDown input,
                             Action<double> setter,
-                            ComboBox unit = null,
-                            Func<decimal, decimal> i2m = null,
-                            Func<decimal, decimal> m2i = null,
-                            Func<double, double> m2si = null,
-                            Func<double, double> i2si = null)
+                            ComboBox? unit = null,
+                            Func<decimal, decimal>? i2m = null,
+                            Func<decimal, decimal>? m2i = null,
+                            Func<double, double>? m2si = null,
+                            Func<double, double>? i2si = null)
         {
             _index = 0;
             _input = input;
