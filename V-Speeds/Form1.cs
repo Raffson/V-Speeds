@@ -6,25 +6,19 @@ namespace V_Speeds
 {
     public partial class Form1 : Form
     {
-        private class MyIndex // 'int'-wrapper for use with tuple, as I can't change an 'int' value in after tuple was made...
-        {
-            private int index;
-
-            public MyIndex(int i = 0) => index = i;
-
-            public int Index { get => index; set => index = value; }
-        }
-
         private readonly V_Calculator vcalc = new V_Calculator();
 
-        // mapping unitname to tuple with lastSelectedIndex, respective numericUpDown, Conversion functions -> see constructor
-        private readonly Dictionary<ComboBox, (MyIndex, NumericUpDown, Func<decimal, decimal>, Func<decimal, decimal>)> unit_map;
+        // mapping unit to a delegate with lastSelectedIndex, respective numericUpDown, Conversion functions
+        private readonly Dictionary<ComboBox, UnitDelegate> unit_map;
 
         // mapping numericUpDowns to their setter-function for model, combobox + converters to ensure metric data is passed...
         private readonly Dictionary<NumericUpDown, (Action<double>, ComboBox, Func<double, double>, Func<double, double>)> model_map;
 
         // list of inputs to be (un)locked if profile is selected...
         private readonly NumericUpDown[] fixed_inputs;
+
+        // list of inputs to overwrite profile is selected...
+        private readonly NumericUpDown[] profile_inputs;
 
 
         private int lastProfileIndex = 0;
@@ -38,18 +32,19 @@ namespace V_Speeds
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
             
             InitializeComponent();
-            fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in };
+            fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in };
+            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in };
             apSelect.SelectedIndex = 0;
             apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
-            unit_map = new Dictionary<ComboBox, (MyIndex, NumericUpDown, Func<decimal, decimal>, Func<decimal, decimal>)> {
-                    { weightUnit, (new MyIndex(), gw_in, Converter.lbs2kgs, Converter.kgs2lbs) },
-                    { oatUnit, (new MyIndex(), oat_in, Converter.fahr2celc, Converter.celc2fahr) },
-                    { qfeUnit, (new MyIndex(), qfe_in, Converter.inHg2mbar, Converter.mbar2inHg) },
-                    { lsaUnit, (new MyIndex(), lsa_in, Converter.sqft2sqm, Converter.sqm2sqft) },
-                    { thrUnit, (new MyIndex(), thr_in, Converter.lbf2newton, Converter.newton2lbf) },
-                    { bfUnit, (new MyIndex(), bf_in, Converter.lbf2newton, Converter.newton2lbf) },
-                    { rlUnit, (new MyIndex(), rl_in, Converter.ft2m, Converter.m2ft) },
-                    { csaUnit, (new MyIndex(), csa_in, Converter.sqft2sqm, Converter.sqm2sqft) }
+            unit_map = new Dictionary<ComboBox, UnitDelegate> {
+                    { weightUnit, new WeightDelegate(gw_in) },
+                    { oatUnit, new TemperatureDelegate(oat_in) },
+                    { qfeUnit, new PressureDelegate(qfe_in) },
+                    { lsaUnit, new AreaDelegate(lsa_in) },
+                    { thrUnit, new ForceDelegate(thr_in) },
+                    { bfUnit,  new ForceDelegate(bf_in) },
+                    { rlUnit,  new DistanceDelegate(rl_in) },
+                    { csaUnit, new AreaDelegate(csa_in) }
                 };
             foreach (var entry in unit_map)
             {
@@ -76,24 +71,23 @@ namespace V_Speeds
             ComboBox cb = sender as ComboBox;
             if (cb.SelectedIndex == lastProfileIndex) return;
             lastProfileIndex = cb.SelectedIndex;
-            if (cb.SelectedIndex == 0) // unlock
-                foreach (var input in fixed_inputs) input.Enabled = true;
-            else // lock & load
+            bool enabled = cb.SelectedIndex == 0 ? true : false;
+            foreach (var input in fixed_inputs) input.Enabled = enabled; // (un)lock
+            if (cb.SelectedIndex > 0) // locked, now load!
             {
                 Queue<int> backups = new Queue<int>();
-                foreach (var input in fixed_inputs)
+                foreach (var input in profile_inputs)
                 {
                     if (model_map[input].Item2 != null) // change unit only if there is one...
                     {
                         backups.Enqueue(model_map[input].Item2.SelectedIndex);
-                        unit_map[model_map[input].Item2].Item1.Index = 0; // to prevent converters...
+                        unit_map[model_map[input].Item2].LastIndex = 0; // to prevent converters...
                         model_map[input].Item2.SelectedIndex = 0; // set metric, triggers "UnitChanged"...
                     }
-                    input.Enabled = false;
                 }
                 var profile = AircraftProfile.Indexer[cb.SelectedIndex];
                 (lsa_in.Value, cl_in.Value, bf_in.Value, csa_in.Value, cd_in.Value, rtr_in.Value) = profile;
-                foreach (var input in fixed_inputs) // restore units...
+                foreach (var input in profile_inputs) // restore units...
                     if (model_map[input].Item2 != null)
                         model_map[input].Item2.SelectedIndex = backups.Dequeue();
             }
@@ -118,13 +112,13 @@ namespace V_Speeds
         private void UnitChanged(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-            if (cb.SelectedIndex == unit_map[cb].Item1.Index) return; // no change in selection, thus nothing to do...
-            NumericUpDown input = unit_map[cb].Item2;
-            Func<decimal, decimal> f1 = unit_map[cb].Item3; // imperial to metric
-            Func<decimal, decimal> f2 = unit_map[cb].Item4; // metric to imperial
+            if (cb.SelectedIndex == unit_map[cb].LastIndex) return; // no change in selection, thus nothing to do...
+            NumericUpDown input = unit_map[cb].Input;
+            Func<decimal, decimal> f1 = unit_map[cb].I2M; // imperial to metric
+            Func<decimal, decimal> f2 = unit_map[cb].M2I; // metric to imperial
             input.ValueChanged -= new System.EventHandler(UpdateModel); // disable model update since the underlying value stays the same
-            unit_map[cb].Item2.Value = cb.SelectedIndex == 0 ? f1(input.Value) : f2(input.Value);
-            unit_map[cb].Item1.Index = cb.SelectedIndex;
+            input.Value = cb.SelectedIndex == 0 ? f1(input.Value) : f2(input.Value);
+            unit_map[cb].LastIndex = cb.SelectedIndex;
             input.ValueChanged += new System.EventHandler(UpdateModel); // re-enable model update...
         }
 

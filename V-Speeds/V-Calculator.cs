@@ -17,19 +17,19 @@ namespace V_Speeds
             double thr = 1000.0, double bf = 500.0, double rl = 2500.0, double csa = 1.0, double cd = 0.1, double rtr = 0.0)
         {
             // all members should stay positve, except Cl and Cd... thus setters will use absolute value
-            Gw = gw;    // kgs
-            Oat = oat;  // Kelvin
-            Qfe = qfe;  // Pascal
-            Lsa = lsa;  // m²
-            Cl = cl;    // no unit
-            Thr = thr;  // Newton
-            Bf = bf;    // Newton
-            Rl = rl;    // m
-            Csa = csa;  // m²
-            Cd = cd;    // no unit
-            Rtr = rtr;  // no unit
+            Gw = gw;    // gross weight:         kgs
+            Oat = oat;  // outside air temp:     Kelvin
+            Qfe = qfe;  // local pressure:       Pascal
+            Lsa = lsa;  // lifting surface area: m²
+            Cl = cl;    // lift coefficient:     no unit
+            Thr = thr;  // thrust:               Newton
+            Bf = bf;    // brake force:          Newton
+            Rl = rl;    // runway length:        m
+            Csa = csa;  // cross sectional area: m²  (seen from the front)
+            Cd = cd;    // drag coefficient:     no unit
+            Rtr = rtr;  // reverse thrust ratio: no unit
         }
-
+        
         public double Gw { get => _gw; set => _gw = Math.Abs(value); }
         public double Oat { get => _oat; set => _oat = Math.Abs(value); }
         public double Qfe { get => _qfe; set => _qfe = Math.Abs(value); }

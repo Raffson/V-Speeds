@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AircraftProfile.cs" />
     <Compile Include="Converter.cs" />
+    <Compile Include="FormDelegates.cs" />
     <Compile Include="V-Calculator.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

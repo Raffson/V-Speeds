@@ -95,7 +95,7 @@
             this.label1.Text = "OAT";
             this.toolTip1.SetToolTip(this.label1, "Outside Air Temperature");
             // 
-            // oat_input
+            // oat_in
             // 
             this.oat_in.AccessibleName = "";
             this.oat_in.DecimalPlaces = 2;
@@ -115,7 +115,7 @@
             0,
             0,
             -2147483648});
-            this.oat_in.Name = "oat_input";
+            this.oat_in.Name = "oat_in";
             this.oat_in.Size = new System.Drawing.Size(98, 20);
             this.oat_in.TabIndex = 6;
             this.oat_in.ThousandsSeparator = true;
@@ -127,7 +127,7 @@
             this.oat_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             this.oat_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
-            // lsa_input
+            // lsa_in
             // 
             this.lsa_in.AccessibleName = "";
             this.lsa_in.DecimalPlaces = 2;
@@ -137,7 +137,7 @@
             0,
             0,
             0});
-            this.lsa_in.Name = "lsa_input";
+            this.lsa_in.Name = "lsa_in";
             this.lsa_in.Size = new System.Drawing.Size(98, 20);
             this.lsa_in.TabIndex = 8;
             this.lsa_in.Tag = "LSA";
@@ -271,7 +271,7 @@
             this.label12.Size = new System.Drawing.Size(24, 13);
             this.label12.TabIndex = 30;
             this.label12.Text = "CD";
-            this.toolTip1.SetToolTip(this.label12, "Drag Coefficient");
+            this.toolTip1.SetToolTip(this.label12, "Drag Coefficient (varies with loadout)");
             // 
             // label13
             // 
@@ -282,7 +282,7 @@
             this.label13.Size = new System.Drawing.Size(31, 13);
             this.label13.TabIndex = 27;
             this.label13.Text = "CSA";
-            this.toolTip1.SetToolTip(this.label13, "Cross-Sectional Area");
+            this.toolTip1.SetToolTip(this.label13, "Cross-Sectional Area (varies with loadout)");
             // 
             // label14
             // 
@@ -317,7 +317,7 @@
             this.label16.Text = "Aircraft Profile";
             this.toolTip1.SetToolTip(this.label16, "Select a profile to lock certain parameters");
             // 
-            // cl_input
+            // cl_in
             // 
             this.cl_in.AccessibleName = "";
             this.cl_in.DecimalPlaces = 2;
@@ -337,7 +337,7 @@
             0,
             0,
             -2147483648});
-            this.cl_in.Name = "cl_input";
+            this.cl_in.Name = "cl_in";
             this.cl_in.Size = new System.Drawing.Size(98, 20);
             this.cl_in.TabIndex = 9;
             this.cl_in.Tag = "LSA";
@@ -350,7 +350,7 @@
             this.cl_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             this.cl_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
-            // qfe_input
+            // qfe_in
             // 
             this.qfe_in.AccessibleName = "";
             this.qfe_in.DecimalPlaces = 2;
@@ -365,7 +365,7 @@
             0,
             0,
             0});
-            this.qfe_in.Name = "qfe_input";
+            this.qfe_in.Name = "qfe_in";
             this.qfe_in.Size = new System.Drawing.Size(98, 20);
             this.qfe_in.TabIndex = 7;
             this.qfe_in.ThousandsSeparator = true;
@@ -377,7 +377,7 @@
             this.qfe_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             this.qfe_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
-            // gw_input
+            // gw_in
             // 
             this.gw_in.AccessibleName = "";
             this.gw_in.DecimalPlaces = 2;
@@ -387,7 +387,7 @@
             0,
             0,
             0});
-            this.gw_in.Name = "gw_input";
+            this.gw_in.Name = "gw_in";
             this.gw_in.Size = new System.Drawing.Size(98, 20);
             this.gw_in.TabIndex = 5;
             this.gw_in.ThousandsSeparator = true;
@@ -486,7 +486,7 @@
             this.thrUnit.Size = new System.Drawing.Size(52, 21);
             this.thrUnit.TabIndex = 20;
             // 
-            // thr_input
+            // thr_in
             // 
             this.thr_in.AccessibleName = "";
             this.thr_in.DecimalPlaces = 2;
@@ -496,7 +496,7 @@
             0,
             0,
             0});
-            this.thr_in.Name = "thr_input";
+            this.thr_in.Name = "thr_in";
             this.thr_in.Size = new System.Drawing.Size(98, 20);
             this.thr_in.TabIndex = 19;
             this.thr_in.ThousandsSeparator = true;
@@ -520,7 +520,7 @@
             this.bfUnit.Size = new System.Drawing.Size(52, 21);
             this.bfUnit.TabIndex = 23;
             // 
-            // bf_input
+            // bf_in
             // 
             this.bf_in.AccessibleName = "";
             this.bf_in.DecimalPlaces = 2;
@@ -530,7 +530,7 @@
             0,
             0,
             0});
-            this.bf_in.Name = "bf_input";
+            this.bf_in.Name = "bf_in";
             this.bf_in.Size = new System.Drawing.Size(98, 20);
             this.bf_in.TabIndex = 22;
             this.bf_in.ThousandsSeparator = true;
@@ -554,7 +554,7 @@
             this.rlUnit.Size = new System.Drawing.Size(52, 21);
             this.rlUnit.TabIndex = 26;
             // 
-            // rl_input
+            // rl_in
             // 
             this.rl_in.AccessibleName = "";
             this.rl_in.DecimalPlaces = 2;
@@ -564,7 +564,7 @@
             0,
             0,
             0});
-            this.rl_in.Name = "rl_input";
+            this.rl_in.Name = "rl_in";
             this.rl_in.Size = new System.Drawing.Size(98, 20);
             this.rl_in.TabIndex = 25;
             this.rl_in.ThousandsSeparator = true;
@@ -575,7 +575,7 @@
             0});
             this.rl_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
-            // rtr_input
+            // rtr_in
             // 
             this.rtr_in.AccessibleName = "";
             this.rtr_in.DecimalPlaces = 3;
@@ -590,13 +590,13 @@
             0,
             0,
             0});
-            this.rtr_in.Name = "rtr_input";
+            this.rtr_in.Name = "rtr_in";
             this.rtr_in.Size = new System.Drawing.Size(98, 20);
             this.rtr_in.TabIndex = 33;
             this.rtr_in.ThousandsSeparator = true;
             this.rtr_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
-            // cd_input
+            // cd_in
             // 
             this.cd_in.AccessibleName = "";
             this.cd_in.DecimalPlaces = 2;
@@ -616,7 +616,7 @@
             0,
             0,
             -2147483648});
-            this.cd_in.Name = "cd_input";
+            this.cd_in.Name = "cd_in";
             this.cd_in.Size = new System.Drawing.Size(98, 20);
             this.cd_in.TabIndex = 31;
             this.cd_in.ThousandsSeparator = true;
@@ -640,7 +640,7 @@
             this.csaUnit.Size = new System.Drawing.Size(52, 21);
             this.csaUnit.TabIndex = 29;
             // 
-            // csa_input
+            // csa_in
             // 
             this.csa_in.AccessibleName = "";
             this.csa_in.DecimalPlaces = 2;
@@ -650,7 +650,7 @@
             0,
             0,
             0});
-            this.csa_in.Name = "csa_input";
+            this.csa_in.Name = "csa_in";
             this.csa_in.Size = new System.Drawing.Size(98, 20);
             this.csa_in.TabIndex = 28;
             this.csa_in.ThousandsSeparator = true;
