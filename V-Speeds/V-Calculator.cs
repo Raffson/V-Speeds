@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace V_Speeds
+﻿namespace V_Speeds
 {
     class V_Calculator
     {

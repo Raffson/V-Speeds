@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace V_Speeds
+﻿namespace V_Speeds
 {
     internal interface IUnitDelegate
     {
