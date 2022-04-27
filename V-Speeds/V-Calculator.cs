@@ -73,11 +73,14 @@
             {
                 double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2;
                 double acc = (_thr - drag) / _gw;
-                double rwl2 = rwl - (tas * rc + acc * Math.Pow(rc, 2) / 2); // look 'rc' seconds ahead...
                 double totalbrake = _bf + (_thr * _rtr); // force
                 double dec = totalbrake / _gw;
-                double tntb = tas / dec; // time needed to brake...
+                
+                // Need to re-evaluate what's happening here!!!
+
+                double tntb = tas / dec; // time needed to brake... 
                 double bdist = (tas * tntb) - (dec * Math.Pow(tntb, 2) / 2); // braking distance...
+                double rwl2 = rwl - (tas * rc + acc * Math.Pow(rc, 2) / 2); // look 'rc' seconds ahead...
                 if (bdist > rwl2) break; // meaning we can't stop anymore...
                 rwl -= (tas * t + acc * Math.Pow(t, 2) / 2);
                 tas += (acc * t);
@@ -87,7 +90,7 @@
             return (TAS2EAS(tas, p), tas);
         }
 
-        public (double, double) CalcV2()
+        public (double, double) CalcVs()
         {
             double force = _gw * g;
             double p = _qfe * mmair / (igc * _oat);

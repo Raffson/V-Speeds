@@ -49,6 +49,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.cl_in = new System.Windows.Forms.NumericUpDown();
             this.qfe_in = new System.Windows.Forms.NumericUpDown();
             this.gw_in = new System.Windows.Forms.NumericUpDown();
@@ -68,12 +70,10 @@
             this.cd_in = new System.Windows.Forms.NumericUpDown();
             this.csaUnit = new System.Windows.Forms.ComboBox();
             this.csa_in = new System.Windows.Forms.NumericUpDown();
-            this.v2eas_output = new System.Windows.Forms.TextBox();
+            this.vs_eas_output = new System.Windows.Forms.TextBox();
             this.calcV1 = new System.Windows.Forms.Button();
             this.apSelect = new System.Windows.Forms.ComboBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.v2tas_output = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
+            this.vs_tas_output = new System.Windows.Forms.TextBox();
             this.v1tas_output = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.oat_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lsa_in)).BeginInit();
@@ -217,7 +217,7 @@
             this.label6.Size = new System.Drawing.Size(33, 13);
             this.label6.TabIndex = 34;
             this.label6.Text = "V1 =";
-            this.toolTip1.SetToolTip(this.label6, "Point of no return... IAS!");
+            this.toolTip1.SetToolTip(this.label6, "Point of no return, overshoot if abort...");
             // 
             // label7
             // 
@@ -322,10 +322,10 @@
             this.label15.Location = new System.Drawing.Point(30, 444);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(33, 13);
+            this.label15.Size = new System.Drawing.Size(32, 13);
             this.label15.TabIndex = 38;
-            this.label15.Text = "V2 =";
-            this.toolTip1.SetToolTip(this.label15, "Minimum IAS for level flight");
+            this.label15.Text = "Vs =";
+            this.toolTip1.SetToolTip(this.label15, "Minimum airspeed for level flight");
             // 
             // label16
             // 
@@ -338,6 +338,30 @@
             this.label16.TabIndex = 42;
             this.label16.Text = "Aircraft Profile";
             this.toolTip1.SetToolTip(this.label16, "Select a profile to lock certain parameters");
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label17.Location = new System.Drawing.Point(366, 444);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(39, 13);
+            this.label17.TabIndex = 47;
+            this.label17.Text = "KTAS";
+            this.toolTip1.SetToolTip(this.label17, "Knots Indicated Airspeed");
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label18.Location = new System.Drawing.Point(366, 414);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(39, 13);
+            this.label18.TabIndex = 45;
+            this.label18.Text = "KTAS";
+            this.toolTip1.SetToolTip(this.label18, "Knots Indicated Airspeed");
             // 
             // cl_in
             // 
@@ -702,17 +726,17 @@
             0});
             this.csa_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
-            // v2eas_output
+            // vs_eas_output
             // 
-            this.v2eas_output.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.v2eas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.v2eas_output.Location = new System.Drawing.Point(71, 440);
-            this.v2eas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.v2eas_output.Name = "v2eas_output";
-            this.v2eas_output.ReadOnly = true;
-            this.v2eas_output.Size = new System.Drawing.Size(116, 20);
-            this.v2eas_output.TabIndex = 39;
-            this.v2eas_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.vs_eas_output.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.vs_eas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.vs_eas_output.Location = new System.Drawing.Point(71, 440);
+            this.vs_eas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.vs_eas_output.Name = "vs_eas_output";
+            this.vs_eas_output.ReadOnly = true;
+            this.vs_eas_output.Size = new System.Drawing.Size(116, 20);
+            this.vs_eas_output.TabIndex = 39;
+            this.vs_eas_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // calcV1
             // 
@@ -739,41 +763,17 @@
             this.apSelect.Size = new System.Drawing.Size(140, 23);
             this.apSelect.TabIndex = 43;
             // 
-            // label17
+            // vs_tas_output
             // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label17.Location = new System.Drawing.Point(366, 444);
-            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(39, 13);
-            this.label17.TabIndex = 47;
-            this.label17.Text = "KTAS";
-            this.toolTip1.SetToolTip(this.label17, "Knots Indicated Airspeed");
-            // 
-            // v2tas_output
-            // 
-            this.v2tas_output.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.v2tas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.v2tas_output.Location = new System.Drawing.Point(242, 440);
-            this.v2tas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.v2tas_output.Name = "v2tas_output";
-            this.v2tas_output.ReadOnly = true;
-            this.v2tas_output.Size = new System.Drawing.Size(116, 20);
-            this.v2tas_output.TabIndex = 46;
-            this.v2tas_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label18.Location = new System.Drawing.Point(366, 414);
-            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(39, 13);
-            this.label18.TabIndex = 45;
-            this.label18.Text = "KTAS";
-            this.toolTip1.SetToolTip(this.label18, "Knots Indicated Airspeed");
+            this.vs_tas_output.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.vs_tas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.vs_tas_output.Location = new System.Drawing.Point(242, 440);
+            this.vs_tas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.vs_tas_output.Name = "vs_tas_output";
+            this.vs_tas_output.ReadOnly = true;
+            this.vs_tas_output.Size = new System.Drawing.Size(116, 20);
+            this.vs_tas_output.TabIndex = 46;
+            this.vs_tas_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // v1tas_output
             // 
@@ -793,14 +793,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 509);
             this.Controls.Add(this.label17);
-            this.Controls.Add(this.v2tas_output);
+            this.Controls.Add(this.vs_tas_output);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.v1tas_output);
             this.Controls.Add(this.apSelect);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.calcV1);
             this.Controls.Add(this.label14);
-            this.Controls.Add(this.v2eas_output);
+            this.Controls.Add(this.vs_eas_output);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.csaUnit);
             this.Controls.Add(this.csa_in);
@@ -896,13 +896,13 @@
         private System.Windows.Forms.NumericUpDown csa_in;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox v2eas_output;
+        private System.Windows.Forms.TextBox vs_eas_output;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button calcV1;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox apSelect;
         private Label label17;
-        private TextBox v2tas_output;
+        private TextBox vs_tas_output;
         private Label label18;
         private TextBox v1tas_output;
     }
