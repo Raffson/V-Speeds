@@ -97,12 +97,16 @@ namespace V_Speeds
 
         private void CalcV1(object? sender, EventArgs e)
         {
-            v1_output.Text = Converter.mps2kts(vcalc.CalcV1()).ToString("N2");
+            (double eas, double tas) = vcalc.CalcV1();
+            v1eas_output.Text = Converter.mps2kts(eas).ToString("N2");
+            v1tas_output.Text = Converter.mps2kts(tas).ToString("N2");
         }
 
         private void CalcV2(object? sender, EventArgs e)
         {
-            v2_output.Text = Converter.mps2kts(vcalc.CalcV2()).ToString("N2");
+            (double eas, double tas) = vcalc.CalcV2();
+            v2eas_output.Text = Converter.mps2kts(eas).ToString("N2");
+            v2tas_output.Text = Converter.mps2kts(tas).ToString("N2");
         }
 
         private void UnitChanged(object? sender, EventArgs e)

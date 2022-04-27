@@ -53,22 +53,25 @@
         internal void SetCd(double value) => Cd = value;
         internal void SetRtr(double value) => Rtr = value;
 
-        public double CalcV1()
+        private double TAS2EAS(double tas, double rho)
+        {
+            return tas * Math.Sqrt(rho / p0);
+        }
+
+        public (double, double) CalcV1()
         {
             //ignore change in mass => extra safety margin
             //ignore wind => extra safety margin (headwind would increase IAS and decrease GS, thus less distance travelled on runway...)
             //ignore speedbrakes and drag in general during brake => more safety margin because longer braking distance...
             //using EAS to approximate IAS...
             double p = _qfe * mmair / (igc * _oat);
-            double easfactor = Math.Sqrt(p / p0);
             double t = 0.1;   // time interval 0.1 seconds
             double rc = 5.0;  // reaction time, accounting for engine spooldown, deployment of reversers, etc.
             double tas = 0.0; // assuming no headwind (extra safety) => tas = gs
             double rwl = _rl; // how much runway do we have left...
             while( true )
             {
-                double eas = tas * easfactor;
-                double drag = Math.Pow(eas, 2) * p * _csa * _cd / 2;
+                double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2;
                 double acc = (_thr - drag) / _gw;
                 double rwl2 = rwl - (tas * rc + acc * Math.Pow(rc, 2) / 2); // look 'rc' seconds ahead...
                 double totalbrake = _bf + (_thr * _rtr); // force
@@ -81,15 +84,15 @@
                 /*Console.WriteLine(String.Format("TAS={0}, RWL={1}, EAS={2}, DRAG={3}, ACC={4}, TOTBR={5}, DEC={6}, TNTB={7}, BDIST={8}",
                     tas, rwl, eas, drag, acc, totalbrake, dec, tntb, bdist));*/
             }
-            return (tas * easfactor) - 5; // 5kts safety margin
+            return (TAS2EAS(tas, p), tas);
         }
 
-        public double CalcV2()
+        public (double, double) CalcV2()
         {
             double force = _gw * g;
             double p = _qfe * mmair / (igc * _oat);
-            double result = Math.Sqrt(2*force/(p*_lsa*_cl));
-            return result;
+            double tas = Math.Sqrt(2*force/(p*_lsa*_cl));
+            return (TAS2EAS(tas, p), tas);
         }
     }
 }
