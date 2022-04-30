@@ -51,6 +51,8 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.cl_in = new System.Windows.Forms.NumericUpDown();
             this.qfe_in = new System.Windows.Forms.NumericUpDown();
             this.gw_in = new System.Windows.Forms.NumericUpDown();
@@ -75,6 +77,8 @@
             this.apSelect = new System.Windows.Forms.ComboBox();
             this.vs_tas_output = new System.Windows.Forms.TextBox();
             this.v1tas_output = new System.Windows.Forms.TextBox();
+            this.clg_in = new System.Windows.Forms.NumericUpDown();
+            this.rfc_in = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.oat_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lsa_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cl_in)).BeginInit();
@@ -86,13 +90,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.rtr_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cd_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.csa_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.clg_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rfc_in)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(29, 50);
+            this.label1.Location = new System.Drawing.Point(30, 205);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
@@ -109,7 +115,7 @@
             0,
             0,
             65536});
-            this.oat_in.Location = new System.Drawing.Point(70, 47);
+            this.oat_in.Location = new System.Drawing.Point(71, 200);
             this.oat_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.oat_in.Maximum = new decimal(new int[] {
             9999,
@@ -137,7 +143,7 @@
             // 
             this.lsa_in.AccessibleName = "";
             this.lsa_in.DecimalPlaces = 2;
-            this.lsa_in.Location = new System.Drawing.Point(70, 107);
+            this.lsa_in.Location = new System.Drawing.Point(72, 258);
             this.lsa_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.lsa_in.Maximum = new decimal(new int[] {
             999999,
@@ -162,7 +168,7 @@
             this.label2.AccessibleDescription = "";
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(29, 112);
+            this.label2.Location = new System.Drawing.Point(31, 263);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 13);
@@ -175,7 +181,7 @@
             this.label3.AccessibleDescription = "";
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(29, 142);
+            this.label3.Location = new System.Drawing.Point(31, 292);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(22, 13);
@@ -187,7 +193,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(29, 80);
+            this.label4.Location = new System.Drawing.Point(30, 234);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(31, 13);
@@ -199,7 +205,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(29, 20);
+            this.label5.Location = new System.Drawing.Point(30, 176);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(28, 13);
@@ -235,7 +241,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(387, 20);
+            this.label8.Location = new System.Drawing.Point(388, 176);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(33, 13);
@@ -247,7 +253,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label9.Location = new System.Drawing.Point(387, 50);
+            this.label9.Location = new System.Drawing.Point(388, 205);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(22, 13);
@@ -259,7 +265,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label10.Location = new System.Drawing.Point(387, 80);
+            this.label10.Location = new System.Drawing.Point(388, 234);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(23, 13);
@@ -271,7 +277,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label11.Location = new System.Drawing.Point(387, 172);
+            this.label11.Location = new System.Drawing.Point(389, 321);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(33, 13);
@@ -283,7 +289,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label12.Location = new System.Drawing.Point(387, 142);
+            this.label12.Location = new System.Drawing.Point(389, 292);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(24, 13);
@@ -295,7 +301,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label13.Location = new System.Drawing.Point(387, 112);
+            this.label13.Location = new System.Drawing.Point(389, 263);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(31, 13);
@@ -307,7 +313,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label14.Location = new System.Drawing.Point(195, 444);
+            this.label14.Location = new System.Drawing.Point(195, 447);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(39, 13);
@@ -319,7 +325,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label15.Location = new System.Drawing.Point(30, 444);
+            this.label15.Location = new System.Drawing.Point(30, 447);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(32, 13);
@@ -331,7 +337,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label16.Location = new System.Drawing.Point(30, 278);
+            this.label16.Location = new System.Drawing.Point(2, 110);
             this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(88, 13);
@@ -343,7 +349,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label17.Location = new System.Drawing.Point(366, 444);
+            this.label17.Location = new System.Drawing.Point(366, 447);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(39, 13);
@@ -363,6 +369,31 @@
             this.label18.Text = "KTAS";
             this.toolTip1.SetToolTip(this.label18, "Knots Indicated Airspeed");
             // 
+            // label19
+            // 
+            this.label19.AccessibleDescription = "";
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label19.Location = new System.Drawing.Point(31, 321);
+            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(31, 13);
+            this.label19.TabIndex = 10;
+            this.label19.Text = "CLG";
+            this.toolTip1.SetToolTip(this.label19, "Lift Coefficient when rolling level on the ground in takeoff configuration");
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label20.Location = new System.Drawing.Point(389, 350);
+            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(31, 13);
+            this.label20.TabIndex = 48;
+            this.label20.Text = "RFC";
+            this.toolTip1.SetToolTip(this.label20, "Rolling Friction Coefficient");
+            // 
             // cl_in
             // 
             this.cl_in.AccessibleName = "";
@@ -372,7 +403,7 @@
             0,
             0,
             131072});
-            this.cl_in.Location = new System.Drawing.Point(70, 137);
+            this.cl_in.Location = new System.Drawing.Point(72, 287);
             this.cl_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cl_in.Maximum = new decimal(new int[] {
             99,
@@ -387,7 +418,7 @@
             this.cl_in.Name = "cl_in";
             this.cl_in.Size = new System.Drawing.Size(114, 23);
             this.cl_in.TabIndex = 9;
-            this.cl_in.Tag = "LSA";
+            this.cl_in.Tag = "";
             this.cl_in.ThousandsSeparator = true;
             this.cl_in.Value = new decimal(new int[] {
             1,
@@ -406,7 +437,7 @@
             0,
             0,
             131072});
-            this.qfe_in.Location = new System.Drawing.Point(71, 77);
+            this.qfe_in.Location = new System.Drawing.Point(72, 229);
             this.qfe_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.qfe_in.Maximum = new decimal(new int[] {
             9999,
@@ -429,7 +460,7 @@
             // 
             this.gw_in.AccessibleName = "";
             this.gw_in.DecimalPlaces = 2;
-            this.gw_in.Location = new System.Drawing.Point(70, 17);
+            this.gw_in.Location = new System.Drawing.Point(71, 171);
             this.gw_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gw_in.Maximum = new decimal(new int[] {
             99999999,
@@ -455,7 +486,7 @@
             this.weightUnit.Items.AddRange(new object[] {
             "kgs",
             "Lbs"});
-            this.weightUnit.Location = new System.Drawing.Point(192, 15);
+            this.weightUnit.Location = new System.Drawing.Point(193, 171);
             this.weightUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.weightUnit.MaxDropDownItems = 2;
             this.weightUnit.Name = "weightUnit";
@@ -469,7 +500,7 @@
             this.oatUnit.Items.AddRange(new object[] {
             "°C",
             "°F"});
-            this.oatUnit.Location = new System.Drawing.Point(191, 46);
+            this.oatUnit.Location = new System.Drawing.Point(192, 200);
             this.oatUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.oatUnit.MaxDropDownItems = 2;
             this.oatUnit.Name = "oatUnit";
@@ -483,7 +514,7 @@
             this.qfeUnit.Items.AddRange(new object[] {
             "mBar",
             "inHg"});
-            this.qfeUnit.Location = new System.Drawing.Point(191, 76);
+            this.qfeUnit.Location = new System.Drawing.Point(192, 229);
             this.qfeUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.qfeUnit.MaxDropDownItems = 2;
             this.qfeUnit.Name = "qfeUnit";
@@ -497,7 +528,7 @@
             this.lsaUnit.Items.AddRange(new object[] {
             "m²",
             "ft²"});
-            this.lsaUnit.Location = new System.Drawing.Point(191, 108);
+            this.lsaUnit.Location = new System.Drawing.Point(193, 258);
             this.lsaUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.lsaUnit.MaxDropDownItems = 2;
             this.lsaUnit.Name = "lsaUnit";
@@ -519,7 +550,7 @@
             // calcV2
             // 
             this.calcV2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.calcV2.Location = new System.Drawing.Point(408, 438);
+            this.calcV2.Location = new System.Drawing.Point(408, 440);
             this.calcV2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.calcV2.Name = "calcV2";
             this.calcV2.Size = new System.Drawing.Size(202, 27);
@@ -535,7 +566,7 @@
             this.thrUnit.Items.AddRange(new object[] {
             "N",
             "Lbf"});
-            this.thrUnit.Location = new System.Drawing.Point(551, 15);
+            this.thrUnit.Location = new System.Drawing.Point(552, 171);
             this.thrUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.thrUnit.MaxDropDownItems = 2;
             this.thrUnit.Name = "thrUnit";
@@ -546,7 +577,7 @@
             // 
             this.thr_in.AccessibleName = "";
             this.thr_in.DecimalPlaces = 2;
-            this.thr_in.Location = new System.Drawing.Point(428, 17);
+            this.thr_in.Location = new System.Drawing.Point(429, 171);
             this.thr_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.thr_in.Maximum = new decimal(new int[] {
             99999999,
@@ -571,7 +602,7 @@
             this.bfUnit.Items.AddRange(new object[] {
             "N",
             "Lbf"});
-            this.bfUnit.Location = new System.Drawing.Point(551, 45);
+            this.bfUnit.Location = new System.Drawing.Point(552, 200);
             this.bfUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bfUnit.MaxDropDownItems = 2;
             this.bfUnit.Name = "bfUnit";
@@ -582,7 +613,7 @@
             // 
             this.bf_in.AccessibleName = "";
             this.bf_in.DecimalPlaces = 2;
-            this.bf_in.Location = new System.Drawing.Point(428, 47);
+            this.bf_in.Location = new System.Drawing.Point(429, 200);
             this.bf_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bf_in.Maximum = new decimal(new int[] {
             99999999,
@@ -607,7 +638,7 @@
             this.rlUnit.Items.AddRange(new object[] {
             "m",
             "ft"});
-            this.rlUnit.Location = new System.Drawing.Point(551, 75);
+            this.rlUnit.Location = new System.Drawing.Point(552, 229);
             this.rlUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rlUnit.MaxDropDownItems = 2;
             this.rlUnit.Name = "rlUnit";
@@ -618,7 +649,7 @@
             // 
             this.rl_in.AccessibleName = "";
             this.rl_in.DecimalPlaces = 2;
-            this.rl_in.Location = new System.Drawing.Point(428, 77);
+            this.rl_in.Location = new System.Drawing.Point(429, 229);
             this.rl_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rl_in.Maximum = new decimal(new int[] {
             999999,
@@ -645,7 +676,7 @@
             0,
             0,
             131072});
-            this.rtr_in.Location = new System.Drawing.Point(428, 170);
+            this.rtr_in.Location = new System.Drawing.Point(430, 316);
             this.rtr_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rtr_in.Maximum = new decimal(new int[] {
             1,
@@ -667,7 +698,7 @@
             0,
             0,
             131072});
-            this.cd_in.Location = new System.Drawing.Point(428, 140);
+            this.cd_in.Location = new System.Drawing.Point(430, 287);
             this.cd_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cd_in.Maximum = new decimal(new int[] {
             10,
@@ -697,7 +728,7 @@
             this.csaUnit.Items.AddRange(new object[] {
             "m²",
             "ft²"});
-            this.csaUnit.Location = new System.Drawing.Point(551, 107);
+            this.csaUnit.Location = new System.Drawing.Point(553, 258);
             this.csaUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.csaUnit.MaxDropDownItems = 2;
             this.csaUnit.Name = "csaUnit";
@@ -708,7 +739,7 @@
             // 
             this.csa_in.AccessibleName = "";
             this.csa_in.DecimalPlaces = 2;
-            this.csa_in.Location = new System.Drawing.Point(428, 110);
+            this.csa_in.Location = new System.Drawing.Point(430, 258);
             this.csa_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.csa_in.Maximum = new decimal(new int[] {
             999,
@@ -730,7 +761,7 @@
             // 
             this.vs_eas_output.BackColor = System.Drawing.SystemColors.ControlLight;
             this.vs_eas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.vs_eas_output.Location = new System.Drawing.Point(71, 440);
+            this.vs_eas_output.Location = new System.Drawing.Point(71, 443);
             this.vs_eas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.vs_eas_output.Name = "vs_eas_output";
             this.vs_eas_output.ReadOnly = true;
@@ -741,7 +772,7 @@
             // calcV1
             // 
             this.calcV1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.calcV1.Location = new System.Drawing.Point(408, 408);
+            this.calcV1.Location = new System.Drawing.Point(408, 407);
             this.calcV1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.calcV1.Name = "calcV1";
             this.calcV1.Size = new System.Drawing.Size(202, 27);
@@ -756,8 +787,17 @@
             this.apSelect.Items.AddRange(new object[] {
             "Custom...",
             "F-16C blk50 (AB)",
-            "F-16C blk50 (MIL)"});
-            this.apSelect.Location = new System.Drawing.Point(140, 275);
+            "F-16C blk50 (MIL)",
+            "A-10C",
+            "F-14A (AB)",
+            "F-14A (MIL)",
+            "F-14B (AB)",
+            "F-14B (MIL)",
+            "F-15C (AB)",
+            "F-15C (MIL)",
+            "F-18C (AB)",
+            "F-18C (MIL)"});
+            this.apSelect.Location = new System.Drawing.Point(112, 107);
             this.apSelect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.apSelect.Name = "apSelect";
             this.apSelect.Size = new System.Drawing.Size(140, 23);
@@ -767,7 +807,7 @@
             // 
             this.vs_tas_output.BackColor = System.Drawing.SystemColors.ControlLight;
             this.vs_tas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.vs_tas_output.Location = new System.Drawing.Point(242, 440);
+            this.vs_tas_output.Location = new System.Drawing.Point(242, 443);
             this.vs_tas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.vs_tas_output.Name = "vs_tas_output";
             this.vs_tas_output.ReadOnly = true;
@@ -787,11 +827,70 @@
             this.v1tas_output.TabIndex = 44;
             this.v1tas_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // clg_in
+            // 
+            this.clg_in.AccessibleName = "";
+            this.clg_in.DecimalPlaces = 2;
+            this.clg_in.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.clg_in.Location = new System.Drawing.Point(72, 316);
+            this.clg_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.clg_in.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.clg_in.Minimum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            -2147483648});
+            this.clg_in.Name = "clg_in";
+            this.clg_in.Size = new System.Drawing.Size(114, 23);
+            this.clg_in.TabIndex = 11;
+            this.clg_in.Tag = "";
+            this.clg_in.ThousandsSeparator = true;
+            this.clg_in.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.clg_in.ValueChanged += new System.EventHandler(this.UpdateModel);
+            // 
+            // rfc_in
+            // 
+            this.rfc_in.AccessibleName = "";
+            this.rfc_in.DecimalPlaces = 3;
+            this.rfc_in.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.rfc_in.Location = new System.Drawing.Point(430, 345);
+            this.rfc_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.rfc_in.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.rfc_in.Name = "rfc_in";
+            this.rfc_in.Size = new System.Drawing.Size(114, 23);
+            this.rfc_in.TabIndex = 49;
+            this.rfc_in.ThousandsSeparator = true;
+            this.rfc_in.ValueChanged += new System.EventHandler(this.UpdateModel);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 509);
+            this.Controls.Add(this.rfc_in);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.clg_in);
+            this.Controls.Add(this.label19);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.vs_tas_output);
             this.Controls.Add(this.label18);
@@ -853,6 +952,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.rtr_in)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cd_in)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.csa_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.clg_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rfc_in)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -905,6 +1006,10 @@
         private TextBox vs_tas_output;
         private Label label18;
         private TextBox v1tas_output;
+        private NumericUpDown clg_in;
+        private Label label19;
+        private NumericUpDown rfc_in;
+        private Label label20;
     }
 }
 

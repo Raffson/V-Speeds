@@ -8,11 +8,11 @@
         public const double p0 = 101325 * mmair / (igc * 288.15); // standard sea density
 
 
-        private double _gw, _oat, _qfe, _lsa, _cl, _thr, _bf, _rl, _csa, _cd, _rtr;
+        private double _gw, _oat, _qfe, _lsa, _cl, _clg, _thr, _bf, _rl, _csa, _cd, _rtr, _rfc;
 
 
-        public V_Calculator(double gw = 1000.0, double oat = 288.15, double qfe = 101325, double lsa = 10.0, double cl = 1.0,
-            double thr = 1000.0, double bf = 500.0, double rl = 2500.0, double csa = 1.0, double cd = 0.1, double rtr = 0.0)
+        public V_Calculator(double gw = 1000.0, double oat = 288.15, double qfe = 101325, double lsa = 10.0, double cl = 1.0, double clg = 0,
+            double thr = 1000.0, double bf = 500.0, double rl = 2500.0, double csa = 1.0, double cd = 0.1, double rtr = 0.0, double rfc = 0.05)
         {
             // all members should stay positve, except Cl and Cd... thus setters will use absolute value
             Gw = gw;    // gross weight:         kgs
@@ -20,12 +20,14 @@
             Qfe = qfe;  // local pressure:       Pascal
             Lsa = lsa;  // lifting surface area: m²
             Cl = cl;    // lift coefficient:     no unit
+            Clg = clg;  // CL at mounting angle: no unit
             Thr = thr;  // thrust:               Newton
             Bf = bf;    // brake force:          Newton
             Rl = rl;    // runway length:        m
             Csa = csa;  // cross sectional area: m²  (seen from the front)
             Cd = cd;    // drag coefficient:     no unit
             Rtr = rtr;  // reverse thrust ratio: no unit
+            Rfc = rfc;  // Rolling friction co.: no unit
         }
         
         public double Gw { get => _gw; set => _gw = Math.Abs(value); }
@@ -33,12 +35,14 @@
         public double Qfe { get => _qfe; set => _qfe = Math.Abs(value); }
         public double Lsa { get => _lsa; set => _lsa = Math.Abs(value); }
         public double Cl { get => _cl; set => _cl = value; }
+        public double Clg { get => _clg; set => _clg = value; }
         public double Thr { get => _thr; set => _thr = Math.Abs(value); }
         public double Bf { get => _bf; set => _bf = Math.Abs(value); }
         public double Rl { get => _rl; set => _rl = Math.Abs(value); }
         public double Csa { get => _csa; set => _csa = Math.Abs(value); }
         public double Cd { get => _cd; set => _cd = value; }
         public double Rtr { get => _rtr; set => _rtr = Math.Abs(value); }
+        public double Rfc { get => _rfc; set => _rfc = value; }
 
         // internal setter-functions for Form1
         internal void SetGw(double value) => Gw = value;
@@ -46,12 +50,14 @@
         internal void SetQfe(double value) => Qfe = value;
         internal void SetLsa(double value) => Lsa = value;
         internal void SetCl(double value) => Cl = value;
+        internal void SetClg(double value) => Clg = value;
         internal void SetThr(double value) => Thr = value;
         internal void SetBf(double value) => Bf = value;
         internal void SetRl(double value) => Rl = value;
         internal void SetCsa(double value) => Csa = value;
         internal void SetCd(double value) => Cd = value;
         internal void SetRtr(double value) => Rtr = value;
+        internal void SetRfc(double value) => Rfc = value;
 
         private double TAS2EAS(double tas, double rho)
         {
@@ -91,13 +97,12 @@
                 //    depends on Fn (normal force) which becomes smaller as we speed up and more lift is generated...
                 //    -> Add FRC (Friction Roll Coefficient), assume 0.043 (data from lua file, average of coeffients)
                 //  SO LET'S DO THIS...
-                double clg = 0.52;
-                double frc = 0.043;
-                double lift = Math.Pow(tas, 2) * p * _lsa * clg / 2;
+                double lift = Math.Pow(tas, 2) * p * _lsa * _clg / 2;
                 double fg = _gw * g;
                 double fn = fg - lift;
-                double ff = fn * frc;
+                double ff = fn * _rfc;
                 double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
+                System.Diagnostics.Debug.WriteLine(Math.Pow(tas, 2) * p * _csa * _cd / 2 + "  " + drag + "  " + ff);
                 double acc = (_thr*0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust...
                 double brakeforce = _bf * Math.Sqrt(fn / fg) + ff; // account for weight on wheels, reduced efficiency for reduced weight...
                 double totalbrake = brakeforce + (_thr * _rtr) - (_thr * 0.08); // _thr * 0.08 to estimate idle thrust
@@ -109,10 +114,12 @@
                 double bdist = (ptas * tntb) - (dec * Math.Pow(tntb, 2) / 2); // braking distance...
                 double rwl2 = rwl - (ptas * rc + acc * Math.Pow(rc, 2) / 2); // look 'rc' ahead...
                 //System.Diagnostics.Debug.WriteLine(ptas * 1.943844 + "  " + bdist + "  " + rwl + "  " + rwl2);
-                if (bdist > rwl2) {
+                if (bdist > rwl2)
+                {
                     System.Diagnostics.Debug.WriteLine((lift / fg).ToString("N8") + "  " + (fn / fg).ToString("N8"));
-                    System.Diagnostics.Debug.WriteLine(tas * 1.943844 + " " + ptas * 1.943844 + "  " + acc + "  " + dec); 
-                    break; } // meaning we can't stop anymore...
+                    System.Diagnostics.Debug.WriteLine(tas * 1.943844 + " " + ptas * 1.943844 + "  " + acc + "  " + dec);
+                    break; // meaning we can't stop anymore...
+                }
                 rwl -= (tas * t + acc * Math.Pow(t, 2) / 2);
                 tas += (acc * t);
                 /*Console.WriteLine(String.Format("TAS={0}, RWL={1}, EAS={2}, DRAG={3}, ACC={4}, TOTBR={5}, DEC={6}, TNTB={7}, BDIST={8}",

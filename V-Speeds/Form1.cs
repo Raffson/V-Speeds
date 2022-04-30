@@ -31,8 +31,8 @@ namespace V_Speeds
             
             InitializeComponent();
 
-            fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in };
-            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in, gw_in, thr_in };
+            fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in, clg_in, rfc_in };
+            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in, gw_in, thr_in, clg_in, rfc_in };
 
             apSelect.SelectedIndex = 0;
             apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
@@ -48,8 +48,11 @@ namespace V_Speeds
                     { rl_in,  new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit) },
                     { csa_in, new AreaDelegate(csa_in, vcalc.SetCsa, csaUnit) },
                     { cd_in,  new UnitlessDelegate(cd_in, vcalc.SetCd) },
-                    { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr) }
+                    { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr) },
+                    { clg_in,  new UnitlessDelegate(clg_in, vcalc.SetClg) },
+                    { rfc_in, new UnitlessDelegate(rfc_in, vcalc.SetRfc) },
                 };
+            // Link unitmap...
             var units = new ComboBox[] { weightUnit, oatUnit, qfeUnit, lsaUnit, thrUnit, bfUnit, rlUnit, csaUnit };
             var inputs = new NumericUpDown[] { gw_in, oat_in, qfe_in, lsa_in, thr_in, bf_in, rl_in, csa_in };
             var pairs = Enumerable.Zip(units, inputs, (key, value) => new { key, value });
