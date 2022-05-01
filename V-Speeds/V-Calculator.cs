@@ -93,7 +93,7 @@
             // TODO: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
             double fn = Math.Max(0, CalcForce(_gw, g) - CalcLiftForce(tas, density, _lsa, _clg));
             double drag = CalcDragForce(tas, density, _lsa, _cd) + CalcFrictionForce(fn, _rfc);
-            double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!
+            double acc = (_thr - drag) / _gw;
             return acc;
         }
 
@@ -167,6 +167,7 @@
             {
                 if (tas >= vs) break;
                 double acc = ProjectedAcceleration(tas, p);
+                //System.Diagnostics.Debug.WriteLine(acc);
                 dist += CalcDistance(tas, acc, t);
                 tas += (acc * t);
             }
