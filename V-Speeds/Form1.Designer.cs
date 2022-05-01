@@ -53,6 +53,9 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
             this.cl_in = new System.Windows.Forms.NumericUpDown();
             this.qfe_in = new System.Windows.Forms.NumericUpDown();
             this.gw_in = new System.Windows.Forms.NumericUpDown();
@@ -78,11 +81,8 @@
             this.v1tas_output = new System.Windows.Forms.TextBox();
             this.clg_in = new System.Windows.Forms.NumericUpDown();
             this.rfc_in = new System.Windows.Forms.NumericUpDown();
-            this.label21 = new System.Windows.Forms.Label();
             this.dv_ft_output = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
             this.dv_m_output = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.oat_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lsa_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cl_in)).BeginInit();
@@ -398,10 +398,46 @@
             this.label20.Text = "RFC";
             this.toolTip1.SetToolTip(this.label20, "Rolling Friction Coefficient");
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label21.Location = new System.Drawing.Point(369, 465);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(15, 13);
+            this.label21.TabIndex = 54;
+            this.label21.Text = "ft";
+            this.toolTip1.SetToolTip(this.label21, "Knots Indicated Airspeed");
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label22.Location = new System.Drawing.Point(198, 465);
+            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(16, 13);
+            this.label22.TabIndex = 52;
+            this.label22.Text = "m";
+            this.toolTip1.SetToolTip(this.label22, "Knots Indicated Airspeed");
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label23.Location = new System.Drawing.Point(33, 465);
+            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(34, 13);
+            this.label23.TabIndex = 50;
+            this.label23.Text = "Dv =";
+            this.toolTip1.SetToolTip(this.label23, "Runway needed to reach Vs");
+            // 
             // cl_in
             // 
             this.cl_in.AccessibleName = "";
-            this.cl_in.DecimalPlaces = 2;
+            this.cl_in.DecimalPlaces = 3;
             this.cl_in.Increment = new decimal(new int[] {
             1,
             0,
@@ -684,7 +720,7 @@
             // cd_in
             // 
             this.cd_in.AccessibleName = "";
-            this.cd_in.DecimalPlaces = 2;
+            this.cd_in.DecimalPlaces = 3;
             this.cd_in.Increment = new decimal(new int[] {
             1,
             0,
@@ -822,7 +858,7 @@
             // clg_in
             // 
             this.clg_in.AccessibleName = "";
-            this.clg_in.DecimalPlaces = 2;
+            this.clg_in.DecimalPlaces = 3;
             this.clg_in.Increment = new decimal(new int[] {
             1,
             0,
@@ -874,18 +910,6 @@
             this.rfc_in.ThousandsSeparator = true;
             this.rfc_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label21.Location = new System.Drawing.Point(369, 465);
-            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(15, 13);
-            this.label21.TabIndex = 54;
-            this.label21.Text = "ft";
-            this.toolTip1.SetToolTip(this.label21, "Knots Indicated Airspeed");
-            // 
             // dv_ft_output
             // 
             this.dv_ft_output.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -898,18 +922,6 @@
             this.dv_ft_output.TabIndex = 53;
             this.dv_ft_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label22.Location = new System.Drawing.Point(198, 465);
-            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(16, 13);
-            this.label22.TabIndex = 52;
-            this.label22.Text = "m";
-            this.toolTip1.SetToolTip(this.label22, "Knots Indicated Airspeed");
-            // 
             // dv_m_output
             // 
             this.dv_m_output.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -921,18 +933,6 @@
             this.dv_m_output.Size = new System.Drawing.Size(116, 20);
             this.dv_m_output.TabIndex = 51;
             this.dv_m_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label23.Location = new System.Drawing.Point(33, 465);
-            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(34, 13);
-            this.label23.TabIndex = 50;
-            this.label23.Text = "Dv =";
-            this.toolTip1.SetToolTip(this.label23, "Runway needed to reach Vs");
             // 
             // Form1
             // 

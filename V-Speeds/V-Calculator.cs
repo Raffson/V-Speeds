@@ -138,8 +138,8 @@
                 double ff = fn * _rfc;
                 double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
                 double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!...
-                dist += (tas * t + acc * Math.Pow(t, 2) / 2);
                 if (tas >= vs) break;
+                dist += (tas * t + acc * Math.Pow(t, 2) / 2);
                 tas += (acc * t);
             }
             return dist;
