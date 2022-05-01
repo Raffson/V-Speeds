@@ -42,7 +42,7 @@
         public double Csa { get => _csa; set => _csa = Math.Abs(value); }
         public double Cd { get => _cd; set => _cd = value; }
         public double Rtr { get => _rtr; set => _rtr = Math.Abs(value); }
-        public double Rfc { get => _rfc; set => _rfc = value; }
+        public double Rfc { get => _rfc; set => _rfc = Math.Abs(value); }
 
         // internal setter-functions for Form1
         internal void SetGw(double value) => Gw = value;
@@ -102,10 +102,10 @@
                 double fn = fg - lift;
                 double ff = fn * _rfc;
                 double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
-                System.Diagnostics.Debug.WriteLine(Math.Pow(tas, 2) * p * _csa * _cd / 2 + "  " + drag + "  " + ff);
+                //System.Diagnostics.Debug.WriteLine(Math.Pow(tas, 2) * p * _csa * _cd / 2 + "  " + drag + "  " + ff);
                 double acc = (_thr*0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust...
                 double brakeforce = _bf * Math.Sqrt(fn / fg) + ff; // account for weight on wheels, reduced efficiency for reduced weight...
-                double totalbrake = brakeforce + (_thr * _rtr) - (_thr * 0.08); // _thr * 0.08 to estimate idle thrust
+                double totalbrake = brakeforce + _thr * (_rtr - 0.08); // _thr * 0.08 to estimate idle thrust
                 double dec = totalbrake / _gw;
 
                 // the part below makes sense, although we need to account for changing brakeforce due to the above...

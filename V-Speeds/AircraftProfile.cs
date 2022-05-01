@@ -25,7 +25,7 @@ namespace V_Speeds
             ImmutableArray.Create<decimal>(new decimal[]{ 28m, 0.9m, 53900m, 1m, 0.1m, 0m, 8573m, 76310m, 0.52m, 0.043m });
 
         static readonly ImmutableArray<decimal> A10C =
-            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 70000m, 5m, 0.15m, 0m, 11321m, 80646m, 0.5m, 0.04m });
+            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 70000m, 5m, 0.15m, 0m, 11321m, 80646m, 0.75m, 0.04m });
 
         static readonly ImmutableArray<decimal> F14A_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 52.5m, 1m, 60000m, 3m, 0.1m, 0m, 19090m, 185800m, 0.5m, 0.04m });
@@ -43,9 +43,9 @@ namespace V_Speeds
             ImmutableArray.Create<decimal>(new decimal[] { 56.5m, 0.7m, 61700m, 3m, 0.1m, 0m, 12701m, 130000m, 0m, 0.08m });
 
         static readonly ImmutableArray<decimal> F18C_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.03m, 52900m, 2m, 0.1m, 0m, 10433m, 158000m, 0.5m, 0.03m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 3m, 0.1m, 0m, 10433m, 158000m, 0.5m, 0.03m });
         static readonly ImmutableArray<decimal> F18C_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.03m, 52900m, 2m, 0.1m, 0m, 10433m, 98000m, 0.5m, 0.03m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 3m, 0.1m, 0m, 10433m, 98000m, 0.5m, 0.03m });
 
 
         public static readonly ImmutableDictionary<int, ImmutableArray<decimal>> Indexer =
