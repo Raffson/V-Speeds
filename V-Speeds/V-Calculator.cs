@@ -4,7 +4,7 @@
     {
         public const double igc = 8.3144598; // ideal gas constant
         public const double mmair = 28.97 / 1000; // molecular mass of air
-        public const double g = 9.83; // 1G at poles (m/s2), just for some extra wiggle room, considering no elevation (except pressure)...
+        public const double g = 9.83; // 1G at poles (m/s2), just for some extra wiggle room, considering no elevation (except pressure)
         public const double p0 = 101325 * mmair / (igc * 288.15); // standard sea density
 
 
@@ -69,10 +69,10 @@
 
         // Expecting tas in m/s,density in kg/m³, lsa in m²
         //  return lift force in Newton
-        // This function can also be used to calculate drag, the only difference is the coefficient...
+        // This function can also be used to calculate drag, the only difference is the coefficient
         public static double CalcLiftForce(double tas, double density, double lsa, double coeff) => Math.Pow(tas, 2) * density * lsa * coeff / 2;
 
-        // Same as GetLiftForce but just for the sake of readabily...
+        // Same as GetLiftForce but just for the sake of readabily
         //  return drag force in Newton
         public static double CalcDragForce(double tas, double density, double lsa, double coeff) => CalcLiftForce(tas, density, lsa, coeff);
 
@@ -88,36 +88,36 @@
         public (double, double) CalcV1()
         {
             //ignore change in mass => extra safety margin
-            //ignore wind => extra safety margin (headwind would increase IAS and decrease GS, thus less distance travelled on runway...)
-            //ignore speedbrakes and drag in general during brake => more safety margin because longer braking distance...
-            //using EAS to approximate IAS...
+            //ignore wind => extra safety margin (headwind would increase IAS and decrease GS, thus less distance travelled on runway)
+            //ignore speedbrakes and drag in general during brake => more safety margin because longer braking distance
+            //using EAS to approximate IAS
             double p = CalcDensity(_qfe, _oat);
             double t = 0.1;   // time interval 0.1 seconds
             double tas = 0.0; // assuming no headwind (extra safety) => tas = gs
-            double rwl = _rl; // how much runway do we have left...
+            double rwl = _rl; // how much runway do we have left
             while( true )
             {
-                // Account for reduced normal force when airspeed increases => reduced braking efficiency
-                // Account for friction when rolling down the runway
                 // TODO 1: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
+                // TODO 2: be more precise in brake phase, currently we're aiming for an average
+                //          we should "integrate" like we do with the acceleration, however that's a whole lot extra CPU time...
                 double fg = CalcForce(_gw, g);
                 double fn = Math.Max(0, fg - CalcLiftForce(tas, p, _lsa, _clg));
-                double ff = CalcFrictionForce(fn, _rfc);
+                double ff = CalcFrictionForce(fn, _rfc); // friction while rolling down the runway
                 double drag = CalcDragForce(tas, p, _lsa, _cd) + ff; // drag and friction, since friction is also a form of "drag"
                 //System.Diagnostics.Debug.WriteLine(Math.Pow(tas, 2) * p * _csa * _cd / 2 + "  " + drag + "  " + ff);
-                double acc = (_thr*0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!...
+                double acc = (_thr*0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!
                 
                 double brakecoeff = Math.Sqrt(fn / fg);
-                double brakeforce = _bf * brakecoeff + ff; // account for weight on wheels, reduced efficiency for reduced weight...
+                double brakeforce = _bf * brakecoeff + ff; // account for weight on wheels, reduced efficiency for reduced weight
                 double totalbrake = brakeforce + _thr * (_rtr - 0.08); // _thr * 0.08 to estimate idle thrust <- Add idle thrust parameter???
-                double dec = totalbrake / _gw; // we're basically aiming for the average deceleration...
+                double dec = totalbrake / _gw; // we're basically aiming for the average deceleration
 
                 // the part below makes sense, but still only using an average estimate for deceleration...
                 double ptas = tas + _rc*acc; // TAS 'rc' second ahead
-                double tntb = ptas / dec; // time needed to brake... 
-                double bdist = (ptas * tntb) - (dec * Math.Pow(tntb, 2) / 2); // braking distance...
-                double rwl2 = rwl - (ptas * _rc + acc * Math.Pow(_rc, 2) / 2); // look 'rc' ahead...
-                if (bdist > rwl2) break; // meaning we can't stop anymore...
+                double tntb = ptas / dec; // time needed to brake.
+                double bdist = (ptas * tntb) - (dec * Math.Pow(tntb, 2) / 2); // braking distance
+                double rwl2 = rwl - (ptas * _rc + acc * Math.Pow(_rc, 2) / 2); // look 'rc' ahead
+                if (bdist > rwl2) break; // meaning we can't stop anymore
                 rwl -= (tas * t + acc * Math.Pow(t, 2) / 2);
                 tas += (acc * t);
                 /*System.Diagnostics.Debug.WriteLine(String.Format("TAS={0}, RWL={1}, EAS={2}, DRAG={3}, ACC={4}, TOTBR={5}, DEC={6}, TNTB={7}, BDIST={8}",
@@ -148,11 +148,10 @@
             while (true)
             {
                 if (tas >= vs) break;
-                // Account for friction when rolling down the runway
                 // TODO: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
                 double fn = Math.Max(0, CalcForce(_gw, g) - CalcLiftForce(tas, p, _lsa, _clg));
                 double drag = CalcDragForce(tas, p, _lsa, _cd) + CalcFrictionForce(fn, _rfc);
-                double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!...
+                double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!
                 dist += (tas * t + acc * Math.Pow(t, 2) / 2);
                 tas += (acc * t);
             }
