@@ -98,18 +98,12 @@ namespace V_Speeds
             if (nud != null) nud.Select(0, nud.ToString().Length);
         }
 
-        private void CalcV1(object? sender, EventArgs e)
+        private void CalcV1()
         {
-            (double eas, double tas) = vcalc.CalcV1();
-            v1eas_output.Text = Converter.mps2kts(eas).ToString("N2");
-            v1tas_output.Text = Converter.mps2kts(tas).ToString("N2");
         }
 
-        private void CalcV2(object? sender, EventArgs e)
+        private void CalcV2()
         {
-            (double eas, double tas) = vcalc.CalcVs();
-            vs_eas_output.Text = Converter.mps2kts(eas).ToString("N2");
-            vs_tas_output.Text = Converter.mps2kts(tas).ToString("N2");
         }
 
         private void UnitChanged(object? sender, EventArgs e)
@@ -137,6 +131,31 @@ namespace V_Speeds
                 Func<double, double> f2 = model_map[nud].I2SI;
                 nudval = model_map[nud].Unit.SelectedIndex == 0 ? f1(nudval) : f2(nudval);
                 model_map[nud].Setter(nudval);
+            }
+        }
+
+        private void DoCalculations(object sender, EventArgs e)
+        {
+            (double eas, double tas) = vcalc.CalcV1();
+            v1eas_output.Text = Converter.mps2kts(eas).ToString("N2");
+            v1tas_output.Text = Converter.mps2kts(tas).ToString("N2");
+
+            (eas, tas) = vcalc.CalcVs();
+            vs_eas_output.Text = Converter.mps2kts(eas).ToString("N2");
+            vs_tas_output.Text = Converter.mps2kts(tas).ToString("N2");
+
+            double dv = vcalc.CalcNeededRunway();
+            dv_m_output.Text = dv.ToString("N2");
+            dv_ft_output.Text = Converter.m2ft(dv).ToString("N2");
+            if (dv > vcalc.Rl)
+            {
+                dv_m_output.ForeColor = Color.Red;
+                dv_ft_output.ForeColor = Color.Red;
+            }
+            else
+            {
+                dv_m_output.ForeColor = Color.Black;
+                dv_ft_output.ForeColor = Color.Black;
             }
         }
     }

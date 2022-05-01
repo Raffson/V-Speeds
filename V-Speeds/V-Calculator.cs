@@ -59,10 +59,7 @@
         internal void SetRtr(double value) => Rtr = value;
         internal void SetRfc(double value) => Rfc = value;
 
-        private double TAS2EAS(double tas, double rho)
-        {
-            return tas * Math.Sqrt(rho / p0);
-        }
+        private double TAS2EAS(double tas, double rho) => tas * Math.Sqrt(rho / p0);
 
         public (double, double) CalcV1()
         {
@@ -77,26 +74,9 @@
             double rwl = _rl; // how much runway do we have left...
             while( true )
             {
-                // Currently considering F-16C block 50 (DCS) only since there seems to be a problem here...
-                //  for some reason the lighter the aircraft, the likelier it'll overshoots the runway
-                //  it seems as if the brakeforce is limited, my current guess is the following:
-                //      theoretically lighter aircraft should stop faster because of F=m*a,
-                //      BUT! a lighter aircraft requires less lift, thus less speed
-                //      consequentially the weight on the wheels reduces faster with lighter aircraft,
-                //      this in turn means that brake effectiveness will reduce because of insufficient grip (less weight on wheels)...
-                //  all of this suggests we might need som extra variables,
-                //  but for now we'll test with hardcoded values considering F-16 only...
-                // So what do we need exactly....
-                //  - CL for AoA when aircraft is level on the ground (call it CLg),
-                //    relates to the angle of incidence but flaps should be considered...
-                //      -> will guestimate this with 0.52
-                //  - Somehow account for the changing brakeforce, slower aircraft = better braking...
-                //      -> relates to weight and CLg which we'll use to approximate lift,
-                //        which in turn tells us how much weight is still on the wheels
-                //  - Account for tire-friction during acceleration,
-                //    depends on Fn (normal force) which becomes smaller as we speed up and more lift is generated...
-                //    -> Add FRC (Friction Roll Coefficient), assume 0.043 (data from lua file, average of coeffients)
-                //  SO LET'S DO THIS...
+                // Account for reduced normal force when airspeed increases => reduced braking efficiency
+                // Account for friction when rolling down the runway
+                // TODO: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
                 double lift = Math.Pow(tas, 2) * p * _lsa * _clg / 2;
                 double fg = _gw * g;
                 double fn = fg - lift;
@@ -116,8 +96,8 @@
                 //System.Diagnostics.Debug.WriteLine(ptas * 1.943844 + "  " + bdist + "  " + rwl + "  " + rwl2);
                 if (bdist > rwl2)
                 {
-                    System.Diagnostics.Debug.WriteLine((lift / fg).ToString("N8") + "  " + (fn / fg).ToString("N8"));
-                    System.Diagnostics.Debug.WriteLine(tas * 1.943844 + " " + ptas * 1.943844 + "  " + acc + "  " + dec);
+                    //System.Diagnostics.Debug.WriteLine((lift / fg).ToString("N8") + "  " + (fn / fg).ToString("N8"));
+                    //System.Diagnostics.Debug.WriteLine(tas * 1.943844 + " " + ptas * 1.943844 + "  " + acc + "  " + dec);
                     break; // meaning we can't stop anymore...
                 }
                 rwl -= (tas * t + acc * Math.Pow(t, 2) / 2);
@@ -128,12 +108,43 @@
             return (TAS2EAS(tas, p), tas);
         }
 
+        // Minimum airspeed required to maintain level flight for a certain configuration
         public (double, double) CalcVs()
         {
             double force = _gw * g;
             double p = _qfe * mmair / (igc * _oat);
             double tas = Math.Sqrt(2*force/(p*_lsa*_cl));
             return (TAS2EAS(tas, p), tas);
+        }
+
+        // Required runway to reach the minimum airspeed for level flight for a certain configuration
+        public double CalcNeededRunway()
+        {
+            (_, double vs) = CalcVs();
+            double dist = 0;
+            // Need an estimation of acceleration like V1...
+            //  what follows is very similar to the code in CalcV1
+            //  the major difference is CalcV1 uses fg & fn which we don't need here...
+            double p = _qfe * mmair / (igc * _oat);
+            double t = 0.1;   // time interval 0.1 seconds
+            double tas = 0.0; // assuming no headwind (extra safety) => tas = gs
+            while (true)
+            {
+                // Account for reduced normal force when airspeed increases => reduced braking efficiency
+                // Account for friction when rolling down the runway
+                // TODO: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
+                double lift = Math.Pow(tas, 2) * p * _lsa * _clg / 2;
+                double fg = _gw * g;
+                double fn = fg - lift;
+                double ff = fn * _rfc;
+                double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
+                //System.Diagnostics.Debug.WriteLine(Math.Pow(tas, 2) * p * _csa * _cd / 2 + "  " + drag + "  " + ff);
+                double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust...
+                dist += (tas * t + acc * Math.Pow(t, 2) / 2);
+                if (tas >= vs) break;
+                tas += (acc * t);
+            }
+            return dist;
         }
     }
 }
