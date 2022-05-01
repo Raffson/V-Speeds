@@ -76,33 +76,30 @@
             {
                 // Account for reduced normal force when airspeed increases => reduced braking efficiency
                 // Account for friction when rolling down the runway
-                // TODO: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
+                // TODO 1: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
+                // TODO 2: after some extra testing, seems like shorter runways are a problem for a lightweight F18 in afterburner
+                //          when aborting, thrust remains present for a longer time compared to other aircraft, the effect on a heavier F18 is obviously less...
+                //          we may need to consider 'rc' as an actual parameter for the entire program so it can be tweaked...
                 double lift = Math.Pow(tas, 2) * p * _lsa * _clg / 2;
                 double fg = _gw * g;
                 double fn = fg - lift;
                 double ff = fn * _rfc;
                 double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
                 //System.Diagnostics.Debug.WriteLine(Math.Pow(tas, 2) * p * _csa * _cd / 2 + "  " + drag + "  " + ff);
-                double acc = (_thr*0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust...
+                double acc = (_thr*0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!...
                 double brakeforce = _bf * Math.Sqrt(fn / fg) + ff; // account for weight on wheels, reduced efficiency for reduced weight...
-                double totalbrake = brakeforce + _thr * (_rtr - 0.08); // _thr * 0.08 to estimate idle thrust
-                double dec = totalbrake / _gw;
+                double totalbrake = brakeforce + _thr * (_rtr - 0.08); // _thr * 0.08 to estimate idle thrust <- Add idle thrust parameter???
+                double dec = totalbrake / _gw; // we're basically aiming for the average deceleration...
 
-                // the part below makes sense, although we need to account for changing brakeforce due to the above...
+                // the part below makes sense, but still only using an average estimate for deceleration...
                 double ptas = tas + rc*acc; // TAS 'rc' second ahead
                 double tntb = ptas / dec; // time needed to brake... 
                 double bdist = (ptas * tntb) - (dec * Math.Pow(tntb, 2) / 2); // braking distance...
                 double rwl2 = rwl - (ptas * rc + acc * Math.Pow(rc, 2) / 2); // look 'rc' ahead...
-                //System.Diagnostics.Debug.WriteLine(ptas * 1.943844 + "  " + bdist + "  " + rwl + "  " + rwl2);
-                if (bdist > rwl2)
-                {
-                    //System.Diagnostics.Debug.WriteLine((lift / fg).ToString("N8") + "  " + (fn / fg).ToString("N8"));
-                    //System.Diagnostics.Debug.WriteLine(tas * 1.943844 + " " + ptas * 1.943844 + "  " + acc + "  " + dec);
-                    break; // meaning we can't stop anymore...
-                }
+                if (bdist > rwl2) break; // meaning we can't stop anymore...
                 rwl -= (tas * t + acc * Math.Pow(t, 2) / 2);
                 tas += (acc * t);
-                /*Console.WriteLine(String.Format("TAS={0}, RWL={1}, EAS={2}, DRAG={3}, ACC={4}, TOTBR={5}, DEC={6}, TNTB={7}, BDIST={8}",
+                /*System.Diagnostics.Debug.WriteLine(String.Format("TAS={0}, RWL={1}, EAS={2}, DRAG={3}, ACC={4}, TOTBR={5}, DEC={6}, TNTB={7}, BDIST={8}",
                     tas, rwl, eas, drag, acc, totalbrake, dec, tntb, bdist));*/
             }
             return (TAS2EAS(tas, p), tas);
@@ -118,6 +115,8 @@
         }
 
         // Required runway to reach the minimum airspeed for level flight for a certain configuration
+        // After some preliminary tests it seems this is a slight overestimation, which isn't a bad thing necessarily...
+        //  tests done with F18 in DCS...
         public double CalcNeededRunway()
         {
             (_, double vs) = CalcVs();
@@ -138,8 +137,7 @@
                 double fn = fg - lift;
                 double ff = fn * _rfc;
                 double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
-                //System.Diagnostics.Debug.WriteLine(Math.Pow(tas, 2) * p * _csa * _cd / 2 + "  " + drag + "  " + ff);
-                double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust...
+                double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!...
                 dist += (tas * t + acc * Math.Pow(t, 2) / 2);
                 if (tas >= vs) break;
                 tas += (acc * t);
