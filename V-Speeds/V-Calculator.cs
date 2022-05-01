@@ -84,6 +84,32 @@
         //  return force in Newton
         public static double CalcForce(double weight, double acc) => weight * acc;
 
+        // Expecting v0 in m/s, acc in m/s² and time in seconds
+        //  return distance travelled in meters
+        public static double CalcDistance(double v0, double a, double time) => (v0 * time) + (a * Math.Pow(time, 2) / 2);
+
+        private double ProjectedAcceleration(double tas, double density)
+        {
+            // TODO: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
+            double fn = Math.Max(0, CalcForce(_gw, g) - CalcLiftForce(tas, density, _lsa, _clg));
+            double drag = CalcDragForce(tas, density, _lsa, _cd) + CalcFrictionForce(fn, _rfc);
+            double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!
+            return acc;
+        }
+
+        private double ProjectedDeceleration(double tas, double density)
+        {
+            // TODO: account for variations in thrust depending on atmosphere, specifically for "idle thrust"
+            double fg = CalcForce(_gw, g);
+            double fn = Math.Max(0, fg - CalcLiftForce(tas, density, _lsa, _clg));
+            double ff = CalcFrictionForce(fn, _rfc); // friction while rolling down the runway
+            double brakecoeff = Math.Sqrt(fn / fg); // how much weight is still on the wheels
+            double brakeforce = _bf * brakecoeff + ff; // account for weight on wheels, reduced efficiency for reduced weight
+            double totalbrake = brakeforce + _thr * (_rtr - 0.08); // _thr * 0.08 to estimate idle thrust <- Add idle thrust parameter???
+            double dec = totalbrake / _gw; // we're basically aiming for the average deceleration
+            return dec;
+        }
+
         // Calculates V1, returns a tuple containing (EAS, TAS)
         public (double, double) CalcV1()
         {
@@ -100,25 +126,17 @@
                 // TODO 1: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
                 // TODO 2: be more precise in brake phase, currently we're aiming for an average
                 //          we should "integrate" like we do with the acceleration, however that's a whole lot extra CPU time...
-                double fg = CalcForce(_gw, g);
-                double fn = Math.Max(0, fg - CalcLiftForce(tas, p, _lsa, _clg));
-                double ff = CalcFrictionForce(fn, _rfc); // friction while rolling down the runway
-                double drag = CalcDragForce(tas, p, _lsa, _cd) + ff; // drag and friction, since friction is also a form of "drag"
-                //System.Diagnostics.Debug.WriteLine(Math.Pow(tas, 2) * p * _csa * _cd / 2 + "  " + drag + "  " + ff);
-                double acc = (_thr*0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!
                 
-                double brakecoeff = Math.Sqrt(fn / fg);
-                double brakeforce = _bf * brakecoeff + ff; // account for weight on wheels, reduced efficiency for reduced weight
-                double totalbrake = brakeforce + _thr * (_rtr - 0.08); // _thr * 0.08 to estimate idle thrust <- Add idle thrust parameter???
-                double dec = totalbrake / _gw; // we're basically aiming for the average deceleration
+                double acc = ProjectedAcceleration(tas, p);
+                double dec = ProjectedDeceleration(tas, p);
 
                 // the part below makes sense, but still only using an average estimate for deceleration...
                 double ptas = tas + _rc*acc; // TAS 'rc' second ahead
-                double tntb = ptas / dec; // time needed to brake.
-                double bdist = (ptas * tntb) - (dec * Math.Pow(tntb, 2) / 2); // braking distance
-                double rwl2 = rwl - (ptas * _rc + acc * Math.Pow(_rc, 2) / 2); // look 'rc' ahead
+                double tntb = ptas / dec; // time needed to brake for predicted speed
+                double bdist = CalcDistance(ptas, -dec, tntb); // braking distance
+                double rwl2 = rwl - CalcDistance(ptas, acc, _rc); // look 'rc' ahead
                 if (bdist > rwl2) break; // meaning we can't stop anymore
-                rwl -= (tas * t + acc * Math.Pow(t, 2) / 2);
+                rwl -= CalcDistance(tas, acc, t);
                 tas += (acc * t);
                 /*System.Diagnostics.Debug.WriteLine(String.Format("TAS={0}, RWL={1}, EAS={2}, DRAG={3}, ACC={4}, TOTBR={5}, DEC={6}, TNTB={7}, BDIST={8}",
                     tas, rwl, eas, drag, acc, totalbrake, dec, tntb, bdist));*/
@@ -148,11 +166,8 @@
             while (true)
             {
                 if (tas >= vs) break;
-                // TODO: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
-                double fn = Math.Max(0, CalcForce(_gw, g) - CalcLiftForce(tas, p, _lsa, _clg));
-                double drag = CalcDragForce(tas, p, _lsa, _cd) + CalcFrictionForce(fn, _rfc);
-                double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!
-                dist += (tas * t + acc * Math.Pow(t, 2) / 2);
+                double acc = ProjectedAcceleration(tas, p);
+                dist += CalcDistance(tas, acc, t);
                 tas += (acc * t);
             }
             return dist;
