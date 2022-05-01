@@ -32,7 +32,7 @@ namespace V_Speeds
             InitializeComponent();
 
             fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in, clg_in, rfc_in };
-            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, csa_in, cd_in, rtr_in, gw_in, thr_in, clg_in, rfc_in };
+            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rc_in, cd_in, rtr_in, gw_in, thr_in, clg_in, rfc_in };
 
             apSelect.SelectedIndex = 0;
             apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
@@ -46,15 +46,15 @@ namespace V_Speeds
                     { thr_in, new ForceDelegate(thr_in, vcalc.SetThr, thrUnit) },
                     { bf_in,  new ForceDelegate(bf_in, vcalc.SetBf, bfUnit) },
                     { rl_in,  new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit) },
-                    { csa_in, new AreaDelegate(csa_in, vcalc.SetCsa, csaUnit) },
+                    { rc_in, new UnitlessDelegate(rc_in, vcalc.SetRc) },
                     { cd_in,  new UnitlessDelegate(cd_in, vcalc.SetCd) },
                     { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr) },
                     { clg_in,  new UnitlessDelegate(clg_in, vcalc.SetClg) },
                     { rfc_in, new UnitlessDelegate(rfc_in, vcalc.SetRfc) },
                 };
             // Link unitmap...
-            var units = new ComboBox[] { weightUnit, oatUnit, qfeUnit, lsaUnit, thrUnit, bfUnit, rlUnit, csaUnit };
-            var inputs = new NumericUpDown[] { gw_in, oat_in, qfe_in, lsa_in, thr_in, bf_in, rl_in, csa_in };
+            var units = new ComboBox[] { weightUnit, oatUnit, qfeUnit, lsaUnit, thrUnit, bfUnit, rlUnit };
+            var inputs = new NumericUpDown[] { gw_in, oat_in, qfe_in, lsa_in, thr_in, bf_in, rl_in};
             var pairs = Enumerable.Zip(units, inputs, (key, value) => new { key, value });
             foreach (var pair in pairs)
             {
@@ -98,14 +98,6 @@ namespace V_Speeds
             if (nud != null) nud.Select(0, nud.ToString().Length);
         }
 
-        private void CalcV1()
-        {
-        }
-
-        private void CalcV2()
-        {
-        }
-
         private void UnitChanged(object? sender, EventArgs e)
         {
             ComboBox? cb = sender as ComboBox;
@@ -147,16 +139,7 @@ namespace V_Speeds
             double dv = vcalc.CalcNeededRunway();
             dv_m_output.Text = dv.ToString("N2");
             dv_ft_output.Text = Converter.m2ft(dv).ToString("N2");
-            if (dv > vcalc.Rl)
-            {
-                dv_m_output.ForeColor = Color.Red;
-                dv_ft_output.ForeColor = Color.Red;
-            }
-            else
-            {
-                dv_m_output.ForeColor = Color.Black;
-                dv_ft_output.ForeColor = Color.Black;
-            }
+            (dv_m_output.ForeColor, dv_ft_output.ForeColor) = dv > vcalc.Rl ? (Color.Red, Color.Red) : (Color.Black, Color.Black);
         }
     }
 }

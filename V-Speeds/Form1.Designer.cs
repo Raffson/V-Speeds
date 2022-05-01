@@ -72,8 +72,7 @@
             this.rl_in = new System.Windows.Forms.NumericUpDown();
             this.rtr_in = new System.Windows.Forms.NumericUpDown();
             this.cd_in = new System.Windows.Forms.NumericUpDown();
-            this.csaUnit = new System.Windows.Forms.ComboBox();
-            this.csa_in = new System.Windows.Forms.NumericUpDown();
+            this.rc_in = new System.Windows.Forms.NumericUpDown();
             this.vs_eas_output = new System.Windows.Forms.TextBox();
             this.calcV1 = new System.Windows.Forms.Button();
             this.apSelect = new System.Windows.Forms.ComboBox();
@@ -93,7 +92,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.rl_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rtr_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cd_in)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.csa_in)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rc_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.clg_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rfc_in)).BeginInit();
             this.SuspendLayout();
@@ -308,9 +307,9 @@
             this.label13.Location = new System.Drawing.Point(390, 241);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(31, 13);
+            this.label13.Size = new System.Drawing.Size(24, 13);
             this.label13.TabIndex = 27;
-            this.label13.Text = "CSA";
+            this.label13.Text = "RC";
             this.toolTip1.SetToolTip(this.label13, "Cross-Sectional Area (varies with loadout)");
             // 
             // label14
@@ -749,41 +748,27 @@
             65536});
             this.cd_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
-            // csaUnit
+            // rc_in
             // 
-            this.csaUnit.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.csaUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.csaUnit.Items.AddRange(new object[] {
-            "m²",
-            "ft²"});
-            this.csaUnit.Location = new System.Drawing.Point(554, 236);
-            this.csaUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.csaUnit.MaxDropDownItems = 2;
-            this.csaUnit.Name = "csaUnit";
-            this.csaUnit.Size = new System.Drawing.Size(60, 23);
-            this.csaUnit.TabIndex = 29;
-            // 
-            // csa_in
-            // 
-            this.csa_in.AccessibleName = "";
-            this.csa_in.DecimalPlaces = 2;
-            this.csa_in.Location = new System.Drawing.Point(431, 236);
-            this.csa_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.csa_in.Maximum = new decimal(new int[] {
+            this.rc_in.AccessibleName = "";
+            this.rc_in.DecimalPlaces = 2;
+            this.rc_in.Location = new System.Drawing.Point(431, 236);
+            this.rc_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.rc_in.Maximum = new decimal(new int[] {
             999,
             0,
             0,
             0});
-            this.csa_in.Name = "csa_in";
-            this.csa_in.Size = new System.Drawing.Size(114, 23);
-            this.csa_in.TabIndex = 28;
-            this.csa_in.ThousandsSeparator = true;
-            this.csa_in.Value = new decimal(new int[] {
-            1,
+            this.rc_in.Name = "rc_in";
+            this.rc_in.Size = new System.Drawing.Size(114, 23);
+            this.rc_in.TabIndex = 28;
+            this.rc_in.ThousandsSeparator = true;
+            this.rc_in.Value = new decimal(new int[] {
+            2,
             0,
             0,
             0});
-            this.csa_in.ValueChanged += new System.EventHandler(this.UpdateModel);
+            this.rc_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // vs_eas_output
             // 
@@ -908,6 +893,11 @@
             this.rfc_in.Size = new System.Drawing.Size(114, 23);
             this.rfc_in.TabIndex = 49;
             this.rfc_in.ThousandsSeparator = true;
+            this.rfc_in.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
             this.rfc_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // dv_ft_output
@@ -958,8 +948,7 @@
             this.Controls.Add(this.label14);
             this.Controls.Add(this.vs_eas_output);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.csaUnit);
-            this.Controls.Add(this.csa_in);
+            this.Controls.Add(this.rc_in);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.cd_in);
             this.Controls.Add(this.label12);
@@ -1007,7 +996,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.rl_in)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rtr_in)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cd_in)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.csa_in)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rc_in)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.clg_in)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rfc_in)).EndInit();
             this.ResumeLayout(false);
@@ -1048,8 +1037,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown cd_in;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ComboBox csaUnit;
-        private System.Windows.Forms.NumericUpDown csa_in;
+        private System.Windows.Forms.NumericUpDown rc_in;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox vs_eas_output;

@@ -8,11 +8,11 @@
         public const double p0 = 101325 * mmair / (igc * 288.15); // standard sea density
 
 
-        private double _gw, _oat, _qfe, _lsa, _cl, _clg, _thr, _bf, _rl, _csa, _cd, _rtr, _rfc;
+        private double _gw, _oat, _qfe, _lsa, _cl, _clg, _thr, _bf, _rl, _rc, _cd, _rtr, _rfc;
 
 
-        public V_Calculator(double gw = 1000.0, double oat = 288.15, double qfe = 101325, double lsa = 10.0, double cl = 1.0, double clg = 0,
-            double thr = 1000.0, double bf = 500.0, double rl = 2500.0, double csa = 1.0, double cd = 0.1, double rtr = 0.0, double rfc = 0.05)
+        public V_Calculator(double gw = 1000.0, double oat = 288.15, double qfe = 101325, double lsa = 10.0, double cl = 1.0, double clg = 0.5,
+            double thr = 1000.0, double bf = 500.0, double rl = 2500.0, double rc = 2.0, double cd = 0.1, double rtr = 0.0, double rfc = 0.05)
         {
             // all members should stay positve, except Cl and Cd... thus setters will use absolute value
             Gw = gw;    // gross weight:         kgs
@@ -24,7 +24,7 @@
             Thr = thr;  // thrust:               Newton
             Bf = bf;    // brake force:          Newton
             Rl = rl;    // runway length:        m
-            Csa = csa;  // cross sectional area: m²  (seen from the front)
+            Rc = rc;    // reaction time:        sec (accounting for engine spooldown, deployment of reversers, etc.)
             Cd = cd;    // drag coefficient:     no unit
             Rtr = rtr;  // reverse thrust ratio: no unit
             Rfc = rfc;  // Rolling friction co.: no unit
@@ -39,7 +39,7 @@
         public double Thr { get => _thr; set => _thr = Math.Abs(value); }
         public double Bf { get => _bf; set => _bf = Math.Abs(value); }
         public double Rl { get => _rl; set => _rl = Math.Abs(value); }
-        public double Csa { get => _csa; set => _csa = Math.Abs(value); }
+        public double Rc { get => _rc; set => _rc = Math.Abs(value); }
         public double Cd { get => _cd; set => _cd = value; }
         public double Rtr { get => _rtr; set => _rtr = Math.Abs(value); }
         public double Rfc { get => _rfc; set => _rfc = Math.Abs(value); }
@@ -54,7 +54,7 @@
         internal void SetThr(double value) => Thr = value;
         internal void SetBf(double value) => Bf = value;
         internal void SetRl(double value) => Rl = value;
-        internal void SetCsa(double value) => Csa = value;
+        internal void SetRc(double value) => Rc = value;
         internal void SetCd(double value) => Cd = value;
         internal void SetRtr(double value) => Rtr = value;
         internal void SetRfc(double value) => Rfc = value;
@@ -69,7 +69,6 @@
             //using EAS to approximate IAS...
             double p = _qfe * mmair / (igc * _oat);
             double t = 0.1;   // time interval 0.1 seconds
-            double rc = 2.0;  // reaction time, accounting for engine spooldown, deployment of reversers, etc.
             double tas = 0.0; // assuming no headwind (extra safety) => tas = gs
             double rwl = _rl; // how much runway do we have left...
             while( true )
@@ -78,13 +77,13 @@
                 // Account for friction when rolling down the runway
                 // TODO 1: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
                 // TODO 2: after some extra testing, seems like shorter runways are a problem for a lightweight F18 in afterburner
-                //          when aborting, thrust remains present for a longer time compared to other aircraft, the effect on a heavier F18 is obviously less...
-                //          we may need to consider 'rc' as an actual parameter for the entire program so it can be tweaked...
+                //          when aborting, thrust remains present for a longer time compared to other aircraft,
+                //          the effect on a heavier F18 is obviously less...
                 double lift = Math.Pow(tas, 2) * p * _lsa * _clg / 2;
                 double fg = _gw * g;
                 double fn = fg - lift;
                 double ff = fn * _rfc;
-                double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
+                double drag = Math.Pow(tas, 2) * p * _lsa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
                 //System.Diagnostics.Debug.WriteLine(Math.Pow(tas, 2) * p * _csa * _cd / 2 + "  " + drag + "  " + ff);
                 double acc = (_thr*0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!...
                 double brakeforce = _bf * Math.Sqrt(fn / fg) + ff; // account for weight on wheels, reduced efficiency for reduced weight...
@@ -92,10 +91,10 @@
                 double dec = totalbrake / _gw; // we're basically aiming for the average deceleration...
 
                 // the part below makes sense, but still only using an average estimate for deceleration...
-                double ptas = tas + rc*acc; // TAS 'rc' second ahead
+                double ptas = tas + _rc*acc; // TAS 'rc' second ahead
                 double tntb = ptas / dec; // time needed to brake... 
                 double bdist = (ptas * tntb) - (dec * Math.Pow(tntb, 2) / 2); // braking distance...
-                double rwl2 = rwl - (ptas * rc + acc * Math.Pow(rc, 2) / 2); // look 'rc' ahead...
+                double rwl2 = rwl - (ptas * _rc + acc * Math.Pow(_rc, 2) / 2); // look 'rc' ahead...
                 if (bdist > rwl2) break; // meaning we can't stop anymore...
                 rwl -= (tas * t + acc * Math.Pow(t, 2) / 2);
                 tas += (acc * t);
@@ -136,7 +135,7 @@
                 double fg = _gw * g;
                 double fn = fg - lift;
                 double ff = fn * _rfc;
-                double drag = Math.Pow(tas, 2) * p * _csa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
+                double drag = Math.Pow(tas, 2) * p * _lsa * _cd / 2 + ff; // drag and friction, since friction is also a form of "drag"
                 double acc = (_thr * 0.9 - drag) / _gw; // be more conservative with thrust, 90% of rated thrust <- this has to change!...
                 if (tas >= vs) break;
                 dist += (tas * t + acc * Math.Pow(t, 2) / 2);
