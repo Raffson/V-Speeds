@@ -38,19 +38,19 @@ namespace V_Speeds
             apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
 
             model_map = new Dictionary<NumericUpDown, BaseDelegate> {
-                    { gw_in,  new WeightDelegate(gw_in, vcalc.SetGw, weightUnit) },
-                    { oat_in, new TemperatureDelegate(oat_in, vcalc.SetOat, oatUnit) },
-                    { qfe_in, new PressureDelegate(qfe_in, vcalc.SetQfe, qfeUnit) },
-                    { lsa_in, new AreaDelegate(lsa_in, vcalc.SetLsa, lsaUnit) },
-                    { cl_in,  new UnitlessDelegate(cl_in, vcalc.SetCl) },
-                    { thr_in, new ForceDelegate(thr_in, vcalc.SetThr, thrUnit) },
-                    { bf_in,  new ForceDelegate(bf_in, vcalc.SetBf, bfUnit) },
-                    { rl_in,  new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit) },
-                    { rc_in, new UnitlessDelegate(rc_in, vcalc.SetRc) },
-                    { cd_in,  new UnitlessDelegate(cd_in, vcalc.SetCd) },
-                    { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr) },
-                    { clg_in,  new UnitlessDelegate(clg_in, vcalc.SetClg) },
-                    { rfc_in, new UnitlessDelegate(rfc_in, vcalc.SetRfc) },
+                    { gw_in,  new WeightDelegate(gw_in, vcalc.SetGw, weightUnit, (100m, 100m)) },
+                    { oat_in, new TemperatureDelegate(oat_in, vcalc.SetOat, oatUnit, (0.1m, 0.1m)) },
+                    { qfe_in, new PressureDelegate(qfe_in, vcalc.SetQfe, qfeUnit, (1m, 0.01m)) },
+                    { lsa_in, new AreaDelegate(lsa_in, vcalc.SetLsa, lsaUnit, (1m, 1m)) },
+                    { cl_in,  new UnitlessDelegate(cl_in, vcalc.SetCl, (0.01m, 0.01m)) },
+                    { thr_in, new ForceDelegate(thr_in, vcalc.SetThr, thrUnit, (1000m, 1000m)) },
+                    { bf_in,  new ForceDelegate(bf_in, vcalc.SetBf, bfUnit, (100m, 100m)) },
+                    { rl_in,  new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit, (50m, 100m)) },
+                    { rc_in, new UnitlessDelegate(rc_in, vcalc.SetRc, (0.1m, 0.1m)) },
+                    { cd_in,  new UnitlessDelegate(cd_in, vcalc.SetCd, (0.01m, 0.01m)) },
+                    { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr, (0.01m, 0.01m)) },
+                    { clg_in,  new UnitlessDelegate(clg_in, vcalc.SetClg, (0.01m, 0.01m)) },
+                    { rfc_in, new UnitlessDelegate(rfc_in, vcalc.SetRfc, (0.01m, 0.01m)) },
                 };
             // Link unitmap...
             var units = new ComboBox[] { weightUnit, oatUnit, qfeUnit, lsaUnit, thrUnit, bfUnit, rlUnit };
@@ -108,6 +108,7 @@ namespace V_Speeds
             input.ValueChanged -= new System.EventHandler(UpdateModel); // disable model update since the underlying value stays the same
             input.Value = cb.SelectedIndex == 0 ? f1(input.Value) : f2(input.Value);
             unit_map[cb].LastIndex = cb.SelectedIndex;
+            input.Increment = unit_map[cb].Increment;
             input.ValueChanged += new System.EventHandler(UpdateModel); // re-enable model update...
         }
 

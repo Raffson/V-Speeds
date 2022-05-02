@@ -98,7 +98,7 @@
             double fn = Math.Max(0, CalcForce(_gw, g) - CalcLiftForce(tas, density, _lsa, _clg));
             double drag = CalcDragForce(tas, density, _lsa, _cd) + CalcFrictionForce(fn, _rfc);
             double acc = (thrust - drag) / _gw;
-            System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + acc);
+            //System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + acc);
             return acc;
         }
 

@@ -471,11 +471,6 @@
             // 
             this.qfe_in.AccessibleName = "";
             this.qfe_in.DecimalPlaces = 2;
-            this.qfe_in.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
             this.qfe_in.Location = new System.Drawing.Point(73, 207);
             this.qfe_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.qfe_in.Maximum = new decimal(new int[] {
@@ -499,6 +494,11 @@
             // 
             this.gw_in.AccessibleName = "";
             this.gw_in.DecimalPlaces = 2;
+            this.gw_in.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             this.gw_in.Location = new System.Drawing.Point(72, 149);
             this.gw_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gw_in.Maximum = new decimal(new int[] {
@@ -604,6 +604,11 @@
             // 
             this.thr_in.AccessibleName = "";
             this.thr_in.DecimalPlaces = 2;
+            this.thr_in.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.thr_in.Location = new System.Drawing.Point(430, 149);
             this.thr_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.thr_in.Maximum = new decimal(new int[] {
@@ -640,6 +645,11 @@
             // 
             this.bf_in.AccessibleName = "";
             this.bf_in.DecimalPlaces = 2;
+            this.bf_in.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             this.bf_in.Location = new System.Drawing.Point(430, 178);
             this.bf_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bf_in.Maximum = new decimal(new int[] {
@@ -676,6 +686,11 @@
             // 
             this.rl_in.AccessibleName = "";
             this.rl_in.DecimalPlaces = 2;
+            this.rl_in.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             this.rl_in.Location = new System.Drawing.Point(430, 207);
             this.rl_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rl_in.Maximum = new decimal(new int[] {
@@ -752,6 +767,11 @@
             // 
             this.rc_in.AccessibleName = "";
             this.rc_in.DecimalPlaces = 2;
+            this.rc_in.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.rc_in.Location = new System.Drawing.Point(431, 236);
             this.rc_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rc_in.Maximum = new decimal(new int[] {
