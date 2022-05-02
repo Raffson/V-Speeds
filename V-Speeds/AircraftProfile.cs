@@ -20,7 +20,7 @@ namespace V_Speeds
         // lift coefficient at approx 10 degrees AOA, guestimation according to tests in DCS
         // all these profiles still need rigorous testing, F16 is getting close though
         static readonly ImmutableArray<decimal> F16blk50_AB = 
-            ImmutableArray.Create<decimal>(new decimal[]{ 28m, 0.9m, 53900m, 2m, 0.1m, 0m, 8573m, 131000m, 0.52m, 0.043m });
+            ImmutableArray.Create<decimal>(new decimal[]{ 28m, 0.9m, 53900m, 2m, 0.1m, 0m, 8573m, 125000m, 0.52m, 0.043m });
         static readonly ImmutableArray<decimal> F16blk50_MIL = 
             ImmutableArray.Create<decimal>(new decimal[]{ 28m, 0.9m, 53900m, 2m, 0.1m, 0m, 8573m, 73310m, 0.52m, 0.043m });
 
@@ -45,7 +45,7 @@ namespace V_Speeds
         static readonly ImmutableArray<decimal> F18C_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 3m, 0.1m, 0m, 10433m, 158000m, 0.5m, 0.03m });
         static readonly ImmutableArray<decimal> F18C_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 2m, 0.1m, 0m, 10433m, 98000m, 0.5m, 0.03m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 2m, 0.1m, 0m, 10433m, 107000m, 0.5m, 0.03m });
 
 
         public static readonly ImmutableDictionary<int, ImmutableArray<decimal>> Indexer =

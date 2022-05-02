@@ -5,7 +5,7 @@
         public const double igc = 8.3144598; // ideal gas constant
         public const double mmair = 28.97 / 1000; // molecular mass of air
         public const double g = 9.83; // 1G at poles (m/s2), just for some extra wiggle room, considering no elevation (except pressure)
-        public const double p0 = 101325 * mmair / (igc * 288.15); // standard sea density
+        public const double p0 = 101325 * mmair / (igc * 288.15); // standard air density at sea-level
 
 
         private double _gw, _oat, _qfe, _lsa, _cl, _clg, _thr, _bf, _rl, _rc, _cd, _rtr, _rfc;
@@ -88,15 +88,22 @@
         //  return distance travelled in meters
         public static double CalcDistance(double v0, double a, double time) => (v0 * time) + (a * Math.Pow(time, 2) / 2);
 
+        // Expecting tas in m/s and density in kg/m³, tas and density MUST BE POSITIVE!
+        //  return projected acceleration in m/s²
         private double ProjectedAcceleration(double tas, double density)
         {
-            // TODO: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
+            // TODO: A better model for thrust, perhaps using the general thrust equation...
+            double densfactor = Math.Min(1, Math.Pow(density / p0, 2.0 / 3.0)); // efficiency factor wrt air density
+            double thrust = _thr * densfactor;
             double fn = Math.Max(0, CalcForce(_gw, g) - CalcLiftForce(tas, density, _lsa, _clg));
             double drag = CalcDragForce(tas, density, _lsa, _cd) + CalcFrictionForce(fn, _rfc);
-            double acc = (_thr - drag) / _gw;
+            double acc = (thrust - drag) / _gw;
+            System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + acc);
             return acc;
         }
 
+        // Expecting tas in m/s and density in kg/m³, tas and density MUST BE POSITIVE!
+        //  return projected deceleration in m/s²
         private double ProjectedDeceleration(double tas, double density)
         {
             // TODO: account for variations in thrust depending on atmosphere, specifically for "idle thrust"
@@ -126,9 +133,10 @@
                 // TODO 1: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
                 // TODO 2: be more precise in brake phase, currently we're aiming for an average
                 //          we should "integrate" like we do with the acceleration, however that's a whole lot extra CPU time...
-                
+
                 double acc = ProjectedAcceleration(tas, p);
                 double dec = ProjectedDeceleration(tas, p);
+                //System.Diagnostics.Debug.WriteLine(acc + "  " + dec);
 
                 // the part below makes sense, but still only using an average estimate for deceleration...
                 double ptas = tas + _rc*acc; // TAS 'rc' second ahead
@@ -138,8 +146,6 @@
                 if (bdist > rwl2) break; // meaning we can't stop anymore
                 rwl -= CalcDistance(tas, acc, t);
                 tas += (acc * t);
-                /*System.Diagnostics.Debug.WriteLine(String.Format("TAS={0}, RWL={1}, EAS={2}, DRAG={3}, ACC={4}, TOTBR={5}, DEC={6}, TNTB={7}, BDIST={8}",
-                    tas, rwl, eas, drag, acc, totalbrake, dec, tntb, bdist));*/
             }
             return (TAS2EAS(tas, p), tas);
         }
@@ -167,6 +173,7 @@
             {
                 if (tas >= vs) break;
                 double acc = ProjectedAcceleration(tas, p);
+                if (acc < 0.001) return double.NaN; // means we can't reach Vs, could cause an infinite loop
                 //System.Diagnostics.Debug.WriteLine(acc);
                 dist += CalcDistance(tas, acc, t);
                 tas += (acc * t);
