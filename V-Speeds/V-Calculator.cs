@@ -88,13 +88,16 @@
         //  return distance travelled in meters
         public static double CalcDistance(double v0, double a, double time) => (v0 * time) + (a * Math.Pow(time, 2) / 2);
 
+        // Expecting thrust in Newton, density in density in kg/m³
+        //  return estimated thrust depending on density
+        public static double CalcThrust(double thrust, double density) => thrust * Math.Min(1, Math.Pow(density / p0, 2.0 / 3.0));
+
         // Expecting tas in m/s and density in kg/m³, tas and density MUST BE POSITIVE!
         //  return projected acceleration in m/s²
         private double ProjectedAcceleration(double tas, double density)
         {
             // TODO: A better model for thrust, perhaps using the general thrust equation...
-            double densfactor = Math.Min(1, Math.Pow(density / p0, 2.0 / 3.0)); // efficiency factor wrt air density
-            double thrust = _thr * densfactor;
+            double thrust = CalcThrust(_thr, density);
             double fn = Math.Max(0, CalcForce(_gw, g) - CalcLiftForce(tas, density, _lsa, _clg));
             double drag = CalcDragForce(tas, density, _lsa, _cd) + CalcFrictionForce(fn, _rfc);
             double acc = (thrust - drag) / _gw;
@@ -110,9 +113,10 @@
             double fg = CalcForce(_gw, g);
             double fn = Math.Max(0, fg - CalcLiftForce(tas, density, _lsa, _clg));
             double ff = CalcFrictionForce(fn, _rfc); // friction while rolling down the runway
-            double brakecoeff = Math.Sqrt(fn / fg); // how much weight is still on the wheels
+            double brakecoeff = Math.Pow(fn / fg, 1 / 2.0); // how much weight is still on the wheels
+            //System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + brakecoeff);
             double brakeforce = _bf * brakecoeff + ff; // account for weight on wheels, reduced efficiency for reduced weight
-            double totalbrake = brakeforce + _thr * (_rtr - 0.08); // _thr * 0.08 to estimate idle thrust <- Add idle thrust parameter???
+            double totalbrake = brakeforce + CalcThrust(_thr, density) * (_rtr - 0.08); // _thr * 0.08 for idle thrust <- Add idle thrust parameter???
             double dec = totalbrake / _gw; // we're basically aiming for the average deceleration
             return dec;
         }
@@ -130,12 +134,11 @@
             double rwl = _rl; // how much runway do we have left
             while( true )
             {
-                // TODO 1: account for variations in thrust depending on atmosphere... currently no clue where to start -_-
-                // TODO 2: be more precise in brake phase, currently we're aiming for an average
+                // TODO 1: be more precise in brake phase, currently we're aiming for an average
                 //          we should "integrate" like we do with the acceleration, however that's a whole lot extra CPU time...
 
                 double acc = ProjectedAcceleration(tas, p);
-                double dec = ProjectedDeceleration(tas, p);
+                double dec = ProjectedDeceleration(tas+acc, p); // 1 second ahead
                 //System.Diagnostics.Debug.WriteLine(acc + "  " + dec);
 
                 // the part below makes sense, but still only using an average estimate for deceleration...
