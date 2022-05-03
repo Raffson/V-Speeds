@@ -441,7 +441,7 @@
             1,
             0,
             0,
-            131072});
+            196608});
             this.cl_in.Location = new System.Drawing.Point(73, 265);
             this.cl_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cl_in.Maximum = new decimal(new int[] {
@@ -739,7 +739,7 @@
             1,
             0,
             0,
-            131072});
+            196608});
             this.cd_in.Location = new System.Drawing.Point(431, 265);
             this.cd_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cd_in.Maximum = new decimal(new int[] {
@@ -868,7 +868,7 @@
             1,
             0,
             0,
-            131072});
+            196608});
             this.clg_in.Location = new System.Drawing.Point(73, 294);
             this.clg_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.clg_in.Maximum = new decimal(new int[] {
@@ -901,7 +901,7 @@
             1,
             0,
             0,
-            131072});
+            196608});
             this.rfc_in.Location = new System.Drawing.Point(431, 323);
             this.rfc_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rfc_in.Maximum = new decimal(new int[] {

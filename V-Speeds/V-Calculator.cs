@@ -139,8 +139,10 @@
                 //System.Diagnostics.Debug.WriteLine(acc + "  " + dec);
 
                 // the part below makes sense, but still only using an average estimate for deceleration...
+                // also, we're aiming 'rc' seconds ahead but by then 'dec' will be even lower
+                //  -> since braking efficiency increases as speed decreases, the current (over)estimate may be accurate after all, average-wise that is...
                 double ptas = tas + _rc*acc; // TAS 'rc' second ahead
-                double tntb = ptas / dec; // time needed to brake for predicted speed
+                double tntb = ptas / dec; // time needed to brake from predicted speed
                 double bdist = CalcDistance(ptas, -dec, tntb); // braking distance
                 double rwl2 = rwl - CalcDistance(ptas, acc, _rc); // look 'rc' ahead
                 if (bdist > rwl2) break; // meaning we can't stop anymore

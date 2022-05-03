@@ -94,7 +94,7 @@
 
     internal class UnitlessDelegate : BaseDelegate
     {
-        public UnitlessDelegate(NumericUpDown input, Action<double> setter, (decimal, decimal) increment) : base(input, setter, increment) { }
+        public UnitlessDelegate(NumericUpDown input, Action<double> setter, decimal increment) : base(input, setter, (increment, 0m)) { }
     }
 
     internal class ForceDelegate : BaseDelegate

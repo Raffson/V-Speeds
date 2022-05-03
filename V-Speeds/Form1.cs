@@ -42,15 +42,15 @@ namespace V_Speeds
                     { oat_in, new TemperatureDelegate(oat_in, vcalc.SetOat, oatUnit, (0.1m, 0.1m)) },
                     { qfe_in, new PressureDelegate(qfe_in, vcalc.SetQfe, qfeUnit, (1m, 0.01m)) },
                     { lsa_in, new AreaDelegate(lsa_in, vcalc.SetLsa, lsaUnit, (1m, 1m)) },
-                    { cl_in,  new UnitlessDelegate(cl_in, vcalc.SetCl, (0.01m, 0.01m)) },
+                    { cl_in,  new UnitlessDelegate(cl_in, vcalc.SetCl, 0.001m) },
                     { thr_in, new ForceDelegate(thr_in, vcalc.SetThr, thrUnit, (1000m, 1000m)) },
                     { bf_in,  new ForceDelegate(bf_in, vcalc.SetBf, bfUnit, (100m, 100m)) },
                     { rl_in,  new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit, (50m, 100m)) },
-                    { rc_in, new UnitlessDelegate(rc_in, vcalc.SetRc, (0.1m, 0.1m)) },
-                    { cd_in,  new UnitlessDelegate(cd_in, vcalc.SetCd, (0.01m, 0.01m)) },
-                    { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr, (0.01m, 0.01m)) },
-                    { clg_in,  new UnitlessDelegate(clg_in, vcalc.SetClg, (0.01m, 0.01m)) },
-                    { rfc_in, new UnitlessDelegate(rfc_in, vcalc.SetRfc, (0.01m, 0.01m)) },
+                    { rc_in, new UnitlessDelegate(rc_in, vcalc.SetRc, 0.1m) },
+                    { cd_in,  new UnitlessDelegate(cd_in, vcalc.SetCd, 0.001m) },
+                    { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr, 0.01m) },
+                    { clg_in,  new UnitlessDelegate(clg_in, vcalc.SetClg, 0.001m) },
+                    { rfc_in, new UnitlessDelegate(rfc_in, vcalc.SetRfc, 0.001m) },
                 };
             // Link unitmap...
             var units = new ComboBox[] { weightUnit, oatUnit, qfeUnit, lsaUnit, thrUnit, bfUnit, rlUnit };
