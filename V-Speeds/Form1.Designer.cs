@@ -310,7 +310,7 @@
             this.label13.Size = new System.Drawing.Size(24, 13);
             this.label13.TabIndex = 27;
             this.label13.Text = "RC";
-            this.toolTip1.SetToolTip(this.label13, "Cross-Sectional Area (varies with loadout)");
+            this.toolTip1.SetToolTip(this.label13, "Reaction time, including time for engine spooldown etc.");
             // 
             // label14
             // 

@@ -2,6 +2,9 @@
 {
     class V_Calculator
     {
+        [System.Diagnostics.Conditional("CONTRACTS_FULL")]
+        public static void Require(bool condition) => System.Diagnostics.Contracts.Contract.Requires(condition);
+
         public const double igc = 8.3144598; // ideal gas constant
         public const double mmair = 28.97 / 1000; // molecular mass of air
         public const double g = 9.83; // 1G at poles (m/s2), just for some extra wiggle room, considering no elevation (except pressure)
@@ -90,7 +93,22 @@
 
         // Expecting thrust in Newton, density in density in kg/m³
         //  return estimated thrust depending on density
-        public static double CalcThrust(double thrust, double density) => thrust * Math.Min(1, Math.Pow(density / p0, 2.0 / 3.0));
+        public static double CalcThrust(double thrust, double density)
+        {
+            // Having troubles with airports at different altitudes to determine the needed runway to reach Vs
+            // sealevel is ok
+            // nevada at 5000ft is being overestimated
+            // soganlug at 1500ft is being underestimated
+            //
+            // dynamic pressure also plays a role, more air for the engine means more thrust...
+            // -> if we ignore this, it should mean more safety margin, lower V1 and longer runway estimate
+            //      i guess i'll leave it for now...
+            double densr = density / p0;
+            double thrcoeff = Math.Min(1, Math.Pow(densr, 1 + Math.Pow(densr, 5))); // Good estimate so far...
+            //thrcoeff = thrcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.5 + densr), Math.Pow(1.5, densr))));
+            //System.Diagnostics.Debug.WriteLine(density + "  " + (density / p0) + "  " + thrcoeff);
+            return thrust * Math.Min(1, (thrcoeff));
+        }
 
         // Expecting tas in m/s and density in kg/m³, tas and density MUST BE POSITIVE!
         //  return projected acceleration in m/s²
@@ -101,7 +119,6 @@
             double fn = Math.Max(0, CalcForce(_gw, g) - CalcLiftForce(tas, density, _lsa, _clg));
             double drag = CalcDragForce(tas, density, _lsa, _cd) + CalcFrictionForce(fn, _rfc);
             double acc = (thrust - drag) / _gw;
-            //System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + acc);
             return acc;
         }
 
@@ -109,11 +126,10 @@
         //  return projected deceleration in m/s²
         private double ProjectedDeceleration(double tas, double density)
         {
-            // TODO: account for variations in thrust depending on atmosphere, specifically for "idle thrust"
             double fg = CalcForce(_gw, g);
             double fn = Math.Max(0, fg - CalcLiftForce(tas, density, _lsa, _clg));
             double ff = CalcFrictionForce(fn, _rfc); // friction while rolling down the runway
-            double brakecoeff = Math.Pow(fn / fg, 1 / 2.0); // how much weight is still on the wheels
+            double brakecoeff = Math.Pow(Math.Sin(Math.PI * fn / fg / 2), 1 / 2.0); // how much weight is still on the wheels
             //System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + brakecoeff);
             double brakeforce = _bf * brakecoeff + ff; // account for weight on wheels, reduced efficiency for reduced weight
             double totalbrake = brakeforce + CalcThrust(_thr, density) * (_rtr - 0.08); // _thr * 0.08 for idle thrust <- Add idle thrust parameter???
@@ -132,22 +148,26 @@
             double t = 0.1;   // time interval 0.1 seconds
             double tas = 0.0; // assuming no headwind (extra safety) => tas = gs
             double rwl = _rl; // how much runway do we have left
+            double avgacc = ProjectedAcceleration(tas, p);
+            double avgdec = ProjectedDeceleration(tas, p);
             while( true )
             {
-                // TODO 1: be more precise in brake phase, currently we're aiming for an average
-                //          we should "integrate" like we do with the acceleration, however that's a whole lot extra CPU time...
-
                 double acc = ProjectedAcceleration(tas, p);
                 double dec = ProjectedDeceleration(tas+acc, p); // 1 second ahead
-                //System.Diagnostics.Debug.WriteLine(acc + "  " + dec);
 
-                // the part below makes sense, but still only using an average estimate for deceleration...
-                // also, we're aiming 'rc' seconds ahead but by then 'dec' will be even lower
-                //  -> since braking efficiency increases as speed decreases, the current (over)estimate may be accurate after all, average-wise that is...
-                double ptas = tas + _rc*acc; // TAS 'rc' second ahead
-                double tntb = ptas / dec; // time needed to brake from predicted speed
-                double bdist = CalcDistance(ptas, -dec, tntb); // braking distance
-                double rwl2 = rwl - CalcDistance(ptas, acc, _rc); // look 'rc' ahead
+                avgacc = (avgacc + acc) / 2;
+                avgdec = (avgdec + dec) / 2;
+
+                // start thinking in terms of energy... Fa * RLa = Fb * RLb and RL = RLa + RLb + RLrc
+                //  where Fa is the net thrust, RLa the distance covered during acceleration,
+                //      Fb is the net brakeforce, RLb the distance covered during braking
+                //      RL is the total runway length and RLrc is the distance covered during reaction
+                //  we can simplify by using 'acc' and 'dec' cause the mass stays the same,
+                //  thus the ratio of forces is equal to ratio of 'acc' and 'dec'
+
+                double rwl2 = rwl - CalcDistance(tas, acc, _rc); // look 'rc' ahead
+                double bdist = _rl - (_rl / (avgacc / avgdec + 1)); // = RLb
+
                 if (bdist > rwl2) break; // meaning we can't stop anymore
                 rwl -= CalcDistance(tas, acc, t);
                 tas += (acc * t);
@@ -174,9 +194,8 @@
             double p = CalcDensity(_qfe, _oat);
             double t = 0.1;   // time interval 0.1 seconds
             double tas = 0.0; // assuming no headwind (extra safety) => tas = gs
-            while (true)
+            while (tas <= vs)
             {
-                if (tas >= vs) break;
                 double acc = ProjectedAcceleration(tas, p);
                 if (acc < 0.001) return double.NaN; // means we can't reach Vs, could cause an infinite loop
                 //System.Diagnostics.Debug.WriteLine(acc);
