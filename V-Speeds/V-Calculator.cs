@@ -159,6 +159,7 @@
             double rwl = _rl; // how much runway do we have left
             double avgacc = ProjectedAcceleration(tas, p);
             double avgdec = ProjectedDeceleration(tas, p);
+            double rc = _rl < 1500 ? _rc + (1500 - _rl) * 0.003 : _rc; // shorter runway tend to get overshot...
             while( true )
             {
                 double acc = ProjectedAcceleration(tas, p);
@@ -173,8 +174,7 @@
                 //      RL is the total runway length and RLrc is the distance covered during reaction
                 //  we can simplify by using 'acc' and 'dec' cause the mass stays the same,
                 //  thus the ratio of forces is equal to ratio of 'acc' and 'dec'
-
-                double rwl2 = rwl - CalcDistance(tas, acc, _rc); // look 'rc' ahead
+                double rwl2 = rwl - CalcDistance(tas, acc, rc); // look 'rc' ahead
                 double bdist = _rl - (_rl / (avgacc / avgdec + 1)); // = RLb
 
                 if (bdist > rwl2) break; // meaning we can't stop anymore
