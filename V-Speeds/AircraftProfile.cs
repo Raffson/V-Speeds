@@ -75,6 +75,8 @@ namespace V_Speeds
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-525m, +/-950m)
         //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (110-111, 104-105)   <-  OK!
         //                    OAT = 10°C      Dv (AB, MIL) = (+/-470m, +/-870m)
+        //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (125, 120)   <-  OK!
+        //                   OAT = 16°C      Dv (AB, MIL) = (+/-385m, +/-695m)  <- AB & MIL slightly overestimated at 405 & 730m
         //  GW = 39857Lbs; CD = 0.140  => Vs = 208; Dv (AB, MIL) = (+/-1033m, +/-2035m)
         //      RL = 1650m => V1 (AB, MIL) = (123-125, 115-119)   <-  OK!
         //      RL = 1800m => V1 (AB, MIL) = (129-131, 120-125)   <-  OK!
@@ -84,8 +86,11 @@ namespace V_Speeds
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (170-175, 156-160)   <-  OK!
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-1540m, +/-3200m)
         //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (100, 91)   <-  OK! MIL slightly too low...
-        //                    OAT = 10°C      Dv (AB, MIL) = (+/-1210m, +/-NER)  <- OK!
-        //                         for CL = 1.08 => Vs = 190  <- ^^^^^   ^^^^^^ -> MIL not enough runway... over/under-estimated???
+        //                    OAT = 10°C      Dv (AB, MIL) = (+/-1210m, NER)  <- OK!
+        //                         for CL = 1.08 => Vs = 190  <- ^^^^^  ^^^ -> MIL not enough runway... over/under-estimated???
+        //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (115, 105)   <-  OK!
+        //                   OAT = 16°C      Dv (AB, MIL) = (+/-1180m, NER)  <- AB overestimated at 1250m
+        //                                                             ^^^ -> MIL not enough runway... over/under-estimated???
         //
         // F18 : OAT = 20C; QFE = 30.05 inHg; RC = 3 for MIL, RC = 4 for AB
         //  GW = 30955Lbs; CD = 0.15  => Vs = 146; Dv (AB, MIL) = (+/-305m, +/-420m)
@@ -97,7 +102,9 @@ namespace V_Speeds
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (148, 167)   <-  OK! MIL slightly low...
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-420m, +/-600m)
         //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (76-82, 100-105)   <-  OK!
-        //                    OAT = 10°C      Dv (AB, MIL) = (+/-400m, +/-570m)
+        //                   OAT = 10°C      Dv (AB, MIL) = (+/-400m, +/-570m)
+        //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (88, 115)   <-  OK!
+        //                   OAT = 16°C      Dv (AB, MIL) = (+/-340m, +/-475m)   <- OK!
         //  GW = 49110Lbs; CD = 0.18  => Vs = 183; Dv (AB, MIL) = (+/-780m, +/-1175m)
         //      RL = 1650m => V1 (AB, MIL) = (90, 111)   <-  OK!
         //      RL = 1800m => V1 (AB, MIL) = (96, 116)   <-  OK!
@@ -105,10 +112,12 @@ namespace V_Speeds
         //      RL = 2475m; QFE = 28.56 => V1 (AB, MIL) = (122, 137)   <-  OK!
         //                  OAT = 17°C     Dv (AB, MIL) = (+/-860m, +/-1320m)
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (150, 159)   <-  OK! MIL is a close one though...
-        //                    OAT = 9°C      Dv (AB, MIL) = (+/-1120m, +/-1710m)  <- AB, MIL being overestimated at 1215m & 1855
+        //                    OAT = 9°C      Dv (AB, MIL) = (+/-1120m, +/-1710m)  <- AB & MIL overestimated at 1215m & 1855m
         //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (78-80, 92)   <-  OK!
-        //                    OAT = 10°C      Dv (AB, MIL) = (+/-1055m, +/-NER)  <- AB being overestimated at 1155m,
-        //                                                               ^^^^^^ -> MIL not enough runway... over/under-estimated???
+        //                   OAT = 10°C      Dv (AB, MIL) = (+/-1055m, NER)  <- AB being overestimated at 1155m,
+        //                                                             ^^^ -> MIL not enough runway... over/under-estimated???
+        //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (87, 103)   <-  OK!
+        //                   OAT = 16°C      Dv (AB, MIL) = (+/-880m, +/-1350m)  <- AB & MIL overestimated at 935m & 1410m
         //
         // A10 : OAT = 20C; QFE = 30.05 inHg; RC = 2
         //  GW = 32948Lbs; CD = 0.121  => Vs = 137; Dv = +/-697m  <- Should be correct...
