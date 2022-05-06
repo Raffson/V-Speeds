@@ -43,9 +43,9 @@ namespace V_Speeds
             ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 53900m, 4m, 0.11m, 0m, 8573m, 72750m, 0.58m, 0.043m });
 
         static readonly ImmutableArray<decimal> DCS_F18C_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 3m, 0.1m, 0m, 10433m, 158000m, 0.5m, 0.03m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 4m, 0.15m, 0m, 10433m, 158000m, 0.55m, 0.033m });
         static readonly ImmutableArray<decimal> DCS_F18C_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 2m, 0.1m, 0m, 10433m, 107000m, 0.5m, 0.03m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 3m, 0.15m, 0m, 10433m, 115000m, 0.55m, 0.033m });
 
 
         public static readonly ImmutableDictionary<int, ImmutableArray<decimal>> Indexer =
@@ -68,27 +68,37 @@ namespace V_Speeds
         //  GW = 23775Lbs; CD = 0.11  => Vs = 161; Dv (AB, MIL) = (+/-340m, +/-610m)
         //      RL = 1600m => V1 (AB, MIL) = (124-129, 124-127)   <-  OK!
         //      RL = 1800m => V1 (AB, MIL) = (132-135, 132-135)   <-  OK!
-        //      RL = 2400m => V1 (AB, MIL) = (148-149, 152-153)   <-  OK!
-        //      RL = 2475m; QFE = 28.56 => V1 (AB, MIL) = (149-151, 152-155)   <-  OK!
+        //      RL = 2400m => V1 (AB, MIL) = (148-150, 152-154)   <-  OK!
+        //      RL = 2475m; QFE = 28.56 => V1 (AB, MIL) = (149-152, 152-155)   <-  OK!
         //                  OAT = 17°C     Dv (AB, MIL) = (+/-375m, +/-675m)
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (165-173, 168-175)   <-  OK!
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-525m, +/-950m)
         //  GW = 39857Lbs; CD = 0.140  => Vs = 208; Dv (AB, MIL) = (+/-1033m, +/-2035m)
         //      RL = 1650m => V1 (AB, MIL) = (123-125, 115-119)   <-  OK!
-        //      RL = 1800m => V1 (AB, MIL) = (129-131, 121-125)   <-  OK!
+        //      RL = 1800m => V1 (AB, MIL) = (129-131, 120-125)   <-  OK!
         //      RL = 2400m => V1 (AB, MIL) = (151-154, 142-143)   <-  OK!
         //      RL = 2475m; QFE = 28.56 => V1 (AB, MIL) = (150-152, 140-143)   <-  OK!
         //                  OAT = 17°C     Dv (AB, MIL) = (+/-1185m, +/-2395m)
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (170-175, 156-160)   <-  OK!
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-1540m, +/-3200m)
 
-        // F18 : OAT = 20C; QFE = 30.05 inHg; RC = 2 for MIL, RC = 3 for AB
-        //  GW = ...Lbs; CD = ...  => Vs = ...; Dv (AB, MIL) = (+/-...m, +/-...m)
-        //      RL = 1600m => V1 (AB, MIL) = (, )   <-  OK!
-        //      RL = 2400m => V1 (AB, MIL) = (, )   <-  OK!
-        //  GW = ...Lbs; CD = ...  => Vs = ...; Dv (AB, MIL) = (+/-...m, +/-...m)
-        //      RL = 1650m => V1 (AB, MIL) = (, )   <-  OK!
-        //      RL = 2400m => V1 (AB, MIL) = (, )   <-  OK!
+        // F18 : OAT = 20C; QFE = 30.05 inHg; RC = 3 for MIL, RC = 4 for AB
+        //  GW = 30955Lbs; CD = 0.15  => Vs = 146; Dv (AB, MIL) = (+/-305m, +/-420m)
+        //      RL = 1600m => V1 (AB, MIL) = (87-94, 118-123)   <-  OK!
+        //      RL = 1800m => V1 (AB, MIL) = (96-98, 126-129)   <-  OK-ish! AB is a little high...
+        //      RL = 2400m => V1 (AB, MIL) = (116-122, 142-149)   <-  OK!
+        //      RL = 2475m; QFE = 28.56 => V1 (AB, MIL) = (121, 145-146)   <-  OK!
+        //                  OAT = 17°C     Dv (AB, MIL) = (+/-325m, +/-450m)
+        //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (148, 167)   <-  OK! MIL slightly low...
+        //                    OAT = 9°C      Dv (AB, MIL) = (+/-420m, +/-600m)
+        //  GW = 49110Lbs; CD = 0.18  => Vs = 183; Dv (AB, MIL) = (+/-780m, +/-1175m)
+        //      RL = 1650m => V1 (AB, MIL) = (90, 111)   <-  OK!
+        //      RL = 1800m => V1 (AB, MIL) = (96, 116)   <-  OK!
+        //      RL = 2400m => V1 (AB, MIL) = (119, 137)   <-  OK!
+        //      RL = 2475m; QFE = 28.56 => V1 (AB, MIL) = (122, 137)   <-  OK!
+        //                  OAT = 17°C     Dv (AB, MIL) = (+/-860m, +/-1320m)
+        //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (150, 159)   <-  OK! MIL is a close one though...
+        //                    OAT = 9°C      Dv (AB, MIL) = (+/-1120m, +/-1710m)  <- AB, MIL being overestimated at 1215m & 1855
         //
         //
         // A10 : OAT = 20C; QFE = 30.05 inHg; RC = 2

@@ -97,16 +97,24 @@
         {
             // Having troubles with airports at different altitudes to determine the needed runway to reach Vs
             // sealevel is ok
-            // nevada at 5000ft is being overestimated
+            // nevada at 5500ft is being overestimated
             // soganlug at 1500ft is being underestimated
-            //
+            //      -> this has more or less been resolved for the F16,
+            //         F18 is being underestimated in terms of thrust, less runway needed than calculated...
             // dynamic pressure also plays a role, more air for the engine means more thrust...
             // -> if we ignore this, it should mean more safety margin, lower V1 and longer runway estimate
             //      i guess i'll leave it for now...
             double densr = density / p0;
-            double thrcoeff = Math.Min(1, Math.Pow(densr, 1 + Math.Pow(densr, 5))); // Good estimate so far...
-            //thrcoeff = thrcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.5 + densr), Math.Pow(1.5, densr))));
-            //System.Diagnostics.Debug.WriteLine(density + "  " + (density / p0) + "  " + thrcoeff);
+            //double thrcoeff = Math.Min(1, Math.Pow(densr, 1 + Math.Pow(densr, 5))); // Good estimate so far...
+            //thrcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.6 + densr), Math.Pow(1.4, densr))));
+
+            // An even better estimate, however when density becomes lower this will fail miserably,
+            // looking at this function it shows that it will massively overestimate thrust when densr < 0.8
+            // for now we'll start using a different function when densr < 0.7609,
+            // i.e. the point where lowcoeff and highcoeff intersect...
+            double lowcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.5 + densr), Math.Pow(0.5, densr))));
+            double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.3 + densr), Math.Pow(3, densr))));
+            double thrcoeff = Math.Min(lowcoeff, highcoeff);
             return thrust * Math.Min(1, (thrcoeff));
         }
 
@@ -145,6 +153,7 @@
             //ignore speedbrakes and drag in general during brake => more safety margin because longer braking distance
             //using EAS to approximate IAS
             double p = CalcDensity(_qfe, _oat);
+            System.Diagnostics.Debug.WriteLine(p / p0);
             double t = 0.1;   // time interval 0.1 seconds
             double tas = 0.0; // assuming no headwind (extra safety) => tas = gs
             double rwl = _rl; // how much runway do we have left
@@ -154,9 +163,9 @@
             {
                 double acc = ProjectedAcceleration(tas, p);
                 double dec = ProjectedDeceleration(tas+acc, p); // 1 second ahead
-
                 avgacc = (avgacc + acc) / 2;
                 avgdec = (avgdec + dec) / 2;
+                //System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + avgacc*_gw + "  " + avgdec * _gw);
 
                 // start thinking in terms of energy... Fa * RLa = Fb * RLb and RL = RLa + RLb + RLrc
                 //  where Fa is the net thrust, RLa the distance covered during acceleration,
