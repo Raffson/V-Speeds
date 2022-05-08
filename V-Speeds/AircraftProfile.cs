@@ -7,20 +7,17 @@ namespace V_Speeds
     // the rest can be found in config files of simulators or by experimental determination...
     internal static class AircraftProfile
     {
-        /*
-            F-16C blk50 (AB) = 1
-            F-16C blk50 (MIL) = 2
-            A-10C = 3
-            F-14A = 4
-            F-14B = 5
-            F-15C = 6
-        */
-        static private int counter = 1;
+        static private int counter = 1; // for dictionary 'Indexer'...
 
         // lift coefficient at approx 10 degrees AOA, guestimation according to tests in DCS
-        // all these profiles still need rigorous testing, F16 is getting close though
+        // all these profiles still need rigorous testing, F16 & F18 are getting close though
+        
+        // A10 Profile is as close as it gets atm, we're getting wrong estimations for needed runway in several cases
+        //  this is most likely due to the different nature of the A10's engines, made for subsonic flight
+        //  they have a very different efficiency curve compared to the model currently in place, which is pretty accurate for the F16 & F18
+        //  but as always... more testing needed to gather data -_-
         static readonly ImmutableArray<decimal> DCS_A10C =
-            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 2m, 0.121m, 0m, 11321m, 68500m, 0.667m, 0.05m });
+            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.08m, 0m, 11321m, 65000m, 0.61m, 0.034m });
 
         static readonly ImmutableArray<decimal> DCS_F14A_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 52.5m, 1m, 60000m, 2m, 0.1m, 0m, 19090m, 185800m, 0.5m, 0.04m });
@@ -50,17 +47,17 @@ namespace V_Speeds
 
         public static readonly ImmutableDictionary<int, ImmutableArray<decimal>> Indexer =
             ImmutableDictionary.ToImmutableDictionary<int, ImmutableArray<decimal>>(new Dictionary<int, ImmutableArray<decimal>> {
-                { counter++, DCS_A10C },
-                { counter++, DCS_F14A_AB },
-                { counter++, DCS_F14A_MIL },
-                { counter++, DCS_F14B_AB },
-                { counter++, DCS_F14B_MIL },
-                { counter++, DCS_F15C_AB },
-                { counter++, DCS_F15C_MIL },
-                { counter++, DCS_F16blk50_AB },
-                { counter++, DCS_F16blk50_MIL },
-                { counter++, DCS_F18C_AB },
-                { counter++, DCS_F18C_MIL },
+                { counter++, DCS_A10C },            // 1
+                { counter++, DCS_F14A_AB },         // 2
+                { counter++, DCS_F14A_MIL },        // 3
+                { counter++, DCS_F14B_AB },         // 4
+                { counter++, DCS_F14B_MIL },        // 5
+                { counter++, DCS_F15C_AB },         // 6
+                { counter++, DCS_F15C_MIL },        // 7
+                { counter++, DCS_F16blk50_AB },     // 8
+                { counter++, DCS_F16blk50_MIL },    // 9
+                { counter++, DCS_F18C_AB },         // 10
+                { counter++, DCS_F18C_MIL },        // 11
             });
 
         // known cases for testing, speeds in KEAS:
@@ -74,9 +71,9 @@ namespace V_Speeds
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (165-173, 168-175)   <-  OK!
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-525m, +/-950m)
         //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (110-111, 104-105)   <-  OK!
-        //                    OAT = 10°C      Dv (AB, MIL) = (+/-470m, +/-870m)
+        //                    OAT = 10°C    Dv (AB, MIL) = (+/-470m, +/-870m)
         //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (125, 120)   <-  OK!
-        //                   OAT = 16°C      Dv (AB, MIL) = (+/-385m, +/-695m)  <- AB & MIL slightly overestimated at 405 & 730m
+        //                   OAT = 16°C     Dv (AB, MIL) = (+/-385m, +/-695m)  <- AB & MIL slightly overestimated at 405 & 730m
         //  GW = 39857Lbs; CD = 0.140  => Vs = 208; Dv (AB, MIL) = (+/-1033m, +/-2035m)
         //      RL = 1650m => V1 (AB, MIL) = (123-125, 115-119)   <-  OK!
         //      RL = 1800m => V1 (AB, MIL) = (129-131, 120-125)   <-  OK!
@@ -86,11 +83,11 @@ namespace V_Speeds
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (170-175, 156-160)   <-  OK!
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-1540m, +/-3200m)
         //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (100, 91)   <-  OK! MIL slightly too low...
-        //                    OAT = 10°C      Dv (AB, MIL) = (+/-1210m, NER)  <- OK!
-        //                         for CL = 1.08 => Vs = 190  <- ^^^^^  ^^^ -> MIL not enough runway... over/under-estimated???
+        //                    OAT = 10°C    Dv (AB, MIL) = (+/-1210m, NER)  <- OK!
+        //                       for CL = 1.08 => Vs = 190  <- ^^^^^  ^^^ -> MIL not enough runway... over/under-estimated???
         //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (115, 105)   <-  OK!
-        //                   OAT = 16°C      Dv (AB, MIL) = (+/-1180m, NER)  <- AB overestimated at 1250m
-        //                                                             ^^^ -> MIL not enough runway... over/under-estimated???
+        //                   OAT = 16°C     Dv (AB, MIL) = (+/-1180m, NER)  <- AB overestimated at 1250m
+        //                                                            ^^^ -> MIL not enough runway... over/under-estimated???
         //
         // F18 : OAT = 20C; QFE = 30.05 inHg; RC = 3 for MIL, RC = 4 for AB
         //  GW = 30955Lbs; CD = 0.15  => Vs = 146; Dv (AB, MIL) = (+/-305m, +/-420m)
@@ -102,9 +99,9 @@ namespace V_Speeds
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (148, 167)   <-  OK! MIL slightly low...
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-420m, +/-600m)
         //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (76-82, 100-105)   <-  OK!
-        //                   OAT = 10°C      Dv (AB, MIL) = (+/-400m, +/-570m)
+        //                   OAT = 10°C     Dv (AB, MIL) = (+/-400m, +/-570m)
         //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (88, 115)   <-  OK!
-        //                   OAT = 16°C      Dv (AB, MIL) = (+/-340m, +/-475m)   <- OK!
+        //                   OAT = 16°C     Dv (AB, MIL) = (+/-340m, +/-475m)   <- OK!
         //  GW = 49110Lbs; CD = 0.18  => Vs = 183; Dv (AB, MIL) = (+/-780m, +/-1175m)
         //      RL = 1650m => V1 (AB, MIL) = (90, 111)   <-  OK!
         //      RL = 1800m => V1 (AB, MIL) = (96, 116)   <-  OK!
@@ -114,17 +111,60 @@ namespace V_Speeds
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (150, 159)   <-  OK! MIL is a close one though...
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-1120m, +/-1710m)  <- AB & MIL overestimated at 1215m & 1855m
         //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (78-80, 92)   <-  OK!
-        //                   OAT = 10°C      Dv (AB, MIL) = (+/-1055m, NER)  <- AB being overestimated at 1155m,
+        //                   OAT = 10°C     Dv (AB, MIL) = (+/-1055m, NER)  <- AB being overestimated at 1155m,
         //                                                             ^^^ -> MIL not enough runway... over/under-estimated???
         //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (87, 103)   <-  OK!
-        //                   OAT = 16°C      Dv (AB, MIL) = (+/-880m, +/-1350m)  <- AB & MIL overestimated at 935m & 1410m
+        //                   OAT = 16°C     Dv (AB, MIL) = (+/-880m, +/-1350m)  <- AB & MIL overestimated at 935m & 1410m
         //
-        // A10 : OAT = 20C; QFE = 30.05 inHg; RC = 2
-        //  GW = 32948Lbs; CD = 0.121  => Vs = 137; Dv = +/-697m  <- Should be correct...
-        //      RL = 1650m => V1 = 123   <-  OK!
-        //      RL = 2400m => V1 = 144   <-  OK!
-        //  GW = 46381Lbs; CD = 0.145  => Vs = 162; Dv = +/-1647m  <- Should be correct...
-        //      RL = 1650m => V1 = 116  <-  OK!
-        //      RL = 2400m => V1 = 138  <-  OK!
+        // A10 : OAT = 20C; QFE = 30.05 inHg; RC = 4
+        //  GW = 32948Lbs; CD = 0.08  => Vs = 137; Dv = +/-700m  <- Should be correct...
+        //      RL = 1650m => V1 = 119-123   <-  OK!
+        //      RL = 1800m => V1 = 124-128   <-  OK-ish! slightly high...
+        //      RL = 2400m => V1 = 140-144   <-  OK!
+        //      RL = 2475m; QFE = 28.56 => V1 = 140-146   <-  OK!
+        //                  OAT = 17°C     Dv = +/-760m  <- Should be correct, overestimated at 795m
+        //      RL = 12001ft; QFE = 24.49 => V1 = 152-157   <-  OK!
+        //                    OAT = 9°C      Dv = +/-970m  <- Overestimated at 1075m
+        //      RL = 4408ft; QFE = 25.15 => V1 = ---   <-  NOK!
+        //                   OAT = 10°C     Dv = +/-...m
+        //      RL = 4937ft; QFE = 28.00 => V1 = ---   <-  NOK!
+        //                   OAT = 16°C      Dv = +/-...m
+        //  GW = 47093Lbs; CD = 0.116  => Vs = 164; Dv = +/-1715m  <- Should be correct, underestimated at 1685m!!!
+        //      RL = 1650m => V1 = 109-115  <-  OK!
+        //      RL = 1800m => V1 = 114-119   <-  OK!
+        //      RL = 2400m => V1 = 134-138  <-  OK!
+        //      RL = 2475m; QFE = 28.56 => V1 = 131-136   <-  OK!
+        //                  OAT = 17°C     Dv = +/-1890m  <- Overestimated at 1935m
+        //      RL = 12001ft; QFE = 24.49 => V1 = 144-147   <-  OK!
+        //                    OAT = 9°C      Dv = +/-2240m <- Overestimated at 2745m
+        //      RL = 4408ft; QFE = 25.15 => V1 = ---   <-  NOK!
+        //                   OAT = 10°C     Dv = +/-...m
+        //      RL = 4937ft; QFE = 28.00 => V1 = ---   <-  NOK!
+        //                   OAT = 16°C     Dv = +/-...m
+        //
+        //
+        // PLANE : OAT = --C; QFE = --.-- inHg; RC = - for MIL, RC = - for AB
+        //  GW = ----Lbs; CD = -.--  => Vs = ---; Dv (AB, MIL) = (+/-...m, +/-...m)
+        //      RL = 1600m => V1 (AB, MIL) = (, )   <-  NOK!
+        //      RL = 1800m => V1 (AB, MIL) = (, )   <-  NOK!
+        //      RL = 2400m => V1 (AB, MIL) = (, )   <-  NOK!
+        //      RL = 2475m; QFE = 28.56 => V1 (AB, MIL) = (, )   <-  NOK!
+        //                  OAT = 17°C     Dv (AB, MIL) = (+/-...m, +/-...m)
+        //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (, )   <-  NOK!
+        //                    OAT = 9°C      Dv (AB, MIL) = (+/-...m, +/-..m)
+        //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (, )   <-  NOK!
+        //                   OAT = 10°C     Dv (AB, MIL) = (+/-...m, +/-...m)
+        //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (, )   <-  NOK!
+        //                   OAT = 16°C     Dv (AB, MIL) = (+/-...m, +/-...m)   <- NOK!
+        //
+        //
+        //
+        // Debug data A10, 15C 29.92inHg -> FF = 33pph per engine; 17C 28.56inHg - > 31pphpe
+        // GW = 32948Lbs; RC = 4; => Vs = 137; Dv = +/-665m
+        //  CD = 0.08; CLG = 0.61; RFC = 0.034;
+        //      RL = 2455m => V1 = 142-143
+        // GW = 47093Lbs => Vs = 163; Dv = +/-1600m
+        //  CD = 0.116; CLG = 0.55; RFC = 0.034;
+        //      RL = 2455m => V1 = 136-139
     }
 }
