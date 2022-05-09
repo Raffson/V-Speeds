@@ -40,52 +40,104 @@ namespace V_Speeds_Tester
         }
 
         [TestMethod]
-        public void DCS_F16C_AB_Tester() // Tests for F16
+        public void DCS_F16C_23775lbs_Tester() // Tests for F16
         {
             double weight = Converter.lbs2kgs(23775.0);
             double qfe = Converter.inHg2pa(30.05);
             double oat = Converter.celc2kel(20.0);
+            double expv2 = 161.0;
+
+            SetProfile(vcalc, 8);
+            double expDv = 340.0;
             var ranges = new (double, double)[] { (1600, 126), (1800, 134), (2400, 148) };
-            SetProfile(vcalc, 8);
-            foreach ((var range, var expv1) in ranges) RunScenario(weight, qfe, oat, range, 161.0, 340, expv1);
+            foreach ((var range, var expv1) in ranges) RunScenario(weight, qfe, oat, range, expv2, expDv, expv1);
+            
             SetProfile(vcalc, 9);
+            expDv = 610.0;
             ranges = new (double, double)[] { (1600, 124), (1800, 133), (2400, 152) };
-            foreach ((var range, var expv1) in ranges) RunScenario(weight, qfe, oat, range, 161.0, 610, expv1);
+            foreach ((var range, var expv1) in ranges) RunScenario(weight, qfe, oat, range, expv2, expDv, expv1);
 
 
             SetProfile(vcalc, 8);
-            RunScenario(weight, Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 161.0, 335.0, 149.0);
-            RunScenario(weight, Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 161.0, 375.0, 150.0);
-            RunScenario(weight, Converter.inHg2pa(24.49), Converter.celc2kel(9.0), Converter.ft2m(12001.0), 161.0, 525.0, 167.0);
-            RunScenario(weight, Converter.inHg2pa(25.15), Converter.celc2kel(10.0), Converter.ft2m(4408.0), 161.0, 470.0, 110.0);
-            RunScenario(weight, Converter.inHg2pa(28.00), Converter.celc2kel(16.0), Converter.ft2m(4937.0), 161.0, 385.0, 123.0);
+            RunScenario(weight, Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, expv2, 335.0, 149.0);
+            RunScenario(weight, Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, expv2, 375.0, 150.0);
+            RunScenario(weight, Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, expv2, 525.0, 167.0);
+            RunScenario(weight, Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, expv2, 470.0, 110.0);
+            RunScenario(weight, Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, expv2, 385.0, 123.0);
 
             SetProfile(vcalc, 9);
-            RunScenario(weight, Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 161.0, 600.0, 153.0);
-            RunScenario(weight, Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 161.0, 675, 153.0);
-            RunScenario(weight, Converter.inHg2pa(24.49), Converter.celc2kel(9.0), Converter.ft2m(12001.0), 161.0, 950.0, 170.0);
-            RunScenario(weight, Converter.inHg2pa(25.15), Converter.celc2kel(10.0), Converter.ft2m(4408.0), 161.0, 870.0, 104.0);
-            RunScenario(weight, Converter.inHg2pa(28.00), Converter.celc2kel(16.0), Converter.ft2m(4937.0), 161.0, 695.0, 118.0);
+            RunScenario(weight, Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, expv2, 600.0, 153.0);
+            RunScenario(weight, Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, expv2, 675.0, 153.0);
+            RunScenario(weight, Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, expv2, 950.0, 170.0);
+            RunScenario(weight, Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, expv2, 870.0, 104.0);
+            RunScenario(weight, Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, expv2, 695.0, 118.0);
         }
 
+        [TestMethod]
+        public void DCS_F16C_39857lbs_Tester() // Tests for F16
+        {
+            double weight = Converter.lbs2kgs(39857.0);
+            double qfe = Converter.inHg2pa(30.05);
+            double oat = Converter.celc2kel(20.0);
+            double expv2 = 208.0;
+            double cd = 0.124;
+
+            SetProfile(vcalc, 8);
+            vcalc.Cd = cd;
+            double expDv = 1030.0;
+            var ranges = new (double, double)[] { (1650, 123), (1800, 129), (2400, 152) };
+            foreach ((var range, var expv1) in ranges) RunScenario(weight, qfe, oat, range, expv2, expDv, expv1);
+
+            SetProfile(vcalc, 9);
+            vcalc.Cd = cd;
+            expDv = 2035.0;
+            ranges = new (double, double)[] { (1650, 116), (1800, 123), (2400, 142) };
+            foreach ((var range, var expv1) in ranges) RunScenario(weight, qfe, oat, range, expv2, expDv, expv1);
+
+
+            // For short fields with not enough runway I created the same same atmospheric conditions at tonopah
+            // expected runway distances have been confirmed...
+
+            SetProfile(vcalc, 8); // Full AB
+            vcalc.Cd = cd;
+            RunScenario(weight, Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, expv2, 1025.0, 152.0);
+            RunScenario(weight, Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, expv2, 1145.0, 150.0);
+            RunScenario(weight, Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, expv2, 1540.0, 172.0);
+            RunScenario(weight, Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, expv2, 1465.0, 98.0);
+            RunScenario(weight, Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 3657.9, expv2, 1465.0, 174.0);
+            RunScenario(weight, Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, expv2, 1195.0, 113.0);
+            RunScenario(weight, Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 2475.0, expv2, 1195.0, 148.0);
+
+            SetProfile(vcalc, 9); // Full MIL
+            vcalc.Cd = cd;
+            RunScenario(weight, Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, expv2, 2020.0, 143.0);
+            RunScenario(weight, Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, expv2, 2305.0, 141.0);
+            RunScenario(weight, Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, expv2, 3200.0, 158.0);
+            RunScenario(weight, Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, expv2, 3025.0, 91.0);
+            RunScenario(weight, Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 3657.9, expv2, 3025.0, 160.0);
+            RunScenario(weight, Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, expv2, 2420.0, 103.0);
+            RunScenario(weight, Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 2475.0, expv2, 2420.0, 139.0);
+        }
+
+
+        // Feet-Meter: 12001ft = 3657.9m
+        //             4408ft  = 1343.5m
+        //             4937ft  = 1504.8m
+        //
+        //
+        // Debug data F18, 15C 29.92inHg <=> densr = 1.0000 -> FF = 10250pph per engine
+        //                 17C 28.56inHg <=> densr = 0.9479 -> FF = 9600pphpe ~ 0.9366 of RT
+        //                 14C 26.74inHg <=> densr = 0.8968 -> FF = 9300pphpe ~ 0.9073 of RT
+        //                 9C  24.49inHg <=> densr = 0.8359 -> FF = 8500pphpe ~ 0.8293 of RT
+        // GW = 30955Lbs; RC MIL/AB = 3/4; => Vs = 146; Dv MIL/AB  = +/-405m / +/-300m
+        //  CD = 0.195; CLG = 0.55; RFC = 0.012;
+        //      RL = 2455m => V1 MIL/AB = 147-149 / 119-120
+        // GW = 49110Lbs => Vs = 184; Dv MIL/AB = +/-1145m / +/-765m
+        //  CD = 0.201; CLG = 0.55; RFC = 0.012;
+        //      RL = 2455m => V1 MIL/AB = 138-143 / 121-123
+        //
+        //
         // known cases for testing, speeds in KEAS:
-        // F16 : OAT = 20C; QFE = 30.05 inHg; RC = 4 for MIL, RC = 2.5 for AB; CLG = 0.58
-        //  GW = 39857Lbs; CD = 0.124  => Vs = 208; Dv (AB, MIL) = (+/-1033m, +/-2035m)
-        //      RL = 1650m => V1 (AB, MIL) = (123-125, 115-119)   <-  OK!
-        //      RL = 1800m => V1 (AB, MIL) = (129-131, 120-125)   <-  OK!
-        //      RL = 2400m => V1 (AB, MIL) = (151-154, 142-143)   <-  OK!
-        //      RL = 2455m; QFE = 29.92 => V1 MIL/AB = 144-145 / 152-154
-        //                  OAT = 15°C     Dv MIL/AB = +/-2020m / +/-1025m (MIL Underestimated at 1990m)
-        //      RL = 2475m; QFE = 28.56 => V1 (AB, MIL) = (150-152, 140-143)   <-  OK!
-        //                  OAT = 17°C     Dv (AB, MIL) = (+/-1145m, +/-2305m)
-        //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (170-175, 156-160)   <-  OK!
-        //                    OAT = 9°C      Dv (AB, MIL) = (+/-1540m, +/-3200m)
-        //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (100, 91)   <-  OK! MIL slightly too low...
-        //                    OAT = 10°C    Dv (AB, MIL) = (+/-1210m, NER)  <- OK!
-        //                       for CL = 1.08 => Vs = 190  <- ^^^^^  ^^^ -> MIL not enough runway... over/under-estimated???
-        //      RL = 4937ft; QFE = 28.00 => V1 (AB, MIL) = (115, 105)   <-  OK!
-        //                   OAT = 16°C     Dv (AB, MIL) = (+/-1180m, NER)  <- AB overestimated at 1250m
-        //                                                            ^^^ -> MIL not enough runway... over/under-estimated???
         //
         // F18 : OAT = 20C; QFE = 30.05 inHg; RC = 3 for MIL, RC = 4 for AB
         //  GW = 30955Lbs; CD = 0.195  => Vs = 146; Dv (AB, MIL) = (+/-305m, +/-420m)
@@ -169,15 +221,5 @@ namespace V_Speeds_Tester
         //      RL = 2455m => V1 = 136-139
         //
         //
-        // Debug data F18, 15C 29.92inHg <=> densr = 1.0000 -> FF = 10250pph per engine
-        //                 17C 28.56inHg <=> densr = 0.9479 -> FF = 9600pphpe ~ 0.9366 of RT
-        //                 14C 26.74inHg <=> densr = 0.8968 -> FF = 9300pphpe ~ 0.9073 of RT
-        //                 9C  24.49inHg <=> densr = 0.8359 -> FF = 8500pphpe ~ 0.8293 of RT
-        // GW = 30955Lbs; RC MIL/AB = 3/4; => Vs = 146; Dv MIL/AB  = +/-405m / +/-300m
-        //  CD = 0.195; CLG = 0.55; RFC = 0.012;
-        //      RL = 2455m => V1 MIL/AB = 147-149 / 119-120
-        // GW = 49110Lbs => Vs = 184; Dv MIL/AB = +/-1145m / +/-765m
-        //  CD = 0.201; CLG = 0.55; RFC = 0.012;
-        //      RL = 2455m => V1 MIL/AB = 138-143 / 121-123
     }
 }

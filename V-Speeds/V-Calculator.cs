@@ -151,7 +151,7 @@
             //ignore speedbrakes and drag in general during brake => more safety margin because longer braking distance
             //using EAS to approximate IAS
             double p = CalcDensity(_qfe, _oat);
-            System.Diagnostics.Debug.WriteLine(p / p0);
+            System.Diagnostics.Debug.WriteLine($"Density ratio = {p / p0}");
             double t = 0.1;   // time interval 0.1 seconds
             double tas = 0.0; // assuming no headwind (extra safety) => tas = gs
             double rwl = _rl; // how much runway do we have left
