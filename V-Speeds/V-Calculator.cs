@@ -32,7 +32,23 @@
             Rtr = rtr;  // reverse thrust ratio: no unit
             Rfc = rfc;  // Rolling friction co.: no unit
         }
-        
+        public override string ToString()
+        {
+            return $"V-Calculator config:\nGW = {Gw}\n" +
+                $"OAT = {Oat}\n" +
+                $"QFE = {Qfe}\n" +
+                $"LSA = {Lsa}\n" +
+                $"CL  = {Cl}\n" +
+                $"CLG = {Clg}\n" +
+                $"THR = {Thr}\n" +
+                $"BF  = {Bf}\n" +
+                $"RL  = {Rl}\n" +
+                $"RC  = {Rc}\n" +
+                $"CD  = {Cd}\n" +
+                $"RTR = {Rtr}\n" +
+                $"RFC = {Rfc}\n";
+        }
+
         public double Gw { get => _gw; set => _gw = Math.Abs(value); }
         public double Oat { get => _oat; set => _oat = Math.Abs(value); }
         public double Qfe { get => _qfe; set => _qfe = Math.Abs(value); }

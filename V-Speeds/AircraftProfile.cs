@@ -16,8 +16,8 @@ namespace V_Speeds
         //  this is most likely due to the different nature of the A10's engines, made for subsonic flight
         //  they have a very different efficiency curve compared to the model currently in place, which is pretty accurate for the F16 & F18
         //  but as always... more testing needed to gather data -_-
-        static readonly ImmutableArray<decimal> DCS_A10C =
-            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.08m, 0m, 11321m, 65000m, 0.61m, 0.034m });
+        static readonly ImmutableArray<decimal> DCS_A10 =
+            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.083m, 0m, 11321m, 65000m, 0.61m, 0.034m });
 
         static readonly ImmutableArray<decimal> DCS_F14A_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 52.5m, 1m, 60000m, 2m, 0.1m, 0m, 19090m, 185800m, 0.5m, 0.04m });
@@ -40,14 +40,14 @@ namespace V_Speeds
             ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 53900m, 4m, 0.1m, 0m, 8573m, 69500m, 0.58m, 0.04m });
 
         static readonly ImmutableArray<decimal> DCS_F18C_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 4m, 0.195m, 0m, 10433m, 150000m, 0.55m, 0.012m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 4m, 0.14m, 0m, 10433m, 150000m, 0.55m, 0.012m });
         static readonly ImmutableArray<decimal> DCS_F18C_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 3m, 0.195m, 0m, 10433m, 112000m, 0.55m, 0.012m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 3m, 0.14m, 0m, 10433m, 109000m, 0.55m, 0.012m });
 
 
         public static readonly ImmutableDictionary<int, ImmutableArray<decimal>> Indexer =
             ImmutableDictionary.ToImmutableDictionary<int, ImmutableArray<decimal>>(new Dictionary<int, ImmutableArray<decimal>> {
-                { counter++, DCS_A10C },            // 1
+                { counter++, DCS_A10 },            // 1
                 { counter++, DCS_F14A_AB },         // 2
                 { counter++, DCS_F14A_MIL },        // 3
                 { counter++, DCS_F14B_AB },         // 4

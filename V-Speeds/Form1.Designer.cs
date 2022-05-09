@@ -819,7 +819,7 @@
             this.apSelect.FormattingEnabled = true;
             this.apSelect.Items.AddRange(new object[] {
             "Custom...",
-            "DCS A-10C",
+            "DCS A-10 (A/C/C-II)",
             "DCS F-14A (AB)",
             "DCS F-14A (MIL)",
             "DCS F-14B (AB)",
