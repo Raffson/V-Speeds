@@ -126,7 +126,7 @@
 
             // Combine functions to make a general estimate...
             double lowcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.5 + densr), Math.Pow(0.5, densr))));
-            double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.35 + densr), Math.Pow(1.85, densr))));
+            double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.35 + densr), Math.Pow(1.6, densr))));
             double thrcoeff = Math.Min(lowcoeff, highcoeff);
             //double thrcoeff = Math.Pow(densr, Math.Pow(0.25 + densr, Math.Pow(2.42, densr)));
             return thrust * Math.Min(1.1, (thrcoeff));

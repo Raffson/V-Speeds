@@ -35,9 +35,9 @@ namespace V_Speeds_Tester
             Assert.AreEqual(vs, Converter.mps2kts(vcalc.CalcVs().Item1), 1.0);   // Check Vs
             double result = vcalc.CalcNeededRunway();
             double diff = expDv - result;
-            double tolerance = expDv * -0.1; // 10% tolerance for overestimations...
+            double tolerance = expDv * -0.08; // 8% tolerance for overestimations...
             Assert.IsTrue(diff < 10, $"Dv is underestimated by more than 10m: {expDv}m expected but got {result}m\n{vcalc}");
-            Assert.IsTrue(diff > tolerance, $"Dv is overestimated by more than 10%: {expDv}m expected but got {result}m\n{vcalc}");
+            Assert.IsTrue(diff > tolerance, $"Dv is overestimated by more than 8%: {expDv}m expected but got {result}m\n{vcalc}");
             double v1 = Converter.mps2kts(vcalc.CalcV1().Item1);
             Assert.AreEqual(expv1, v1, 3, $"\n{vcalc}");
         }
@@ -75,7 +75,7 @@ namespace V_Speeds_Tester
         {
             double weight = Converter.lbs2kgs(39857.0);
             double expv2 = 208.0;
-            double cd = 0.125;
+            double cd = 0.124;
 
             // For short fields with not enough runway I created the same same atmospheric conditions at tonopah
             // expected runway distances have been confirmed...
@@ -107,7 +107,7 @@ namespace V_Speeds_Tester
         }
 
         [TestMethod]
-        public void DCS_F18C_30955lbs_Tester() // Tests for F18 at 30955lbs, CD = 0.14 (default)
+        public void DCS_F18C_30955lbs_Tester() // Tests for F18 at 30955lbs, CD = 0.11 (default)
         {
             double weight = Converter.lbs2kgs(30955.0);
             double expv2 = 146.0;
@@ -123,7 +123,7 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 325.0, 124.0, 10),
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 420.0, 150.0, 10),
                 (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 400.0, 77.0,  10),
-                (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 340.0, 86.0,  10),
+                (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 340.0, 87.0,  10),
 
                 (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 405.0, 147.0, 11),
                 (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 450.0, 148.0, 11),
@@ -135,16 +135,16 @@ namespace V_Speeds_Tester
         }
 
         [TestMethod]
-        public void DCS_F18C_49110lbs_Tester() // Tests for F18 at 49110lbs, CD = 0.176
+        public void DCS_F18C_49110lbs_Tester() // Tests for F18 at 49110lbs, CD = 0.127
         {
             double weight = Converter.lbs2kgs(49110.0);
             double expv2 = 184.0;
-            double cd = 0.130;
+            double cd = 0.127;
             var data = new (double qfe, double oat, double rl, double expDv, double expV1, int ap)[] {
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 780.0,  87.0,  10),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 780.0,  88.0,  10),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 780.0,  96.0,  10),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 780.0,  118.0, 10),
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 1175.0, 107.0, 11),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 1175.0, 108.0, 11),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 1175.0, 116.0, 11),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 1175.0, 137.0, 11),
 
