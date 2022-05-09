@@ -1,6 +1,6 @@
 ﻿namespace V_Speeds
 {
-    class V_Calculator
+    public class V_Calculator
     {
         [System.Diagnostics.Conditional("CONTRACTS_FULL")]
         public static void Require(bool condition) => System.Diagnostics.Contracts.Contract.Requires(condition);
@@ -108,14 +108,12 @@
             //double thrcoeff = Math.Min(1, Math.Pow(densr, 1 + Math.Pow(densr, 5))); // Good estimate so far...
             //thrcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.6 + densr), Math.Pow(1.4, densr))));
 
-            // An even better estimate, however when density becomes lower this will fail miserably,
-            // looking at this function it shows that it will massively overestimate thrust when densr < 0.8
-            // for now we'll start using a different function when densr < 0.7609,
-            // i.e. the point where lowcoeff and highcoeff intersect...
+            // Combine functions to make a general estimate...
             double lowcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.5 + densr), Math.Pow(0.5, densr))));
-            double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.3 + densr), Math.Pow(3, densr))));
+            double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.35 + densr), Math.Pow(1.6, densr))));
             double thrcoeff = Math.Min(lowcoeff, highcoeff);
-            return thrust * Math.Min(1, (thrcoeff));
+            //double thrcoeff = Math.Pow(densr, Math.Pow(0.2 + densr, Math.Pow(1.3, densr)));
+            return thrust * Math.Min(1.1, (thrcoeff));
         }
 
         // Expecting tas in m/s and density in kg/m³, tas and density MUST BE POSITIVE!
