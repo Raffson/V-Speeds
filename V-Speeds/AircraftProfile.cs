@@ -17,7 +17,7 @@ namespace V_Speeds
         //  they have a very different efficiency curve compared to the model currently in place, which is pretty accurate for the F16 & F18
         //  but as always... more testing needed to gather data -_-
         static readonly ImmutableArray<decimal> DCS_A10 =
-            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.06m, 0m, 11321m, 62000m, 0.61m, 0.034m });
+            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.08m, 0m, 11321m, 64000m, 0.61m, 0.037m });
 
         static readonly ImmutableArray<decimal> DCS_F14A_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 52.5m, 1m, 60000m, 2m, 0.1m, 0m, 19090m, 185800m, 0.5m, 0.04m });
@@ -35,19 +35,19 @@ namespace V_Speeds
             ImmutableArray.Create<decimal>(new decimal[] { 56.5m, 0.7m, 61700m, 2m, 0.085m, 0m, 12701m, 130000m, 0.1m, 0.08m });
 
         static readonly ImmutableArray<decimal> DCS_F16blk50_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 53900m, 2.5m, 0.1m, 0m, 8573m, 119000m, 0.58m, 0.04m });
+            ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 51000m, 2.5m, 0.1m, 0m, 8573m, 114000m, 0.58m, 0.043m });
         static readonly ImmutableArray<decimal> DCS_F16blk50_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 53900m, 4m, 0.1m, 0m, 8573m, 69500m, 0.58m, 0.04m });
+            ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 51000m, 4m, 0.1m, 0m, 8573m, 67500m, 0.58m, 0.043m });
 
         static readonly ImmutableArray<decimal> DCS_F18C_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 4m, 0.11m, 0m, 10433m, 147000m, 0.55m, 0.018m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 50000m, 4m, 0.12m, 0m, 10433m, 148000m, 0.55m, 0.033m });
         static readonly ImmutableArray<decimal> DCS_F18C_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 52900m, 3m, 0.11m, 0m, 10433m, 105000m, 0.55m, 0.018m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 50000m, 3m, 0.12m, 0m, 10433m, 107000m, 0.55m, 0.033m });
 
 
         public static readonly ImmutableDictionary<int, ImmutableArray<decimal>> Indexer =
             ImmutableDictionary.ToImmutableDictionary<int, ImmutableArray<decimal>>(new Dictionary<int, ImmutableArray<decimal>> {
-                { counter++, DCS_A10 },            // 1
+                { counter++, DCS_A10 },             // 1
                 { counter++, DCS_F14A_AB },         // 2
                 { counter++, DCS_F14A_MIL },        // 3
                 { counter++, DCS_F14B_AB },         // 4

@@ -125,11 +125,11 @@
             //thrcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.6 + densr), Math.Pow(1.4, densr))));
 
             // Combine functions to make a general estimate...
-            double lowcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.5 + densr), Math.Pow(0.5, densr))));
-            double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.35 + densr), Math.Pow(1.6, densr))));
-            double thrcoeff = Math.Min(lowcoeff, highcoeff);
-            //double thrcoeff = Math.Pow(densr, Math.Pow(0.25 + densr, Math.Pow(2.42, densr)));
-            return thrust * Math.Min(1.1, (thrcoeff));
+            //double lowcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.5 + densr), Math.Pow(0.5, densr))));
+            //double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.35 + densr), Math.Pow(1.6, densr))));
+            //double thrcoeff = Math.Min(lowcoeff, highcoeff);
+            //double thrcoeff = Math.Pow(densr, Math.Pow(0.4 + densr, Math.Pow(0.75, densr)));
+            return thrust * Math.Min(1.1, (densr)); // if it's really that simple, i'm gonna go mad -_-
         }
 
         // Expecting tas in m/s and density in kg/m³, tas and density MUST BE POSITIVE!
