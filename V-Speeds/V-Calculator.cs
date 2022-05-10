@@ -122,13 +122,19 @@
             //double lowcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.5 + densr), Math.Pow(0.5, densr))));
             //double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.35 + densr), Math.Pow(1.6, densr))));
             //double thrcoeff = Math.Min(lowcoeff, highcoeff);
-            double thrcoeff = Math.Pow(densr, Math.Pow(0.09 + densr, Math.Pow(3.25, densr)));
+
+            double lowcoeff = Math.Max(Math.Pow(Math.Log(densr + 0.98), 0.6365), 1.75*(densr-0.02));
+            lowcoeff = Math.Min(lowcoeff, Math.Sin((0.55 * densr - 0.1) * Math.PI / 1.7) + 0.3);
+            double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow(0.09 + densr, Math.Pow(3.25, densr))));
+            double thrcoeff = Math.Min(lowcoeff, highcoeff);
+
+            //double thrcoeff = Math.Min(1, Math.Pow(densr, Math.Pow(0.09 + densr, Math.Pow(3.25, densr))));
 
             // Would need some input parameter to somehow make a better thrust estimation for a specific aircraft...
             // if nothing is provided, fall back on some default model...
             // -> provide input as points for interpolation?
 
-            return thrust * Math.Min(1.1, (thrcoeff)); // if it's really that simple, i'm gonna go mad -_-
+            return thrust * Math.Min(1.1, (thrcoeff));
         }
 
         // Expecting tas in m/s and density in kg/m³, tas and density MUST BE POSITIVE!

@@ -43,10 +43,10 @@ namespace V_Speeds_Tester
             vcalc.Cd = cd > 0 ? cd : vcalc.Cd;
             Assert.AreEqual(vs, Converter.mps2kts(vcalc.CalcVs().Item1), 1.0);   // Check Vs
             double nr = vcalc.CalcNeededRunway();
-            double diff = expDv - nr;
-            double tolerance = -expDv * 0.1; // Math.Max(expDv * 0.08, 150); // 8% tolerance for overestimations OR 150m, whichever is highest...
-            Assert.IsTrue(diff < 10, $"Dv is underestimated by more than 10m: {expDv}m expected but got {nr}m\n{vcalc}");
-            Assert.IsTrue(diff > tolerance, $"Dv is overestimated by more than 10%: {expDv}m expected but got {nr}m\n{vcalc}");
+            double diff = nr - expDv;
+            double tolerance = expDv * 0.1; // Math.Max(expDv * 0.08, 150); // 8% tolerance for overestimations OR 150m, whichever is highest...
+            Assert.IsTrue(diff > -10, $"Dv is underestimated by more than 10m: {expDv}m expected but got {nr}m\n{vcalc}");
+            Assert.IsTrue(diff < tolerance, $"Dv is overestimated by more than 10%: {expDv}m expected but got {nr}m\n{vcalc}");
             double v1 = Converter.mps2kts(vcalc.CalcV1().Item1);
             tolerance = 3 + (rl / 3000); // 3 kts tolerance + 1 kts for every 3000m of runway
             Assert.AreEqual(expv1, v1, tolerance, $"\n{vcalc}");
@@ -64,6 +64,7 @@ namespace V_Speeds_Tester
                 smallestOver = Math.Abs(diff) < smallestOver ? Math.Abs(diff) : smallestOver;
                 largestOver = Math.Abs(diff) > largestOver ? Math.Abs(diff) : largestOver;
             }
+            System.Diagnostics.Debug.WriteLine($"  Estimate error = {diff}");
         }
 
         private void PrintStats()
