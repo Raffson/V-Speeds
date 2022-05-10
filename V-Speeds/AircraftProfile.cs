@@ -3,7 +3,7 @@
 namespace V_Speeds
 {
     // The following order is used for profile parameters:  lsa, cl, bf, rc, cd, rtr, gw, thr, clg, rfc
-    // for gw, thr & lsa, use gross weight & nominal thrust (reference wikipedia for example)
+    // for gw, thr & lsa, use gross weight & rated thrust (reference wikipedia for example)
     // the rest can be found in config files of simulators or by experimental determination...
     public static class AircraftProfile
     {
@@ -12,12 +12,9 @@ namespace V_Speeds
         // lift coefficient at approx 10 degrees AOA, guestimation according to tests in DCS
         // all these profiles still need rigorous testing, F16 & F18 are getting close though
         
-        // A10 Profile is as close as it gets atm, we're getting wrong estimations for needed runway in several cases
-        //  this is most likely due to the different nature of the A10's engines, made for subsonic flight
-        //  they have a very different efficiency curve compared to the model currently in place, which is pretty accurate for the F16 & F18
-        //  but as always... more testing needed to gather data -_-
+
         static readonly ImmutableArray<decimal> DCS_A10 =
-            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.08m, 0m, 11321m, 64000m, 0.61m, 0.037m });
+            ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.08m, 0m, 11321m, 63750m, 0.61m, 0.037m });
 
         static readonly ImmutableArray<decimal> DCS_F14A_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 52.5m, 1m, 60000m, 2m, 0.1m, 0m, 19090m, 185800m, 0.5m, 0.04m });
@@ -35,14 +32,14 @@ namespace V_Speeds
             ImmutableArray.Create<decimal>(new decimal[] { 56.5m, 0.7m, 61700m, 2m, 0.085m, 0m, 12701m, 130000m, 0.1m, 0.08m });
 
         static readonly ImmutableArray<decimal> DCS_F16blk50_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 51000m, 2.5m, 0.1m, 0m, 8573m, 114000m, 0.58m, 0.043m });
+            ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 51000m, 2.5m, 0.095m, 0m, 8573m, 114000m, 0.58m, 0.047m });
         static readonly ImmutableArray<decimal> DCS_F16blk50_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 51000m, 4m, 0.1m, 0m, 8573m, 67500m, 0.58m, 0.043m });
+            ImmutableArray.Create<decimal>(new decimal[] { 28m, 0.9m, 51000m, 4m, 0.095m, 0m, 8573m, 67000m, 0.58m, 0.047m });
 
         static readonly ImmutableArray<decimal> DCS_F18C_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 50000m, 4m, 0.12m, 0m, 10433m, 148000m, 0.55m, 0.033m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 50000m, 4m, 0.12m, 0m, 10433m, 146000m, 0.55m, 0.033m });
         static readonly ImmutableArray<decimal> DCS_F18C_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 50000m, 3m, 0.12m, 0m, 10433m, 107000m, 0.55m, 0.033m });
+            ImmutableArray.Create<decimal>(new decimal[] { 38m, 1.05m, 50000m, 3m, 0.12m, 0m, 10433m, 105000m, 0.55m, 0.033m });
 
 
         public static readonly ImmutableDictionary<int, ImmutableArray<decimal>> Indexer =
@@ -172,9 +169,9 @@ namespace V_Speeds
         //
         //
         // Debug data F16, 15C 29.92inHg <=> densr = 1.0000 -> FF = 10200pph
-        //                 17C 28.56inHg <=> densr = 0.9479 -> FF = 11000pph
-        //                 14C 26.74inHg <=> densr = 0.8968 -> FF = 10250pphpe
-        //                 9C  24.49inHg <=> densr = 0.8359 -> FF = 8250pph
+        //                 17C 28.56inHg <=> densr = 0.9479 -> FF = 11000pph ~ 
+        //                 14C 26.74inHg <=> densr = 0.8968 -> FF = 10250pph ~
+        //                 9C  24.49inHg <=> densr = 0.8359 -> FF = 8250pph  ~
         // GW = 23775Lbs; RC MIL/AB = 4/2.5; => Vs = 161; Dv MIL/AB  = +/-600m / +/-335m
         //  CD = 0.095; CLG = 0.58; RFC = 0.043;
         //      RL = 2455m => V1 MIL/AB = 153-154 / 149-150

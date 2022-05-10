@@ -111,12 +111,6 @@
         //  return estimated thrust depending on density
         public static double CalcThrust(double thrust, double density)
         {
-            // Having troubles with airports at different altitudes to determine the needed runway to reach Vs
-            // sealevel is ok
-            // nevada at 5500ft is being overestimated
-            // soganlug at 1500ft is being underestimated
-            //      -> this has more or less been resolved for the F16,
-            //         F18 is being underestimated in terms of thrust, less runway needed than calculated...
             // dynamic pressure also plays a role, more air for the engine means more thrust...
             // -> if we ignore this, it should mean more safety margin, lower V1 and longer runway estimate
             //      i guess i'll leave it for now...
@@ -128,8 +122,13 @@
             //double lowcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.5 + densr), Math.Pow(0.5, densr))));
             //double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow((0.35 + densr), Math.Pow(1.6, densr))));
             //double thrcoeff = Math.Min(lowcoeff, highcoeff);
-            //double thrcoeff = Math.Pow(densr, Math.Pow(0.4 + densr, Math.Pow(0.75, densr)));
-            return thrust * Math.Min(1.1, (densr)); // if it's really that simple, i'm gonna go mad -_-
+            double thrcoeff = Math.Pow(densr, Math.Pow(0.09 + densr, Math.Pow(3.25, densr)));
+
+            // Would need some input parameter to somehow make a better thrust estimation for a specific aircraft...
+            // if nothing is provided, fall back on some default model...
+            // -> provide input as points for interpolation?
+
+            return thrust * Math.Min(1.1, (thrcoeff)); // if it's really that simple, i'm gonna go mad -_-
         }
 
         // Expecting tas in m/s and density in kg/m³, tas and density MUST BE POSITIVE!
