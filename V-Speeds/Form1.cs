@@ -133,14 +133,20 @@ namespace V_Speeds
             v1eas_output.Text = Converter.mps2kts(eas).ToString("N2");
             v1tas_output.Text = Converter.mps2kts(tas).ToString("N2");
 
+            (eas, tas) = vcalc.CalcVs(true);
+            vs_eas_output.Text = Converter.mps2kts(eas).ToString("N2") + " - ";
+            vs_tas_output.Text = Converter.mps2kts(tas).ToString("N2") + " - ";
             (eas, tas) = vcalc.CalcVs();
-            vs_eas_output.Text = Converter.mps2kts(eas).ToString("N2");
-            vs_tas_output.Text = Converter.mps2kts(tas).ToString("N2");
+            vs_eas_output.Text += Converter.mps2kts(eas).ToString("N2");
+            vs_tas_output.Text += Converter.mps2kts(tas).ToString("N2");
 
             double dv = vcalc.CalcNeededRunway();
+            double mtow = vcalc.CalcMTOW();
             dv_m_output.Text = dv.ToString("N2");
             dv_ft_output.Text = Converter.m2ft(dv).ToString("N2");
             (dv_m_output.ForeColor, dv_ft_output.ForeColor) = dv > vcalc.Rl ? (Color.Red, Color.Red) : (Color.Black, Color.Black);
+            mtow_kg_output.Text = mtow.ToString("N2");
+            mtow_lbs_output.Text = Converter.kgs2lbs(mtow).ToString("N2");
         }
     }
 }

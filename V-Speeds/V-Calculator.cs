@@ -205,19 +205,19 @@
 
         // Minimum airspeed required to maintain level flight for a certain configuration
         //  returns a tuple containing (EAS, TAS)
-        public (double, double) CalcVs()
+        public (double, double) CalcVs(bool fullthrust = false)
         {
-            double force = CalcForce(_gw,  g);
             double p = CalcDensity(_qfe, _oat);
+            double force = CalcForce(_gw,  g) - (fullthrust ? Math.Sin(10*Math.PI/180)*CalcThrust(_thr, p) : 0);
             double tas = Math.Sqrt(2 * force / (p * _lsa * _cl));
             return (TAS2EAS(tas, p), tas);
         }
 
         // Required runway to reach the minimum airspeed for level flight for a certain configuration
-        //  returns the runway needed in meters to reach Vs
-        public double CalcNeededRunway()
+        //  returns the runway needed in meters to reach Vs and MTOW for given runway length
+        public double CalcNeededRunway(bool fullthrust = true)
         {
-            (_, double vs) = CalcVs();
+            (_, double vs) = CalcVs(fullthrust);
             double dist = 0;
             double p = CalcDensity(_qfe, _oat);
             double t = 0.1;   // time interval 0.1 seconds
@@ -231,6 +231,35 @@
                 tas += (acc * t);
             }
             return dist;
+        }
+
+        public double CalcMTOW()
+        {
+            int mtow = 32;
+            double gw_backup = _gw;
+            int last;
+            int incrementer = 1;
+            double tolerance = _rl * 0.01; // Aim for a gross weight that needs 1% less Dv than actual runway length
+            int count = 0;
+            while (true)
+            {
+                last = mtow;
+                mtow += incrementer;
+                incrementer <<= 1;
+                _gw = (double)mtow;
+                double dist = CalcNeededRunway();  // assume full thrust
+                if (double.IsNaN(dist)) return dist; // Can't reach Vs...
+                if (dist > _rl)
+                {
+                    mtow -= (mtow - last);
+                    incrementer = 1;
+                }
+                else if (_rl - dist < tolerance) break;
+                count++;
+            }
+            System.Diagnostics.Debug.WriteLine($"{count} times called CalcNeededRunway...");
+            _gw = gw_backup;
+            return mtow;
         }
     }
 }

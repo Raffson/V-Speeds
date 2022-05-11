@@ -41,8 +41,8 @@ namespace V_Speeds_Tester
             vcalc.Oat = oat;
             vcalc.Rl = rl;
             vcalc.Cd = cd > 0 ? cd : vcalc.Cd;
-            Assert.AreEqual(vs, Converter.mps2kts(vcalc.CalcVs().Item1), 1.0);   // Check Vs
-            double nr = vcalc.CalcNeededRunway();
+            Assert.AreEqual(vs, Converter.mps2kts(vcalc.CalcVs().Item1), 1.0);   // Check Vs, assume no thrust
+            double nr = vcalc.CalcNeededRunway(false); // testdata considers distances where no thrust is assumed for Vs
             double diff = nr - expDv;
             double tolerance = expDv * 0.1; // 10% tolerance for overestimations, may want to narrow this down but i'll need engine-profiles...
             Assert.IsTrue(diff > -10, $"Dv is underestimated by more than 10m: {expDv}m expected but got {nr}m\n{vcalc}");

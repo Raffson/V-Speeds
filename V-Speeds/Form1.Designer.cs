@@ -56,6 +56,9 @@
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
             this.cl_in = new System.Windows.Forms.NumericUpDown();
             this.qfe_in = new System.Windows.Forms.NumericUpDown();
             this.gw_in = new System.Windows.Forms.NumericUpDown();
@@ -82,6 +85,8 @@
             this.rfc_in = new System.Windows.Forms.NumericUpDown();
             this.dv_ft_output = new System.Windows.Forms.TextBox();
             this.dv_m_output = new System.Windows.Forms.TextBox();
+            this.mtow_lbs_output = new System.Windows.Forms.TextBox();
+            this.mtow_kg_output = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.oat_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lsa_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cl_in)).BeginInit();
@@ -220,7 +225,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(32, 413);
+            this.label6.Location = new System.Drawing.Point(70, 396);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(33, 13);
@@ -232,7 +237,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label7.Location = new System.Drawing.Point(197, 413);
+            this.label7.Location = new System.Drawing.Point(235, 396);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(39, 13);
@@ -316,7 +321,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label14.Location = new System.Drawing.Point(198, 439);
+            this.label14.Location = new System.Drawing.Point(236, 422);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(39, 13);
@@ -328,13 +333,14 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label15.Location = new System.Drawing.Point(33, 439);
+            this.label15.Location = new System.Drawing.Point(71, 422);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(32, 13);
             this.label15.TabIndex = 38;
             this.label15.Text = "Vs =";
-            this.toolTip1.SetToolTip(this.label15, "Minimum airspeed for level flight");
+            this.toolTip1.SetToolTip(this.label15, "Minimum airspeed for level flight, consider the bounds for full power & idle resp" +
+        "ectively");
             // 
             // label16
             // 
@@ -352,7 +358,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label17.Location = new System.Drawing.Point(369, 439);
+            this.label17.Location = new System.Drawing.Point(407, 422);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(39, 13);
@@ -364,7 +370,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label18.Location = new System.Drawing.Point(368, 413);
+            this.label18.Location = new System.Drawing.Point(406, 396);
             this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(39, 13);
@@ -401,7 +407,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label21.Location = new System.Drawing.Point(369, 465);
+            this.label21.Location = new System.Drawing.Point(407, 448);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(15, 13);
@@ -413,7 +419,7 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label22.Location = new System.Drawing.Point(198, 465);
+            this.label22.Location = new System.Drawing.Point(236, 448);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(16, 13);
@@ -425,13 +431,49 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label23.Location = new System.Drawing.Point(33, 465);
+            this.label23.Location = new System.Drawing.Point(69, 448);
             this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(34, 13);
             this.label23.TabIndex = 50;
             this.label23.Text = "Dv =";
             this.toolTip1.SetToolTip(this.label23, "Estimated runway needed to reach Vs");
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label24.Location = new System.Drawing.Point(407, 474);
+            this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(23, 13);
+            this.label24.TabIndex = 59;
+            this.label24.Text = "lbs";
+            this.toolTip1.SetToolTip(this.label24, "Knots Indicated Airspeed");
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label25.Location = new System.Drawing.Point(236, 474);
+            this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(21, 13);
+            this.label25.TabIndex = 57;
+            this.label25.Text = "kg";
+            this.toolTip1.SetToolTip(this.label25, "Knots Indicated Airspeed");
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label26.Location = new System.Drawing.Point(46, 474);
+            this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(57, 13);
+            this.label26.TabIndex = 55;
+            this.label26.Text = "MTOW =";
+            this.toolTip1.SetToolTip(this.label26, "Estimated Maximum Takeoff Weight (MTOW) for given runway length");
             // 
             // cl_in
             // 
@@ -578,7 +620,7 @@
             // 
             this.v1eas_output.BackColor = System.Drawing.SystemColors.ControlLight;
             this.v1eas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.v1eas_output.Location = new System.Drawing.Point(73, 409);
+            this.v1eas_output.Location = new System.Drawing.Point(111, 392);
             this.v1eas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.v1eas_output.Name = "v1eas_output";
             this.v1eas_output.ReadOnly = true;
@@ -794,7 +836,7 @@
             // 
             this.vs_eas_output.BackColor = System.Drawing.SystemColors.ControlLight;
             this.vs_eas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.vs_eas_output.Location = new System.Drawing.Point(74, 435);
+            this.vs_eas_output.Location = new System.Drawing.Point(112, 418);
             this.vs_eas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.vs_eas_output.Name = "vs_eas_output";
             this.vs_eas_output.ReadOnly = true;
@@ -805,10 +847,10 @@
             // calcV1
             // 
             this.calcV1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.calcV1.Location = new System.Drawing.Point(410, 409);
+            this.calcV1.Location = new System.Drawing.Point(448, 392);
             this.calcV1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.calcV1.Name = "calcV1";
-            this.calcV1.Size = new System.Drawing.Size(202, 72);
+            this.calcV1.Size = new System.Drawing.Size(202, 98);
             this.calcV1.TabIndex = 37;
             this.calcV1.Text = "Calculate";
             this.calcV1.UseVisualStyleBackColor = true;
@@ -840,7 +882,7 @@
             // 
             this.vs_tas_output.BackColor = System.Drawing.SystemColors.ControlLight;
             this.vs_tas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.vs_tas_output.Location = new System.Drawing.Point(245, 435);
+            this.vs_tas_output.Location = new System.Drawing.Point(283, 418);
             this.vs_tas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.vs_tas_output.Name = "vs_tas_output";
             this.vs_tas_output.ReadOnly = true;
@@ -852,7 +894,7 @@
             // 
             this.v1tas_output.BackColor = System.Drawing.SystemColors.ControlLight;
             this.v1tas_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.v1tas_output.Location = new System.Drawing.Point(244, 409);
+            this.v1tas_output.Location = new System.Drawing.Point(282, 392);
             this.v1tas_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.v1tas_output.Name = "v1tas_output";
             this.v1tas_output.ReadOnly = true;
@@ -924,7 +966,7 @@
             // 
             this.dv_ft_output.BackColor = System.Drawing.SystemColors.ControlLight;
             this.dv_ft_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.dv_ft_output.Location = new System.Drawing.Point(245, 461);
+            this.dv_ft_output.Location = new System.Drawing.Point(283, 444);
             this.dv_ft_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dv_ft_output.Name = "dv_ft_output";
             this.dv_ft_output.ReadOnly = true;
@@ -936,7 +978,7 @@
             // 
             this.dv_m_output.BackColor = System.Drawing.SystemColors.ControlLight;
             this.dv_m_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.dv_m_output.Location = new System.Drawing.Point(74, 461);
+            this.dv_m_output.Location = new System.Drawing.Point(112, 444);
             this.dv_m_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dv_m_output.Name = "dv_m_output";
             this.dv_m_output.ReadOnly = true;
@@ -944,11 +986,40 @@
             this.dv_m_output.TabIndex = 51;
             this.dv_m_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // mtow_lbs_output
+            // 
+            this.mtow_lbs_output.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.mtow_lbs_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.mtow_lbs_output.Location = new System.Drawing.Point(283, 470);
+            this.mtow_lbs_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.mtow_lbs_output.Name = "mtow_lbs_output";
+            this.mtow_lbs_output.ReadOnly = true;
+            this.mtow_lbs_output.Size = new System.Drawing.Size(116, 20);
+            this.mtow_lbs_output.TabIndex = 58;
+            this.mtow_lbs_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // mtow_kg_output
+            // 
+            this.mtow_kg_output.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.mtow_kg_output.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.mtow_kg_output.Location = new System.Drawing.Point(112, 470);
+            this.mtow_kg_output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.mtow_kg_output.Name = "mtow_kg_output";
+            this.mtow_kg_output.ReadOnly = true;
+            this.mtow_kg_output.Size = new System.Drawing.Size(116, 20);
+            this.mtow_kg_output.TabIndex = 56;
+            this.mtow_kg_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 509);
+            this.Controls.Add(this.label24);
+            this.Controls.Add(this.mtow_lbs_output);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.mtow_kg_output);
+            this.Controls.Add(this.label26);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.dv_ft_output);
             this.Controls.Add(this.label22);
@@ -1078,6 +1149,11 @@
         private Label label22;
         private TextBox dv_m_output;
         private Label label23;
+        private Label label24;
+        private TextBox mtow_lbs_output;
+        private Label label25;
+        private TextBox mtow_kg_output;
+        private Label label26;
     }
 }
 
