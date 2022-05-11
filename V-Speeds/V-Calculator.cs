@@ -204,20 +204,21 @@
         }
 
         // Minimum airspeed required to maintain level flight for a certain configuration
+        //  Optional boolean 'fullthrust', indiciating whether or not we should account for full thrust
         //  returns a tuple containing (EAS, TAS)
-        public (double, double) CalcVs(bool fullthrust = false)
+        public (double, double) CalcVs(bool idle = true)
         {
             double p = CalcDensity(_qfe, _oat);
-            double force = CalcForce(_gw,  g) - (fullthrust ? Math.Sin(10*Math.PI/180)*CalcThrust(_thr, p) : 0);
+            double force = CalcForce(_gw, g) - (idle ? 0 : (Math.Sin(10 * Math.PI / 180) * CalcThrust(_thr, p)));
             double tas = Math.Sqrt(2 * force / (p * _lsa * _cl));
             return (TAS2EAS(tas, p), tas);
         }
 
         // Required runway to reach the minimum airspeed for level flight for a certain configuration
         //  returns the runway needed in meters to reach Vs and MTOW for given runway length
-        public double CalcNeededRunway(bool fullthrust = true)
+        public double CalcNeededRunway(bool idle = true) // fullthrust false for tests, because the data was gathered that way
         {
-            (_, double vs) = CalcVs(fullthrust);
+            (_, double vs) = CalcVs(idle);
             double dist = 0;
             double p = CalcDensity(_qfe, _oat);
             double t = 0.1;   // time interval 0.1 seconds
@@ -233,12 +234,12 @@
             return dist;
         }
 
-        public double CalcMTOW()
+        public double CalcMTOW() // must gather testdata...
         {
-            int mtow = 32;
+            int mtow = 0;
             double gw_backup = _gw;
             int last;
-            int incrementer = 1;
+            int incrementer = 32;  // start with increment of 32kg = 5 less calls to CalcNeededRunway, can't think of a lot of aircraft that weigh less than 32kgs...
             double tolerance = _rl * 0.01; // Aim for a gross weight that needs 1% less Dv than actual runway length
             int count = 0;
             while (true)
@@ -247,11 +248,11 @@
                 mtow += incrementer;
                 incrementer <<= 1;
                 _gw = (double)mtow;
-                double dist = CalcNeededRunway();  // assume full thrust
-                if (double.IsNaN(dist)) return dist; // Can't reach Vs...
+                double dist = CalcNeededRunway(false);  // assuming full thrust
+                if (double.IsNaN(dist)) return double.NaN; // Can't reach Vs...
                 if (dist > _rl)
                 {
-                    mtow -= (mtow - last);
+                    mtow = last;
                     incrementer = 1;
                 }
                 else if (_rl - dist < tolerance) break;
@@ -260,6 +261,24 @@
             System.Diagnostics.Debug.WriteLine($"{count} times called CalcNeededRunway...");
             _gw = gw_backup;
             return mtow;
+
+            // MTOW testdata F16:
+            //  10C; 25.15inHg; 4408ft;  CD = 0.095  => 29800lbs
+            //  9C;  24.49inHg; 12001ft; CD = 0.144  => 42250lbs
+            //  16C; 28.00inHg; 4937ft;  CD = 0.144  => 33000lbs
+            //  16C; 28.00inHg; 4937ft;  CD = 0.126; CL = 1.18  => 37500lbs (14° AoA...)
+            //
+            // MTOW testdata F18:
+            //  10C; 25.15inHg; 4408ft;  CD = 0.150  => 46500lbs
+            //  16C; 28.00inHg; 4937ft;  CD = 0.165  => 52200lbs (tested with 49655lbs at mesquite towards the hill, cleared the hill...)
+            //
+            // MTOW testdata A10:
+            //  10C; 25.15inHg; 4408ft;  CD = 0.080  => 38500lbs
+            //  10C; 25.15inHg; 4408ft;  CD = 0.080 CL = 1.21  => 41000lbs
+            //  9C;  24.49inHg; 12001ft; CD = 0.116  => 56000lbs (serious overweight though...)
+            //  16C; 28.00inHg; 4937ft;  CD = 0.116  => 43100lbs (can't clear hill at mesquite so beware...)
+            //  16C; 28.00inHg; 4937ft;  CD = 0.116; CL = 1.21  => 46750lbs (very close at mesquite with the hil...)
+
         }
     }
 }

@@ -437,7 +437,7 @@
             this.label23.Size = new System.Drawing.Size(34, 13);
             this.label23.TabIndex = 50;
             this.label23.Text = "Dv =";
-            this.toolTip1.SetToolTip(this.label23, "Estimated runway needed to reach Vs");
+            this.toolTip1.SetToolTip(this.label23, "Estimated runway needed to reach Vs considering full power");
             // 
             // label24
             // 

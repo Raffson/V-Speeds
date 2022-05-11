@@ -133,14 +133,14 @@ namespace V_Speeds
             v1eas_output.Text = Converter.mps2kts(eas).ToString("N2");
             v1tas_output.Text = Converter.mps2kts(tas).ToString("N2");
 
-            (eas, tas) = vcalc.CalcVs(true);
+            (eas, tas) = vcalc.CalcVs(false); // account for full power
             vs_eas_output.Text = Converter.mps2kts(eas).ToString("N2") + " - ";
             vs_tas_output.Text = Converter.mps2kts(tas).ToString("N2") + " - ";
-            (eas, tas) = vcalc.CalcVs();
+            (eas, tas) = vcalc.CalcVs(); // consider no thrust
             vs_eas_output.Text += Converter.mps2kts(eas).ToString("N2");
             vs_tas_output.Text += Converter.mps2kts(tas).ToString("N2");
 
-            double dv = vcalc.CalcNeededRunway();
+            double dv = vcalc.CalcNeededRunway(false); // Provide Dv wrt full thrust, will show a lower number!!!
             double mtow = vcalc.CalcMTOW();
             dv_m_output.Text = dv.ToString("N2");
             dv_ft_output.Text = Converter.m2ft(dv).ToString("N2");
