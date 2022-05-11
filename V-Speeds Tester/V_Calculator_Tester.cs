@@ -10,11 +10,11 @@ namespace V_Speeds_Tester
         private readonly V_Calculator vcalc = new();
 
         private int underestimates = 0;
-        private double sumUnder = 0; // sum of underestimation errors
+        private double sumUnder = 0; // sum of underestimation error percentages
         private double smallestUnder = double.PositiveInfinity;
         private double largestUnder = 0.0;
         private int overestimates = 0;
-        private double sumOver = 0; // sum of overestimation errors
+        private double sumOver = 0; // sum of overestimation error percentages
         private double smallestOver = double.PositiveInfinity;
         private double largestOver = 0.0;
 
@@ -44,7 +44,7 @@ namespace V_Speeds_Tester
             Assert.AreEqual(vs, Converter.mps2kts(vcalc.CalcVs().Item1), 1.0);   // Check Vs
             double nr = vcalc.CalcNeededRunway();
             double diff = nr - expDv;
-            double tolerance = expDv * 0.1; // Math.Max(expDv * 0.08, 150); // 8% tolerance for overestimations OR 150m, whichever is highest...
+            double tolerance = expDv * 0.1; // 10% tolerance for overestimations, may want to narrow this down but i'll need engine-profiles...
             Assert.IsTrue(diff > -10, $"Dv is underestimated by more than 10m: {expDv}m expected but got {nr}m\n{vcalc}");
             Assert.IsTrue(diff < tolerance, $"Dv is overestimated by more than 10%: {expDv}m expected but got {nr}m\n{vcalc}");
             double v1 = Converter.mps2kts(vcalc.CalcV1().Item1);
@@ -53,14 +53,14 @@ namespace V_Speeds_Tester
             if( nr < expDv )
             {
                 underestimates += 1;
-                sumUnder += Math.Abs(diff);
+                sumUnder += (Math.Abs(diff) / expDv);
                 smallestUnder = Math.Abs(diff) < smallestUnder ? Math.Abs(diff) : smallestUnder;
                 largestUnder = Math.Abs(diff) > largestUnder ? Math.Abs(diff) : largestUnder;
             }
             else
             {
                 overestimates += 1;
-                sumOver += Math.Abs(diff);
+                sumOver += (Math.Abs(diff) / expDv);
                 smallestOver = Math.Abs(diff) < smallestOver ? Math.Abs(diff) : smallestOver;
                 largestOver = Math.Abs(diff) > largestOver ? Math.Abs(diff) : largestOver;
             }
@@ -69,14 +69,14 @@ namespace V_Speeds_Tester
 
         private void PrintStats()
         {
-            System.Diagnostics.Debug.WriteLine($"{underestimates} underestimations with an average of {(sumUnder / underestimates):N2}m");
-            System.Diagnostics.Debug.WriteLine($"{overestimates} overestimations with an average of {(sumOver / overestimates):N2}m");
+            System.Diagnostics.Debug.WriteLine($"{underestimates} underestimations with an average error of {(100 * sumUnder / underestimates):N2}%");
+            System.Diagnostics.Debug.WriteLine($"{overestimates} overestimations with an average error of {(100 * sumOver / overestimates):N2}%");
             System.Diagnostics.Debug.WriteLine($"Largest / Smallest Underestimate: {largestUnder:N2} / {smallestUnder:N2}");
             System.Diagnostics.Debug.WriteLine($"Largest / Smallest Overestimate: {largestOver:N2} / {smallestOver:N2}");
         }
 
         [TestMethod]
-        public void DCS_F16C_23775lbs_Tester() // Tests for F16 at 23775lbs, CD = 0.1 (default)
+        public void DCS_F16C_23775lbs_Tester() // Tests for F16 at 23775lbs, CD = 0.095 (default)
         {
             double weight = Converter.lbs2kgs(23775.0);
             double expv2 = 161.0;
@@ -93,12 +93,14 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 500.0, 167.0, 8),
                 (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 470.0, 109.0, 8),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 385.0, 122.0, 8),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 425.0, 135.0, 8),
 
                 (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 600.0, 153.0, 9),
                 (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 675.0, 152.0, 9),
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 905.0, 170.0, 9),
                 (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 870.0, 104.0, 9),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 695.0, 118.0, 9),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 765.0, 131.0, 9),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap);
             PrintStats();
@@ -111,8 +113,6 @@ namespace V_Speeds_Tester
             double expv2 = 208.0;
             double cd = 0.126;
 
-            // For short fields with not enough runway I created the same same atmospheric conditions at tonopah
-            // expected runway distances have been confirmed...
             var data = new (double qfe, double oat, double rl, double expDv, double expV1, int ap)[] {
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 1030.0, 123.0, 8),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 1030.0, 129.0, 8),
@@ -128,6 +128,7 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 3657.9, 1465.0, 174.0, 8),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 1195.0, 113.0, 8),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 2475.0, 1195.0, 149.0, 8),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 1300.0, 125.0, 8),
 
                 (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 2020.0, 143.0, 9),
                 (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 2305.0, 141.0, 9),
@@ -136,6 +137,7 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 3657.9, 3025.0, 160.0, 9),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 2420.0, 103.0, 9),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 2475.0, 2420.0, 139.0, 9),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 2635.0, 114.0, 9),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap, cd);
             PrintStats();
@@ -159,12 +161,14 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 420.0, 148.0, 10),
                 (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 400.0, 74.0,  10),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 340.0, 87.0,  10),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 365.0, 101.0, 10),
 
                 (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 405.0, 147.0, 11),
                 (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 450.0, 147.0, 11),
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 600.0, 165.0, 11),
                 (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 570.0, 100.0, 11),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 475.0, 113.0, 11),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 525.0, 125.0, 11),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap);
             PrintStats();
@@ -189,12 +193,13 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 1120.0, 147.0, 10),
                 (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 1055.0, 74.0,  10),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 880.0,  85.0,  10),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 975.0,  97.0,  10),
 
                 (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 1145.0, 139.0, 11),
                 (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 1320.0, 136.0, 11),
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 1720.0, 154.0, 11),
-                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 0.0, 0.0, 11), // <- not enough runway, need to test...
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 1350.0, 103.0, 11),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 1475.0, 112.0, 11),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap, cd);
             PrintStats();
@@ -206,15 +211,16 @@ namespace V_Speeds_Tester
             double weight = Converter.lbs2kgs(32948.0);
             double expv2 = 137.0;
             var data = new (double qfe, double oat, double rl, double expDv, double expV1, int ap)[] {
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 705.0,  120.0,  1),
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 705.0,  125.0,  1),
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 705.0,  142.0,  1),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 705.0,  120.0, 1),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 705.0,  125.0, 1),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 705.0,  142.0, 1),
 
                 (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 665.0,  142.0, 1),
                 (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 760.0,  143.0, 1),
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 970.0,  154.0, 1),
-                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 1055.0, 0.0,  1), // not tested yet...
-                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 880.0,  0.0,  1), // not tested yet...
+                (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 940.0,  99.0,  1),
+                (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 785.0,  112.0, 1),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 850.0,  123.0, 1),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap);
             PrintStats();
@@ -229,15 +235,14 @@ namespace V_Speeds_Tester
             double expv2 = 163.0;
             double cd = 0.116;
             var data = new (double qfe, double oat, double rl, double expDv, double expV1, int ap)[] {
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 1720.0,  110.0,  1),
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 1720.0,  115.0,  1),
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 1720.0,  135.0,  1),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 1720.0,  110.0, 1),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 1720.0,  115.0, 1),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 1720.0,  135.0, 1),
 
                 (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 1600.0,  137.0, 1),
                 (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 1890.0,  132.0, 1),
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 2240.0,  145.0, 1),
-                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 1055.0, 0.0,  1), // not tested yet...
-                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 880.0,  0.0,  1), // not tested yet...
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 2110.0,  110.0, 1),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap, cd);
             PrintStats();
@@ -246,31 +251,7 @@ namespace V_Speeds_Tester
         // Feet-Meter: 12001ft = 3657.9m
         //             4408ft  = 1343.5m
         //             4937ft  = 1504.8m
-        //
-        // GW = 47093Lbs => Vs = 163; Dv = +/-1600m
-        //  CD = 0.116; CLG = 0.55; RFC = 0.034;
-        //      RL = 2455m => V1 = 136-139
-        //
-        // known cases for testing, speeds in KEAS:
-        // A10 : OAT = 20C; QFE = 30.05 inHg; RC = 4
-        //  GW = 32948Lbs; CD = 0.083  => Vs = 137;
-        //      RL = 4408ft; QFE = 25.15 => V1 = ---   <-  NOK!
-        //                   OAT = 10°C     Dv = +/-...m
-        //      RL = 4937ft; QFE = 28.00 => V1 = ---   <-  NOK!
-        //                   OAT = 16°C      Dv = +/-...m
-        //  GW = 47093Lbs; CD = 0.116  => Vs = 164; Dv = +/-1715m  <- Should be correct, underestimated at 1685m!!!
-        //      RL = 1650m => V1 = 109-115  <-  OK!
-        //      RL = 1800m => V1 = 114-119   <-  OK!
-        //      RL = 2400m => V1 = 134-138  <-  OK!
-        //      RL = 2475m; QFE = 28.56 => V1 = 131-136   <-  OK!
-        //                  OAT = 17°C     Dv = +/-1890m  <- Should be correct
-        //      RL = 12001ft; QFE = 24.49 => V1 = 144-148   <-  OK!
-        //                    OAT = 9°C      Dv = +/-2240m <- Overestimated at 2680m
-        //      RL = 4408ft; QFE = 25.15 => V1 = ---   <-  NOK!
-        //                   OAT = 10°C     Dv = +/-...m
-        //      RL = 4937ft; QFE = 28.00 => V1 = ---   <-  NOK!
-        //                   OAT = 16°C     Dv = +/-...m
-        //
+        //             6100ft  = 1859.3m
         //
         // Data template:
         //  (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1600.0, 0.0, 0.0,  10),
