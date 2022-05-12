@@ -140,11 +140,12 @@ namespace V_Speeds
             vs_eas_output.Text += Converter.mps2kts(eas).ToString("N2");
             vs_tas_output.Text += Converter.mps2kts(tas).ToString("N2");
 
-            double dv = vcalc.CalcNeededRunway(false); // Provide Dv wrt full thrust, will show a lower number!!!
+            double dvFT = vcalc.CalcNeededRunway(false); // Provide Dv wrt Vs at full thrust, will show a lower number!!!
+            double dvIT = vcalc.CalcNeededRunway(true);  // Provide Dv wrt Vs at idle thrust, will show a higher number!!!
             double mtow = vcalc.CalcMTOW();
-            dv_m_output.Text = dv.ToString("N2");
-            dv_ft_output.Text = Converter.m2ft(dv).ToString("N2");
-            (dv_m_output.ForeColor, dv_ft_output.ForeColor) = dv > vcalc.Rl ? (Color.Red, Color.Red) : (Color.Black, Color.Black);
+            dv_m_output.Text = dvFT.ToString("N2") + " - " + dvIT.ToString("N2");
+            dv_ft_output.Text = Converter.m2ft(dvFT).ToString("N2") + " - " + Converter.m2ft(dvIT).ToString("N2");
+            (dv_m_output.ForeColor, dv_ft_output.ForeColor) = dvFT > vcalc.Rl ? (Color.Red, Color.Red) : (Color.Black, Color.Black);
             mtow_kg_output.Text = mtow.ToString("N2");
             mtow_lbs_output.Text = Converter.kgs2lbs(mtow).ToString("N2");
         }

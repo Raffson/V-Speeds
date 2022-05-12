@@ -264,6 +264,39 @@ namespace V_Speeds_Tester
             PrintStats();
         }
 
+        [TestMethod]
+        public void DCS_F14B_52660lbs_Tester() // Tests for F14B at 52660lbs, CD = 0.058 (default)
+        {
+            double weight = Converter.lbs2kgs(52660.0);
+            double expv2 = 131.0;
+            var data = new (double qfe, double oat, double rl, double expDv, double expV1, int ap)[] {
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1600.0, 280.0, 126.0, 4),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 280.0, 130.0, 4),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 280.0, 148.0, 4),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1600.0, 465.0, 126.0, 5),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 465.0, 133.0, 5),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 465.0, 152.0, 5),
+
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 270.0, 150.0, 4),
+                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 300.0, 150.0, 4),
+                //(Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 0.0, 167.0, 4),
+                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 0.0, 109.0, 4),
+                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 0.0, 122.0, 4),
+                //(Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 0.0, 135.0, 4),
+                //(Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3645.4, 0.0, 165.0, 4),
+
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 430.0, 154.0, 5),
+                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 495.0, 152.0, 5),
+                //(Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 0.0, 170.0, 5),
+                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 0.0, 104.0, 5),
+                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 0.0, 118.0, 5),
+                //(Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 0.0, 131.0, 5),
+                //(Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3645.4, 0.0, 169.0, 5),
+            };
+            foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap);
+            PrintStats();
+        }
+
         // Feet-Meter: 12001ft = 3657.9m
         //             4408ft  = 1343.5m
         //             4937ft  = 1504.8m

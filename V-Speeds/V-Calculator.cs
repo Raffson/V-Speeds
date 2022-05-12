@@ -244,26 +244,31 @@
             int count = 0;
             while (true)
             {
+                count++;
                 last = mtow;
                 mtow += incrementer;
                 incrementer <<= 1;
                 _gw = (double)mtow;
                 double dist = CalcNeededRunway(false);  // assuming full thrust
-                if (double.IsNaN(dist)) return double.NaN; // Can't reach Vs...
-                if (dist > _rl)
+                //if (double.IsNaN(dist)) return double.NaN; // Can't reach Vs...
+                if (double.IsNaN(dist) || dist > _rl)
                 {
                     mtow = last;
                     incrementer = 1;
                 }
                 else if (_rl - dist < tolerance) break;
-                count++;
+                else if (dist < _rl && double.IsNaN(dist))
+                {
+                    mtow = -1;
+                    break;
+                }
             }
             System.Diagnostics.Debug.WriteLine($"{count} times called CalcNeededRunway...");
             _gw = gw_backup;
-            return mtow;
+            return mtow > 0 ? mtow : double.NaN;
 
             // MTOW testdata F16:
-            //  10C; 25.15inHg; 4408ft;  CD = 0.095  => 29800lbs
+            //  10C; 25.15inHg; 4408ft;  CD = 0.095  => 30000lbs
             //  9C;  24.49inHg; 12001ft; CD = 0.144  => 42250lbs
             //  16C; 28.00inHg; 4937ft;  CD = 0.144  => 33000lbs
             //  16C; 28.00inHg; 4937ft;  CD = 0.126; CL = 1.18  => 37500lbs (14° AoA...)
@@ -278,7 +283,6 @@
             //  9C;  24.49inHg; 12001ft; CD = 0.116  => 56000lbs (serious overweight though...)
             //  16C; 28.00inHg; 4937ft;  CD = 0.116  => 43100lbs (can't clear hill at mesquite so beware...)
             //  16C; 28.00inHg; 4937ft;  CD = 0.116; CL = 1.21  => 46750lbs (very close at mesquite with the hil...)
-
         }
     }
 }

@@ -17,14 +17,14 @@ namespace V_Speeds
             ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.08m, 0m, 11321m, 63750m, 0.61m, 0.037m });
 
         static readonly ImmutableArray<decimal> DCS_F14A_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 52.5m, 1m, 60000m, 2m, 0.1m, 0m, 19090m, 185800m, 0.5m, 0.04m });
+            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2m, 0.058m, 0m, 19090m, 185800m, 0.326m, 0.065m });
         static readonly ImmutableArray<decimal> DCS_F14A_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 52.5m, 1m, 60000m, 2m, 0.1m, 0m, 19090m, 109000m, 0.5m, 0.04m });
+            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2m, 0.058m, 0m, 19090m, 109000m, 0.326m, 0.065m });
 
         static readonly ImmutableArray<decimal> DCS_F14B_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 52.5m, 1m, 60000m, 2m, 0.1m, 0m, 19976m, 250000m, 0.5m, 0.04m });
+            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2m, 0.058m, 0m, 19976m, 222000m, 0.326m, 0.065m });
         static readonly ImmutableArray<decimal> DCS_F14B_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 52.5m, 1m, 60000m, 2m, 0.1m, 0m, 19976m, 147800m, 0.5m, 0.04m });
+            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2.5m, 0.058m, 0m, 19976m, 140000m, 0.326m, 0.065m });
 
         static readonly ImmutableArray<decimal> DCS_F15C_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 56.5m, 0.7m, 61700m, 2m, 0.085m, 0m, 12701m, 202400m, 0.1m, 0.08m });
@@ -147,6 +147,8 @@ namespace V_Speeds
         //      RL = 2400m => V1 (AB, MIL) = (, )   <-  NOK!
         //      RL = 2475m; QFE = 28.56 => V1 (AB, MIL) = (, )   <-  NOK!
         //                  OAT = 17°C     Dv (AB, MIL) = (+/-...m, +/-...m)
+        //      RL = 2455m; QFE = 29.92 => V1 (AB, MIL) = (, )   <-  NOK!
+        //                  OAT = 15°C     Dv (AB, MIL) = (+/-...m, +/-...m)
         //      RL = 12001ft; QFE = 24.49 => V1 (AB, MIL) = (, )   <-  NOK!
         //                    OAT = 9°C      Dv (AB, MIL) = (+/-...m, +/-..m)
         //      RL = 4408ft; QFE = 25.15 => V1 (AB, MIL) = (, )   <-  NOK!
