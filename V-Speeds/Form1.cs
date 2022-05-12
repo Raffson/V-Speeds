@@ -145,7 +145,7 @@ namespace V_Speeds
             double mtow = vcalc.CalcMTOW();
             dv_m_output.Text = dvFT.ToString("N2") + " - " + dvIT.ToString("N2");
             dv_ft_output.Text = Converter.m2ft(dvFT).ToString("N2") + " - " + Converter.m2ft(dvIT).ToString("N2");
-            (dv_m_output.ForeColor, dv_ft_output.ForeColor) = dvFT > vcalc.Rl ? (Color.Red, Color.Red) : (Color.Black, Color.Black);
+            (dv_m_output.ForeColor, dv_ft_output.ForeColor) = dvIT > vcalc.Rl ? (Color.Red, Color.Red) : (Color.Black, Color.Black);
             mtow_kg_output.Text = mtow.ToString("N2");
             mtow_lbs_output.Text = Converter.kgs2lbs(mtow).ToString("N2");
         }
