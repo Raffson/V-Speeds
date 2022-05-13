@@ -231,6 +231,11 @@
                 dist += CalcDistance(tas, acc, t);
                 tas += (acc * t);
             }
+            // at this point we have an excess in distance, the larger the acceleration, the bigger the error...
+            double diff = tas - vs;
+            double accVs = ProjectedAcceleration(vs, p);
+            double deltaT = diff / ProjectedAcceleration(vs, p);
+            dist -= CalcDistance(vs, accVs, deltaT);
             return dist;
         }
 
