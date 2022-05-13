@@ -209,7 +209,8 @@
         public (double, double) CalcVs(bool idle = true)
         {
             double p = CalcDensity(_qfe, _oat);
-            double force = CalcForce(_gw, g) - (idle ? 0 : (Math.Sin(10 * Math.PI / 180) * CalcThrust(_thr, p)));
+            // if idle is false and TWR too high, force will become negative -> make sure ze return 0 instead of NaN
+            double force = Math.Max(0, CalcForce(_gw, g) - (idle ? 0 : (Math.Sin(10 * Math.PI / 180) * CalcThrust(_thr, p))));
             double tas = Math.Sqrt(2 * force / (p * _lsa * _cl));
             return (TAS2EAS(tas, p), tas);
         }
@@ -218,7 +219,7 @@
         //  returns the runway needed in meters to reach Vs and MTOW for given runway length
         public double CalcNeededRunway(bool idle = true) // fullthrust false for tests, because the data was gathered that way
         {
-            (_, double vs) = CalcVs(idle);
+            double vs = CalcVs(idle).Item2;
             double dist = 0;
             double p = CalcDensity(_qfe, _oat);
             double t = 0.1;   // time interval 0.1 seconds

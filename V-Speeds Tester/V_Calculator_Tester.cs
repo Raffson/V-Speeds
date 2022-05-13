@@ -298,11 +298,11 @@ namespace V_Speeds_Tester
         }
 
         [TestMethod]
-        public void DCS_F14B_74384lbs_Tester() // Tests for F14B at 74384lbs, CD = 0.075
+        public void DCS_F14B_74384lbs_Tester() // Tests for F14B at 74384lbs, CD = 0.07
         {
             double weight = Converter.lbs2kgs(74384.0);
             double expv2 = 156.0;
-            double cd = 0.075;
+            double cd = 0.07;
             var data = new (double qfe, double oat, double rl, double expDv, double expV1, int ap)[] {
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 510.0, 120.0, 4),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 510.0, 125.0, 4),
@@ -311,26 +311,29 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 925.0, 122.0, 5),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 925.0, 143.0, 5),
 
-                //(Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 270.0, 150.0, 4),
-                //(Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 300.0, 150.0, 4),
-                //(Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 390.0, 167.0, 4),
-                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 375.0, 104.0, 4),
-                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 310.0, 119.0, 4),
-                //(Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 335.0, 130.0, 4),
-                //(Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 365.0, 162.0, 4),
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 525.0, 147.0, 4),
+                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 550.0, 145.0, 4),
+                (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 760.0, 165.0, 4),
+                (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 680.0, 97.0, 4),
+                (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 565.0, 112.0, 4),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 610.0, 123.0, 4),
+                (Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 660.0, 158.0, 4),
 
-                //(Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 430.0, 154.0, 5),
-                //(Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 495.0, 152.0, 5),
-                //(Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 615.0, 170.0, 5),
-                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 595.0, 103.0, 5),
-                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 505.0, 118.0, 5),
-                //(Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 540.0, 129.0, 5),
-                //(Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 580.0, 163.0, 5),
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 795.0, 144.0, 5),
+                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 920.0, 142.0, 5),
+                (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 1165.0, 160.0, 5),
+                (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 1120.0, 94.0, 5),
+                (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 940.0, 108.0, 5),
+                (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 1015.0, 119.0, 5),
+                (Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 1095.0, 153.0, 5),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap, cd);
             PrintStats();
         }
 
+        // TODO: - Gather testdata with a density ratio larger than 1 and see what happens with our predicitions...
+        //       - Fitting F14B....
+        //
         // Feet-Meter: 12001ft = 3657.9m
         //             4408ft  = 1343.5m
         //             4937ft  = 1504.8m
