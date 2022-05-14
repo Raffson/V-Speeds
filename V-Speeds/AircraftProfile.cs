@@ -16,11 +16,13 @@ namespace V_Speeds
         static readonly ImmutableArray<decimal> DCS_A10 =
             ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.08m, 0m, 63750m, 0.61m, 0.037m });
 
+        // CL for approx 8 degrees AoA instead of 10
         static readonly ImmutableArray<decimal> DCS_F14A_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2m, 0.058m, 0m, 153000m, 0m, 0m });
         static readonly ImmutableArray<decimal> DCS_F14A_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 3m, 0.058m, 0m, 99000m, 0m, 0m });
+            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 3m, 0.058m, 0m, 98000m, 0m, 0m });
 
+        // CL for approx 8 degrees AoA instead of 10
         static readonly ImmutableArray<decimal> DCS_F14B_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2m, 0.058m, 0m, 213000m, 0m, 0m });
         static readonly ImmutableArray<decimal> DCS_F14B_MIL =
