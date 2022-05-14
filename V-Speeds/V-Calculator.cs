@@ -219,7 +219,7 @@
         //  returns the runway needed in meters to reach Vs and MTOW for given runway length
         public double CalcNeededRunway(bool idle = true) // fullthrust false for tests, because the data was gathered that way
         {
-            double vs = CalcVs(idle).Item2;
+            double vs = CalcVs(idle).Item2; // TAS!!!
             double dist = 0;
             double p = CalcDensity(_qfe, _oat);
             double t = 0.1;   // time interval 0.1 seconds
@@ -235,8 +235,8 @@
             // at this point we have an excess in distance, the larger the acceleration, the bigger the error...
             double diff = tas - vs;
             double accVs = ProjectedAcceleration(vs, p);
-            double deltaT = diff / ProjectedAcceleration(vs, p);
-            dist -= CalcDistance(vs, accVs, deltaT);
+            double time = diff / accVs;
+            dist -= CalcDistance(vs, accVs, time);
             return dist;
         }
 

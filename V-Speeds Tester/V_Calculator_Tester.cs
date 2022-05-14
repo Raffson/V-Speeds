@@ -311,21 +311,84 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 925.0, 122.0, 5),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 925.0, 143.0, 5),
 
-                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 525.0, 147.0, 4),
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 490.0, 147.0, 4),
                 (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 550.0, 145.0, 4),
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 760.0, 165.0, 4),
-                (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 680.0, 97.0, 4),
+                (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 680.0, 97.0,  4),
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 565.0, 112.0, 4),
                 (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 610.0, 123.0, 4),
                 (Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 660.0, 158.0, 4),
 
-                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 795.0, 144.0, 5),
-                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 920.0, 142.0, 5),
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 795.0,  144.0, 5),
+                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 920.0,  142.0, 5),
                 (Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 1165.0, 160.0, 5),
-                (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 1120.0, 94.0, 5),
-                (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 940.0, 108.0, 5),
+                (Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 1120.0, 94.0,  5),
+                (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 940.0,  108.0, 5),
                 (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 1015.0, 119.0, 5),
                 (Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 1095.0, 153.0, 5),
+            };
+            foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap, cd);
+            PrintStats();
+        }
+
+        [TestMethod]
+        public void DCS_F14A_50706lbs_Tester() // Tests for F14A at 50706lbs, CD = 0.058 (default)
+        {
+            double weight = Converter.lbs2kgs(50706.0);
+            double expv2 = 129.0;
+            var data = new (double qfe, double oat, double rl, double expDv, double expV1, int ap)[] {
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 360.0, 141.0, 2),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 360.0, 169.0, 2),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 570.0, 131.0, 3),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 570.0, 157.0, 3),
+
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 330.0, 170.0, 2),
+                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 400.0, 168.0, 2),
+                //(Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 0.0, 0.0, 2),
+                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 0.0, 0.0, 2),
+                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 0.0, 0.0, 2),
+                //(Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 0.0, 0.0, 2),
+                //(Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 0.0, 0.0, 2),
+
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 545.0, 162.0, 3),
+                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 625.0, 155.0, 3),
+                //(Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 0.0, 0.0, 3),
+                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 0.0, 0.0, 3),
+                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 0.0, 0.0, 3),
+                //(Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 0.0, 0.0, 3),
+                //(Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 0.0, 0.0, 3),
+            };
+            foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap);
+            PrintStats();
+        }
+
+        [TestMethod]
+        public void DCS_F14A_73440lbs_Tester() // Tests for F14A at 73440lbs, CD = 0.064
+        {
+            double weight = Converter.lbs2kgs(73440.0);
+            double expv2 = 155.0;
+            double cd = 0.064;
+            var data = new (double qfe, double oat, double rl, double expDv, double expV1, int ap)[] {
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 710.0, 125.0, 2),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 710.0, 144.0, 2),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 1255.0, 116.0, 3),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 1255.0, 135.0, 3), // V1 low?
+
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 690.0, 147.0, 2),
+                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 775.0, 145.0, 2),
+                //(Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 0.0, 0.0, 2),
+                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 0.0, 0.0, 2),
+                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 0.0, 0.0, 2),
+                //(Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 0.0, 0.0, 2),
+                //(Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 0.0, 0.0, 2),
+
+                (Converter.inHg2pa(29.92), Converter.celc2kel(15.0), 2455.0, 1190.0, 137.0, 3),
+                (Converter.inHg2pa(28.56), Converter.celc2kel(17.0), 2475.0, 1280.0, 133.0, 3), // V1 low?
+                //(Converter.inHg2pa(24.49), Converter.celc2kel(9.0),  3657.9, 0.0, 0.0, 3),
+                //(Converter.inHg2pa(25.15), Converter.celc2kel(10.0), 1343.5, 0.0, 0.0, 3),
+                //(Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 0.0, 0.0, 3),
+                //(Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 0.0, 0.0, 3),
+                //(Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 0.0, 0.0, 3),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap, cd);
             PrintStats();

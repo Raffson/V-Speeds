@@ -17,9 +17,9 @@ namespace V_Speeds
             ImmutableArray.Create<decimal>(new decimal[] { 47m, 1.03m, 63000m, 4m, 0.08m, 0m, 63750m, 0.61m, 0.037m });
 
         static readonly ImmutableArray<decimal> DCS_F14A_AB =
-            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2m, 0.058m, 0m, 185800m, 0.326m, 0.065m });
+            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2m, 0.058m, 0m, 153000m, 0m, 0m });
         static readonly ImmutableArray<decimal> DCS_F14A_MIL =
-            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2m, 0.058m, 0m, 109000m, 0.326m, 0.065m });
+            ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 3m, 0.058m, 0m, 99000m, 0m, 0m });
 
         static readonly ImmutableArray<decimal> DCS_F14B_AB =
             ImmutableArray.Create<decimal>(new decimal[] { 94m, 0.89m, 79000m, 2m, 0.058m, 0m, 222000m, 0.326m, 0.065m });
