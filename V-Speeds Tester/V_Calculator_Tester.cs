@@ -304,9 +304,9 @@ namespace V_Speeds_Tester
             double expv2 = 156.0;
             double cd = 0.064;
             var data = new (double qfe, double oat, double rl, double expDv, double expV1, int ap)[] {
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 510.0, 120.0, 4),
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 510.0, 125.0, 4),
-                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 510.0, 144.0, 4),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 545.0, 120.0, 4),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 545.0, 125.0, 4),
+                (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 545.0, 144.0, 4),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1650.0, 925.0, 117.0, 5),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 1800.0, 925.0, 122.0, 5),
                 (Converter.inHg2pa(30.05), Converter.celc2kel(20.0), 2400.0, 925.0, 143.0, 5),
