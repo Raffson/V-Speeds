@@ -245,7 +245,7 @@
             int mtow = 0;
             double gw_backup = _gw;
             int last;
-            int incrementer = 32;  // start with increment of 32kg = 5 less calls to CalcNeededRunway, can't think of a lot of aircraft that weigh less than 32kgs...
+            int incrementer = 32;  // start with increment of 32kg = 5 less calls to CalcNeededRunway, what aircraft that weighs less than 32kgs anyway...
             double tolerance = _rl * 0.01; // Aim for a gross weight that needs 1% less Dv than actual runway length
             int count = 0;
             while (true)
@@ -253,14 +253,15 @@
                 count++;
                 last = mtow;
                 mtow += incrementer;
-                incrementer <<= 1;
                 _gw = (double)mtow;
                 double dist = CalcNeededRunway(false);  // assuming full thrust
                 //if (double.IsNaN(dist)) return double.NaN; // Can't reach Vs...
                 if (double.IsNaN(dist) || dist > _rl)
                 {
+                    if (incrementer == 1) return last > 0 ? last : double.NaN; // means we're stuck in a loop, 'last' should be our best estimate...
                     mtow = last;
                     incrementer = 1;
+                    continue;
                 }
                 else if (_rl - dist < tolerance) break;
                 else if (dist < _rl && double.IsNaN(dist))
@@ -268,6 +269,7 @@
                     mtow = -1;
                     break;
                 }
+                incrementer <<= 1;
             }
             System.Diagnostics.Debug.WriteLine($"{count} times called CalcNeededRunway...");
             _gw = gw_backup;
