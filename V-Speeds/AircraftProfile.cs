@@ -3,13 +3,13 @@
 namespace V_Speeds
 {
     // The following order is used for profile parameters:  lsa, cl, bf, rc, cd, rtr, thr, clg, rfc
-    // for gw, thr & lsa, use gross weight & rated thrust (reference wikipedia for example)
+    // for thr & lsa, use rated thrust and wing surface area (reference wikipedia for example)
     // the rest can be found in config files of simulators or by experimental determination...
     public static class AircraftProfile
     {
         static private int counter = 1; // for dictionary 'Indexer'...
 
-        // lift coefficient at approx 10 degrees AOA, guestimation according to tests in DCS
+        // lift coefficient at approx 10 degrees AoA, guestimation according to tests in DCS
         // all these profiles still need rigorous testing, F16 & F18 are getting close though
         
 

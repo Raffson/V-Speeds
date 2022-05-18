@@ -103,6 +103,9 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 1504.8, 695.0, 118.0, 9),
                 (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 765.0, 131.0, 9),
                 (Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 840.0, 161.0, 9),
+
+                // High density
+                //(Converter.inHg2pa(31.10), Converter.celc2kel(-12.1), 2455.0, 0.0, 0.0, 9),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap);
             PrintStats();
@@ -142,6 +145,9 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(28.00), Converter.celc2kel(16.0), 2475.0, 2420.0, 139.0, 9),
                 (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 2635.0, 114.0, 9),
                 (Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3063.5, 2900.0, 147.0, 9), // V1 is okay here...
+
+                // High density
+                //(Converter.inHg2pa(31.10), Converter.celc2kel(-12.1), 2455.0, 0.0, 0.0, 9),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap, cd);
             PrintStats();
@@ -177,6 +183,9 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 525.0, 125.0, 11),
                 (Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3645.4, 565.0, 162.0, 11),
                 (Converter.inHg2pa(28.01), Converter.celc2kel(16.0), 3063.5, 485.0, 155.0, 11),
+
+                // High density
+                (Converter.inHg2pa(31.10), Converter.celc2kel(-12.1), 2455.0, 360.0, 150.0, 11),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap);
             PrintStats();
@@ -212,6 +221,9 @@ namespace V_Speeds_Tester
                 (Converter.inHg2pa(26.74), Converter.celc2kel(14.0), 1859.3, 1475.0, 112.0, 11),
                 (Converter.inHg2pa(25.46), Converter.celc2kel(11.0), 3645.4, 1580.0, 156.0, 11),
                 (Converter.inHg2pa(28.01), Converter.celc2kel(16.0), 3063.5, 1360.0, 150.0, 11),
+
+                // High density
+                //(Converter.inHg2pa(31.10), Converter.celc2kel(-12.1), 2455.0, 0.0, 0.0, 11),
             };
             foreach (var (qfe, oat, rl, expDv, expV1, ap) in data) RunScenario(weight, qfe, oat, rl, expv2, expDv, expV1, ap, cd);
             PrintStats();

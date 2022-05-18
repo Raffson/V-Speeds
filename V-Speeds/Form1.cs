@@ -4,18 +4,18 @@ namespace V_Speeds
 {
     public partial class Form1 : Form
     {
-        private readonly V_Calculator vcalc = new V_Calculator();
+        private readonly V_Calculator vcalc = new();
 
         // mapping numericUpDowns to their setter-function for model, combobox + converters to ensure metric data is passed...
         private readonly Dictionary<NumericUpDown, BaseDelegate> model_map;
 
         // mapping unit to a delegate with lastSelectedIndex, respective numericUpDown, Conversion functions
-        private readonly Dictionary<ComboBox, BaseDelegate> unit_map = new Dictionary<ComboBox, BaseDelegate>();
+        private readonly Dictionary<ComboBox, BaseDelegate> unit_map = new();
 
-        // list of inputs to be (un)locked if profile is selected...
+        // list of inputs to be (un)locked when profile is selected...
         private readonly NumericUpDown[] fixed_inputs;
 
-        // list of inputs to overwrite profile is selected...
+        // list of inputs to overwrite when profile is selected...
         private readonly NumericUpDown[] profile_inputs;
 
 
@@ -46,10 +46,10 @@ namespace V_Speeds
                     { thr_in, new ForceDelegate(thr_in, vcalc.SetThr, thrUnit, (1000m, 1000m)) },
                     { bf_in,  new ForceDelegate(bf_in, vcalc.SetBf, bfUnit, (100m, 100m)) },
                     { rl_in,  new DistanceDelegate(rl_in, vcalc.SetRl, rlUnit, (50m, 100m)) },
-                    { rc_in, new UnitlessDelegate(rc_in, vcalc.SetRc, 0.1m) },
+                    { rc_in,  new UnitlessDelegate(rc_in, vcalc.SetRc, 0.1m) },
                     { cd_in,  new UnitlessDelegate(cd_in, vcalc.SetCd, 0.001m) },
                     { rtr_in, new UnitlessDelegate(rtr_in, vcalc.SetRtr, 0.01m) },
-                    { clg_in,  new UnitlessDelegate(clg_in, vcalc.SetClg, 0.001m) },
+                    { clg_in, new UnitlessDelegate(clg_in, vcalc.SetClg, 0.001m) },
                     { rfc_in, new UnitlessDelegate(rfc_in, vcalc.SetRfc, 0.001m) },
                 };
             // Link unitmap...
@@ -74,18 +74,18 @@ namespace V_Speeds
             if (cb.SelectedIndex > 0) // locked, now load!
             {
                 var ap = AircraftProfile.Indexer[cb.SelectedIndex];
-                ImmutableArray<decimal>.Enumerator iter = ap.GetEnumerator();
+                var iter = ap.GetEnumerator();
                 Queue<int> backups = new Queue<int>(); // for backing up the units...
                 foreach (var input in profile_inputs)
                 {
                     if (model_map[input].Unit != null) // change unit only if there is one...
                     {
                         backups.Enqueue(model_map[input].Unit.SelectedIndex);
-                        model_map[input].LastIndex = 0; // to prevent converters...
-                        model_map[input].Unit.SelectedIndex = 0; // set metric, triggers "UnitChanged"...
+                        model_map[input].LastIndex = 0; // to prevent converters in "UnitChanged"
+                        model_map[input].Unit.SelectedIndex = 0; // set metric, triggers "UnitChanged"
                     }
                     iter.MoveNext();
-                    input.Value = iter.Current;
+                    input.Value = iter.Current; // triggers "UpdateModel"
                     if (model_map[input].Unit != null) 
                         model_map[input].Unit.SelectedIndex = backups.Dequeue(); // restore unit...
                 }
@@ -120,8 +120,8 @@ namespace V_Speeds
             if (model_map[nud].Unit is null) model_map[nud].Setter(nudval);
             else
             {
-                Func<double, double> f1 = model_map[nud].M2SI;
-                Func<double, double> f2 = model_map[nud].I2SI;
+                Func<double, double> f1 = model_map[nud].M2SI; // metric to SI
+                Func<double, double> f2 = model_map[nud].I2SI; // imperial to SI
                 nudval = model_map[nud].Unit.SelectedIndex == 0 ? f1(nudval) : f2(nudval);
                 model_map[nud].Setter(nudval);
             }
@@ -129,26 +129,32 @@ namespace V_Speeds
 
         private void DoCalculations(object sender, EventArgs e)
         {
-            double floor = 0; // after debugging, round numbers up...
+            double ceil = 0; // after debugging, round numbers up (+1 and truncate)...
+            
             (double eas, double tas) = vcalc.CalcV1();
-            v1eas_output.Text = $"{(Converter.mps2kts(eas) + floor):N2}";
-            v1tas_output.Text = $"{(Converter.mps2kts(tas) + floor):N2}";
+            v1eas_output.Text = $"{(Converter.mps2kts(eas) + ceil):N2}";
+            v1tas_output.Text = $"{(Converter.mps2kts(tas) + ceil):N2}";
 
             (eas, tas) = vcalc.CalcVs(false); // account for full power
-            vs_eas_output.Text = $"{(Converter.mps2kts(eas) + floor):N2} - ";
-            vs_tas_output.Text = $"{(Converter.mps2kts(tas) + floor):N2} - ";
+            vs_eas_output.Text = $"{(Converter.mps2kts(eas) + ceil):N2} - ";
+            vs_tas_output.Text = $"{(Converter.mps2kts(tas) + ceil):N2} - ";
+            
             (eas, tas) = vcalc.CalcVs(); // consider no thrust
-            vs_eas_output.Text += $"{(Converter.mps2kts(eas) + floor):N2}";
-            vs_tas_output.Text += $"{(Converter.mps2kts(tas) + floor):N2}";
+            vs_eas_output.Text += $"{(Converter.mps2kts(eas) + ceil):N2}";
+            vs_tas_output.Text += $"{(Converter.mps2kts(tas) + ceil):N2}";
 
             double dvFT = vcalc.CalcNeededRunway(false); // Provide Dv wrt Vs at full thrust, will show a lower number!!!
             double dvIT = vcalc.CalcNeededRunway(true);  // Provide Dv wrt Vs at idle thrust, will show a higher number!!!
             double mtow = vcalc.CalcMTOW();
-            dv_m_output.Text = $"{(dvFT + floor):N2} - {(dvIT + floor):N2}";
-            dv_ft_output.Text = $"{(Converter.m2ft(dvFT) + floor):N2} - {(Converter.m2ft(dvIT) + floor):N2}";
+            
+            dv_m_output.Text = $"{(dvFT + ceil):N2} - {(dvIT + ceil):N2}";
+            dv_ft_output.Text = $"{(Converter.m2ft(dvFT) + ceil):N2} - {(Converter.m2ft(dvIT) + ceil):N2}";
+            
             (dv_m_output.ForeColor, dv_ft_output.ForeColor) = dvIT > vcalc.Rl || double.IsNaN(dvIT) ? (Color.Red, Color.Red) : (Color.Black, Color.Black);
+            
             mtow_kg_output.Text = $"{mtow:N0}";
             mtow_lbs_output.Text = $"{Converter.kgs2lbs(mtow):N0}";
+            
             if (double.IsNaN(dvIT) && double.IsNaN(dvFT))
                 MessageBox.Show("Given configuration can't reach Vs!", "WARNING!!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }

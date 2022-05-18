@@ -2,12 +2,9 @@
 {
     public class V_Calculator
     {
-        [System.Diagnostics.Conditional("CONTRACTS_FULL")]
-        public static void Require(bool condition) => System.Diagnostics.Contracts.Contract.Requires(condition);
-
         public const double igc = 8.3144598; // ideal gas constant
         public const double mmair = 28.97 / 1000; // molecular mass of air
-        public const double g = 9.83; // 1G at poles (m/s2), just for some extra wiggle room, considering no elevation (except pressure)
+        public const double g = 9.83; // 1G at poles (m/s2), just for some extra wiggle room, considering no elevation
         public const double p0 = 101325 * mmair / (igc * 288.15); // standard air density at sea-level
 
 
@@ -32,9 +29,10 @@
             Rtr = rtr;  // reverse thrust ratio: no unit
             Rfc = rfc;  // Rolling friction co.: no unit
         }
-        public override string ToString()
+        public override string ToString() // for debugging purposes...
         {
-            return $"V-Calculator config:\nGW = {Gw}\n" +
+            return $"V-Calculator config:\n" +
+                $"GW = {Gw}\n" +
                 $"OAT = {Oat}\n" +
                 $"QFE = {Qfe}\n" +
                 $"LSA = {Lsa}\n" +
@@ -125,7 +123,7 @@
 
             double lowcoeff = Math.Max(Math.Pow(Math.Log(densr + 0.98), 0.6365), 1.75*(densr-0.02));
             lowcoeff = Math.Min(lowcoeff, Math.Sin((0.55 * densr - 0.1) * Math.PI / 1.7) + 0.3);
-            double highcoeff = Math.Min(1, Math.Pow(densr, Math.Pow(0.09 + densr, Math.Pow(3.25, densr))));
+            double highcoeff = Math.Pow(densr, Math.Pow(0.09 + densr, Math.Pow(3.25, densr)));
             double thrcoeff = Math.Min(lowcoeff, highcoeff);
 
             //double thrcoeff = Math.Min(1, Math.Pow(densr, Math.Pow(0.09 + densr, Math.Pow(3.25, densr))));
@@ -134,7 +132,7 @@
             // if nothing is provided, fall back on some default model...
             // -> provide input as points for interpolation?
 
-            return thrust * Math.Min(1.1, (thrcoeff));
+            return thrust * Math.Min(1, thrcoeff);
         }
 
         // Expecting tas in m/s and density in kg/m³, tas and density MUST BE POSITIVE!
@@ -204,7 +202,7 @@
         }
 
         // Minimum airspeed required to maintain level flight for a certain configuration
-        //  Optional boolean 'fullthrust', indiciating whether or not we should account for full thrust
+        //  Optional boolean 'idle', indiciating whether or not we should account for full thrust
         //  returns a tuple containing (EAS, TAS)
         public (double, double) CalcVs(bool idle = true)
         {

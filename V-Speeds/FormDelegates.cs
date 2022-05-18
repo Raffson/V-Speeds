@@ -1,23 +1,6 @@
 ﻿namespace V_Speeds
 {
-    internal interface IUnitDelegate
-    {
-        int LastIndex { get; set; }
-        NumericUpDown Input { get; }
-        Func<decimal, decimal> M2I { get; }
-        Func<decimal, decimal> I2M { get;  }
-    }
-
-    internal interface IModelDelegate
-    {
-        Action<double> Setter { get; }
-        ComboBox Unit { get; }
-        Func<double, double> M2SI { get; }
-        Func<double, double> I2SI { get; }
-
-    }
-
-    internal abstract class BaseDelegate : IUnitDelegate, IModelDelegate // delegate is perhaps not the right name, but it'll have to do for now...
+    internal abstract class BaseDelegate // delegate is perhaps not the right name, but it'll have to do for now...
     {
         private int _index;
         private readonly NumericUpDown _input;

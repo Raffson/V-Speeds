@@ -151,7 +151,7 @@
             // 
             this.lsa_in.AccessibleName = "";
             this.lsa_in.DecimalPlaces = 2;
-            this.lsa_in.Location = new System.Drawing.Point(73, 236);
+            this.lsa_in.Location = new System.Drawing.Point(72, 236);
             this.lsa_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.lsa_in.Maximum = new decimal(new int[] {
             999999,
@@ -484,7 +484,7 @@
             0,
             0,
             196608});
-            this.cl_in.Location = new System.Drawing.Point(73, 265);
+            this.cl_in.Location = new System.Drawing.Point(72, 265);
             this.cl_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cl_in.Maximum = new decimal(new int[] {
             99,
@@ -513,7 +513,7 @@
             // 
             this.qfe_in.AccessibleName = "";
             this.qfe_in.DecimalPlaces = 2;
-            this.qfe_in.Location = new System.Drawing.Point(73, 207);
+            this.qfe_in.Location = new System.Drawing.Point(72, 207);
             this.qfe_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.qfe_in.Maximum = new decimal(new int[] {
             9999,
@@ -581,7 +581,7 @@
             this.oatUnit.Items.AddRange(new object[] {
             "°C",
             "°F"});
-            this.oatUnit.Location = new System.Drawing.Point(193, 178);
+            this.oatUnit.Location = new System.Drawing.Point(194, 178);
             this.oatUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.oatUnit.MaxDropDownItems = 2;
             this.oatUnit.Name = "oatUnit";
@@ -595,7 +595,7 @@
             this.qfeUnit.Items.AddRange(new object[] {
             "mBar",
             "inHg"});
-            this.qfeUnit.Location = new System.Drawing.Point(193, 207);
+            this.qfeUnit.Location = new System.Drawing.Point(194, 207);
             this.qfeUnit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.qfeUnit.MaxDropDownItems = 2;
             this.qfeUnit.Name = "qfeUnit";
@@ -760,7 +760,7 @@
             0,
             0,
             131072});
-            this.rtr_in.Location = new System.Drawing.Point(431, 294);
+            this.rtr_in.Location = new System.Drawing.Point(430, 294);
             this.rtr_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rtr_in.Maximum = new decimal(new int[] {
             1,
@@ -782,7 +782,7 @@
             0,
             0,
             196608});
-            this.cd_in.Location = new System.Drawing.Point(431, 265);
+            this.cd_in.Location = new System.Drawing.Point(430, 265);
             this.cd_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cd_in.Maximum = new decimal(new int[] {
             10,
@@ -814,7 +814,7 @@
             0,
             0,
             65536});
-            this.rc_in.Location = new System.Drawing.Point(431, 236);
+            this.rc_in.Location = new System.Drawing.Point(430, 236);
             this.rc_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rc_in.Maximum = new decimal(new int[] {
             999,
@@ -911,7 +911,7 @@
             0,
             0,
             196608});
-            this.clg_in.Location = new System.Drawing.Point(73, 294);
+            this.clg_in.Location = new System.Drawing.Point(72, 294);
             this.clg_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.clg_in.Maximum = new decimal(new int[] {
             99,
@@ -944,7 +944,7 @@
             0,
             0,
             196608});
-            this.rfc_in.Location = new System.Drawing.Point(431, 323);
+            this.rfc_in.Location = new System.Drawing.Point(430, 323);
             this.rfc_in.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rfc_in.Maximum = new decimal(new int[] {
             9,
