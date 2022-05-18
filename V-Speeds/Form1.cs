@@ -10,7 +10,7 @@ namespace V_Speeds
         private readonly Dictionary<NumericUpDown, BaseDelegate> model_map;
 
         // mapping unit to a delegate with lastSelectedIndex, respective numericUpDown, Conversion functions
-        private readonly Dictionary<ComboBox, BaseDelegate> unit_map = new();
+        private readonly Dictionary<ComboBox, BaseDelegate> unit_map;
 
         // list of inputs to be (un)locked when profile is selected...
         private readonly NumericUpDown[] fixed_inputs;
@@ -21,22 +21,8 @@ namespace V_Speeds
 
         private int lastProfileIndex = 0;
 
-        public Form1()
+        private void InitializeDictionaries(out Dictionary<NumericUpDown, BaseDelegate> model_map, out Dictionary<ComboBox, BaseDelegate> unit_map)
         {
-            System.Globalization.CultureInfo customCulture = 
-                (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
-            customCulture.NumberFormat.NumberDecimalSeparator = ".";
-            customCulture.NumberFormat.NumberGroupSeparator = ",";
-            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-            
-            InitializeComponent();
-
-            fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in, clg_in, rfc_in };
-            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rc_in, cd_in, rtr_in, thr_in, clg_in, rfc_in };
-
-            apSelect.SelectedIndex = 0;
-            apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
-
             model_map = new Dictionary<NumericUpDown, BaseDelegate> {
                     { gw_in,  new WeightDelegate(gw_in, vcalc.SetGw, weightUnit, (100m, 100m)) },
                     { oat_in, new TemperatureDelegate(oat_in, vcalc.SetOat, oatUnit, (0.1m, 0.1m)) },
@@ -53,8 +39,9 @@ namespace V_Speeds
                     { rfc_in, new UnitlessDelegate(rfc_in, vcalc.SetRfc, 0.001m) },
                 };
             // Link unitmap...
+            unit_map = new();
             var units = new ComboBox[] { weightUnit, oatUnit, qfeUnit, lsaUnit, thrUnit, bfUnit, rlUnit };
-            var inputs = new NumericUpDown[] { gw_in, oat_in, qfe_in, lsa_in, thr_in, bf_in, rl_in};
+            var inputs = new NumericUpDown[] { gw_in, oat_in, qfe_in, lsa_in, thr_in, bf_in, rl_in };
             var pairs = Enumerable.Zip(units, inputs, (key, value) => new { key, value });
             foreach (var pair in pairs)
             {
@@ -62,6 +49,24 @@ namespace V_Speeds
                 pair.key.SelectedIndex = 0;
                 pair.key.SelectedIndexChanged += new System.EventHandler(UnitChanged);
             }
+        }
+
+        public Form1()
+        {
+            System.Globalization.CultureInfo customCulture = 
+                (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            customCulture.NumberFormat.NumberGroupSeparator = ",";
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+            
+            InitializeComponent();
+
+            fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in, clg_in, rfc_in };
+            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rc_in, cd_in, rtr_in, thr_in, clg_in, rfc_in };
+            InitializeDictionaries(out model_map, out unit_map);
+
+            apSelect.SelectedIndex = 0;
+            apSelect.SelectedIndexChanged += new System.EventHandler(ProfileChanged);
         }
 
         private void ProfileChanged(object? sender, EventArgs e)

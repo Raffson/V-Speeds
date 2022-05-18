@@ -32,7 +32,7 @@
         public override string ToString() // for debugging purposes...
         {
             return $"V-Calculator config:\n" +
-                $"GW = {Gw}\n" +
+                $"GW  = {Gw}\n" +
                 $"OAT = {Oat}\n" +
                 $"QFE = {Qfe}\n" +
                 $"LSA = {Lsa}\n" +
