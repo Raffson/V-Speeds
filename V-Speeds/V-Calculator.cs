@@ -4,7 +4,7 @@ namespace V_Speeds
 {
     public class V_Calculator
     {
-        private Airfield _field = new(new Atmosphere());
+        private Airfield _field = new();
         private Aircraft _acft = new();
 
 

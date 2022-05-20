@@ -8,8 +8,9 @@ namespace V_Speeds.Aircrafts
 {
     internal class DCS_F18C : Aircraft
     {
-        public DCS_F18C()
+        public DCS_F18C(double gw = 10433.0)
         {
+            Gw = gw;
             Lsa = 38;
             Cl = 1.05;
             Bf = 50000;

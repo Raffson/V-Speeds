@@ -2,8 +2,9 @@
 {
     internal class DCS_F14A : Aircraft
     {
-        public DCS_F14A()
+        public DCS_F14A(double gw = 18198.0)
         {
+            Gw = gw;
             Lsa = 94;
             Cl = 0.89;
             Bf = 79000;

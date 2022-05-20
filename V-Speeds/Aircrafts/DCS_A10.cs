@@ -2,8 +2,9 @@
 {
     internal class DCS_A10 : Aircraft
     {
-        public DCS_A10()
+        public DCS_A10(double gw = 11321.0)
         {
+            Gw = gw;
             Lsa = 47;
             Cl = 1.03;
             Bf = 63000;

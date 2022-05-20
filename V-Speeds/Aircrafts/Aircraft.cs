@@ -2,7 +2,7 @@
 {
     public class Aircraft
     {
-        private double _gw, _lsa, _cl, _clg, _thr, _bf, _rc, _cd, _rtr, _rfc;
+        private double _gw = 1000.0, _lsa = 10.0, _cl = 1.0, _clg = 0.1, _thr = 1000.0, _bf = 500.0, _rc = 2.0, _cd = 0.1, _rtr = 0.0, _rfc = 0.05;
 
 
         /// <summary>

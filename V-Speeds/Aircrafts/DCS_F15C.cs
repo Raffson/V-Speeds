@@ -2,8 +2,9 @@
 {
     internal class DCS_F15C : Aircraft
     {
-        public DCS_F15C()
+        public DCS_F15C(double gw = 12701.0)
         {
+            Gw = gw;
             Lsa = 56.5;
             Cl = 0.71;
             Bf = 61700;

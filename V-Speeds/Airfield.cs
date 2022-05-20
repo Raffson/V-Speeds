@@ -21,9 +21,9 @@
         /// </summary>
         /// <param name="atmos">The atmospheric condition at the airfield.</param>
         /// <param name="rl">The length of the runway at the field</param>
-        public Airfield(Atmosphere atmos, double rl = 2500.0)
+        public Airfield(double rl = 2500.0, Atmosphere? atmos = null)
         {
-            _atmos = atmos;
+            _atmos = atmos is null ? _atmos : atmos;
             Rl = rl;
         }
 
