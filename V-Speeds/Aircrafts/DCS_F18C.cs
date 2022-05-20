@@ -4,7 +4,7 @@
     {
         public DCS_F18C(double gw = 10433.0)
         {
-            Gw = gw;
+            Gw = Math.Abs(gw);
             Lsa = 38;
             Cl = 1.05;
             Bf = 50000;

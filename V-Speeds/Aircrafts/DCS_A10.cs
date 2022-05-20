@@ -4,7 +4,7 @@
     {
         public DCS_A10(double gw = 11321.0)
         {
-            Gw = gw;
+            Gw = Math.Abs(gw);
             Lsa = 47;
             Cl = 1.03;
             Bf = 63000;

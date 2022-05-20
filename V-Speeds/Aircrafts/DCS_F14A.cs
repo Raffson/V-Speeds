@@ -4,7 +4,7 @@
     {
         public DCS_F14A(double gw = 18198.0)
         {
-            Gw = gw;
+            Gw = Math.Abs(gw);
             Lsa = 94;
             Cl = 0.89;
             Bf = 79000;

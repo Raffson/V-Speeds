@@ -4,7 +4,7 @@
     {
         public DCS_F16C_blk50(double gw = 8573.0)
         {
-            Gw = gw;
+            Gw = Math.Abs(gw);
             Lsa = 28;
             Cl = 0.9;
             Bf = 51000;

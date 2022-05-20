@@ -1,6 +1,6 @@
 ﻿namespace V_Speeds.Aircrafts
 {
-    internal class AircraftAB : Aircraft, IAfterburnable
+    public class AircraftAB : Aircraft, IAfterburnable
     {
         /// <summary>
         ///     Boolean field to indicate if you wish to use afterburner parameters
@@ -24,12 +24,14 @@
         public bool AB { get => _ab; set => _ab = value; }
 
         /// <summary>
-        ///     Property for the thrust force of the afterburner, expected in Newtons.
+        ///     Property for the thrust force of the afterburner, expected in Newtons.<br></br>
+        ///     Setter takes absolute value.
         /// </summary>
         public double ThrAB { get => _thrAB; set => _thrAB = value; }
 
         /// <summary>
-        ///     Property for the reaction time associated with the afterburner on, expected in seconds.
+        ///     Property for the reaction time associated with the afterburner on, expected in seconds.<br></br>
+        ///     Setter takes absolute value.
         /// </summary>
         public double RcAB { get => _rcAB; set => _rcAB = value; }
 
@@ -37,7 +39,13 @@
         /// <summary>
         ///     Overriding Thr property to make it behave the same as an aircraft with no afterburner.
         /// </summary>
-        public new double Thr { get => AB ? ThrAB : base.Thr; set => base.Thr = value; }
+        public override double Thr { get => AB ? ThrAB : base.Thr; set => base.Thr = value; }
+
+
+        /// <summary>
+        ///     Overriding Rc property to make it behave the same as an aircraft with no afterburner.
+        /// </summary>
+        public override double Rc { get => AB ? RcAB : base.Rc; set => base.Rc = value; }
 
         /// <summary>
         ///     Returns a boolean value indicating whether or not this aircraft has an afterburner.

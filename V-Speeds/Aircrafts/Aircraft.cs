@@ -31,7 +31,7 @@
         ///     Property for the rated nominal thrust of the aircraft at standard atmosphere, expected in Newton.<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public double Thr { get => _thr; set => _thr = Math.Abs(value); }
+        public virtual double Thr { get => _thr; set => _thr = Math.Abs(value); }
 
         /// <summary>
         ///     Property for the brakeforce of the aircraft, expected in Newton.<br></br>
@@ -43,7 +43,7 @@
         ///     Property for the reaction time of the aircraft such as engine spooldown, activation of reversers, etc., expected in seconds.<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public double Rc { get => _rc; set => _rc = Math.Abs(value); }
+        public virtual double Rc { get => _rc; set => _rc = Math.Abs(value); }
 
         /// <summary>
         ///     Property for the drag coefficient of the aircraft, unitless.
