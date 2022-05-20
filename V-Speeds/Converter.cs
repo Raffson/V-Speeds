@@ -1,5 +1,8 @@
 ﻿namespace V_Speeds
 {
+    /// <summary>
+    ///     Static class for making conversions
+    /// </summary>
     public static class Converter
     {
         public static double do_nothing(double val) => val;
@@ -32,6 +35,16 @@
         public static decimal lbf2newton(decimal lbf) => (decimal)((double)lbf / 0.224808943);
         public static decimal m2ft(decimal m) => (decimal)((double)m * 3.2808399);
         public static decimal ft2m(decimal ft) => (decimal)((double)ft / 3.2808399);
+
+        /// <summary>
+        ///     Converts True Air Speed to Equivalent Air Speed,
+        ///     which should be close to Indicated Air Speed (IAS) and Calibrated Air Speed (CAS)
+        /// </summary>
+        /// <param name="tas">True Air Speed expected in your unit of choice</param>
+        /// <param name="density">The density of the fluid (in kg/m³) in which the aircraft is moving, must be positve or NaN is returned.</param>
+        /// <returns>Equivalent Air Speed in the same unit as <paramref name="tas"/></returns>
+        public static double TAS2EAS(double tas, double density) => tas * Math.Sqrt(density / Constants.p0);
+
 
     }
 }

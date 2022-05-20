@@ -859,19 +859,6 @@
             // apSelect
             // 
             this.apSelect.FormattingEnabled = true;
-            this.apSelect.Items.AddRange(new object[] {
-            "Custom...",
-            "DCS A-10 (A/C/C-II)",
-            "DCS F-14A (AB)",
-            "DCS F-14A (MIL)",
-            "DCS F-14B (AB)",
-            "DCS F-14B (MIL)",
-            "DCS F-15C (AB)",
-            "DCS F-15C (MIL)",
-            "DCS F-16C blk50 (AB)",
-            "DCS F-16C blk50 (MIL)",
-            "DCS F-18C (AB)",
-            "DCS F-18C (MIL)"});
             this.apSelect.Location = new System.Drawing.Point(113, 85);
             this.apSelect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.apSelect.Name = "apSelect";
