@@ -79,42 +79,40 @@
                 var aircraft = (string)cb.SelectedItem;
                 vcalc.Craft = AircraftFactory.CreateAircraft(aircraft.FromString());
                 vcalc.Gw = (double)gw_in.Value;
+                abcb.Checked = false;
+                abcb.Visible = vcalc.Craft.HasAfterburner();
 
-                Queue<int> backups = new Queue<int>(); // for backing up the units...
+                int backup = 0; // for backing up the unit...
                 foreach (var input in profile_inputs)
                 {
                     input.ValueChanged -= new EventHandler(UpdateModel); // no model update needed now...
 
-                    if (model_map[input].Unit != null) // change unit only if there is one...
+                    if (model_map[input].Unit is not null) // change unit only if there is one...
                     {
-                        backups.Enqueue(model_map[input].Unit.SelectedIndex);
+                        backup = model_map[input].Unit.SelectedIndex;
                         model_map[input].LastIndex = 0; // to prevent converters in "UnitChanged"
                         model_map[input].Unit.SelectedIndex = 0; // set metric, triggers "UnitChanged"
                     }
                     input.Value = (decimal)(double)vcalc[model_map[input].Property]; // triggers "UpdateModel"
-                    if (model_map[input].Unit != null) 
-                        model_map[input].Unit.SelectedIndex = backups.Dequeue(); // restore unit...
+                    if (model_map[input].Unit is not null) 
+                        model_map[input].Unit.SelectedIndex = backup; // restore unit...
 
                     input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
-
                 }
             }
         }
 
         private void NumericUpDown_Focus(object? sender, EventArgs e)
         {
-            NumericUpDown? nud = sender as NumericUpDown;
-            if (nud != null) nud.Select(0, nud.ToString().Length);
+            if (sender is NumericUpDown nud) nud.Select(0, nud.ToString().Length);
         }
 
         private void UnitChanged(object? sender, EventArgs e)
         {
             if (sender is not ComboBox cb || cb.SelectedIndex == unit_map[cb].LastIndex) return; // no change in selection, thus nothing to do...
             NumericUpDown input = unit_map[cb].Input;
-            Func<decimal, decimal> f1 = unit_map[cb].I2M; // imperial to metric
-            Func<decimal, decimal> f2 = unit_map[cb].M2I; // metric to imperial
             input.ValueChanged -= new EventHandler(UpdateModel); // disable model update since the underlying value stays the same
-            input.Value = cb.SelectedIndex == 0 ? f1(input.Value) : f2(input.Value);
+            input.Value = cb.SelectedIndex == 0 ? unit_map[cb].I2M(input.Value) : unit_map[cb].M2I(input.Value);
             unit_map[cb].LastIndex = cb.SelectedIndex;
             input.Increment = unit_map[cb].Increment;
             input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
@@ -125,13 +123,8 @@
             if (sender is not NumericUpDown nud) return;
             double nudval = (double)nud.Value;
             if (model_map[nud].Unit is null) vcalc[model_map[nud].Property] = nudval;
-            else
-            {
-                Func<double, double> f1 = model_map[nud].M2SI; // metric to SI
-                Func<double, double> f2 = model_map[nud].I2SI; // imperial to SI
-                nudval = model_map[nud].Unit.SelectedIndex == 0 ? f1(nudval) : f2(nudval);
-                vcalc[model_map[nud].Property] = nudval;
-            }
+            else vcalc[model_map[nud].Property] = model_map[nud].Unit.SelectedIndex == 0 ? 
+                    model_map[nud].M2SI(nudval) : model_map[nud].I2SI(nudval);
         }
 
         private void DoCalculations(object sender, EventArgs e)
@@ -164,6 +157,26 @@
             
             if (double.IsNaN(dvIT) && double.IsNaN(dvFT))
                 MessageBox.Show("Given configuration can't reach Vs!", "WARNING!!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void UpdateCheckboxVisuals()
+        {
+            if (abcb.Checked)
+            {
+                abcb.Text = "AB";
+                abcb.ForeColor = Color.Red;
+            }
+            else
+            {
+                abcb.Text = "MIL";
+                abcb.ForeColor = Color.FromKnownColor(KnownColor.HotTrack);
+            }
+        }
+
+        private void AfterburnerToggle(object? sender, EventArgs e)
+        {
+            UpdateCheckboxVisuals();
+            if(vcalc.Craft is Aircrafts.IAfterburnable ac) ac.AB = abcb.Checked;
         }
     }
 }

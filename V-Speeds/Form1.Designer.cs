@@ -87,6 +87,7 @@
             this.dv_m_output = new System.Windows.Forms.TextBox();
             this.mtow_lbs_output = new System.Windows.Forms.TextBox();
             this.mtow_kg_output = new System.Windows.Forms.TextBox();
+            this.abcb = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.oat_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lsa_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cl_in)).BeginInit();
@@ -139,11 +140,6 @@
             this.oat_in.Size = new System.Drawing.Size(114, 23);
             this.oat_in.TabIndex = 6;
             this.oat_in.ThousandsSeparator = true;
-            this.oat_in.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
             this.oat_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             this.oat_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
@@ -163,11 +159,6 @@
             this.lsa_in.TabIndex = 8;
             this.lsa_in.Tag = "LSA";
             this.lsa_in.ThousandsSeparator = true;
-            this.lsa_in.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             this.lsa_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             this.lsa_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
@@ -501,11 +492,6 @@
             this.cl_in.TabIndex = 9;
             this.cl_in.Tag = "";
             this.cl_in.ThousandsSeparator = true;
-            this.cl_in.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.cl_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             this.cl_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
@@ -524,11 +510,6 @@
             this.qfe_in.Size = new System.Drawing.Size(114, 23);
             this.qfe_in.TabIndex = 7;
             this.qfe_in.ThousandsSeparator = true;
-            this.qfe_in.Value = new decimal(new int[] {
-            101325,
-            0,
-            0,
-            131072});
             this.qfe_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             this.qfe_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
@@ -552,11 +533,6 @@
             this.gw_in.Size = new System.Drawing.Size(114, 23);
             this.gw_in.TabIndex = 5;
             this.gw_in.ThousandsSeparator = true;
-            this.gw_in.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
             this.gw_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             this.gw_in.Enter += new System.EventHandler(this.NumericUpDown_Focus);
             // 
@@ -662,11 +638,6 @@
             this.thr_in.Size = new System.Drawing.Size(114, 23);
             this.thr_in.TabIndex = 19;
             this.thr_in.ThousandsSeparator = true;
-            this.thr_in.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
             this.thr_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // bfUnit
@@ -703,11 +674,6 @@
             this.bf_in.Size = new System.Drawing.Size(114, 23);
             this.bf_in.TabIndex = 22;
             this.bf_in.ThousandsSeparator = true;
-            this.bf_in.Value = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
             this.bf_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // rlUnit
@@ -744,11 +710,6 @@
             this.rl_in.Size = new System.Drawing.Size(114, 23);
             this.rl_in.TabIndex = 25;
             this.rl_in.ThousandsSeparator = true;
-            this.rl_in.Value = new decimal(new int[] {
-            2500,
-            0,
-            0,
-            0});
             this.rl_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // rtr_in
@@ -798,11 +759,6 @@
             this.cd_in.Size = new System.Drawing.Size(114, 23);
             this.cd_in.TabIndex = 31;
             this.cd_in.ThousandsSeparator = true;
-            this.cd_in.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
             this.cd_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // rc_in
@@ -825,11 +781,6 @@
             this.rc_in.Size = new System.Drawing.Size(114, 23);
             this.rc_in.TabIndex = 28;
             this.rc_in.ThousandsSeparator = true;
-            this.rc_in.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
             this.rc_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // vs_eas_output
@@ -915,11 +866,6 @@
             this.clg_in.TabIndex = 11;
             this.clg_in.Tag = "";
             this.clg_in.ThousandsSeparator = true;
-            this.clg_in.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
             this.clg_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // rfc_in
@@ -942,11 +888,6 @@
             this.rfc_in.Size = new System.Drawing.Size(114, 23);
             this.rfc_in.TabIndex = 49;
             this.rfc_in.ThousandsSeparator = true;
-            this.rfc_in.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
             this.rfc_in.ValueChanged += new System.EventHandler(this.UpdateModel);
             // 
             // dv_ft_output
@@ -997,11 +938,23 @@
             this.mtow_kg_output.TabIndex = 56;
             this.mtow_kg_output.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // abcb
+            // 
+            this.abcb.AutoSize = true;
+            this.abcb.Location = new System.Drawing.Point(620, 151);
+            this.abcb.Name = "abcb";
+            this.abcb.Size = new System.Drawing.Size(46, 19);
+            this.abcb.TabIndex = 60;
+            this.abcb.Text = "MIL";
+            this.abcb.Visible = false;
+            this.abcb.CheckedChanged += new System.EventHandler(this.AfterburnerToggle);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 509);
+            this.Controls.Add(this.abcb);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.mtow_lbs_output);
             this.Controls.Add(this.label25);
@@ -1141,6 +1094,7 @@
         private Label label25;
         private TextBox mtow_kg_output;
         private Label label26;
+        private CheckBox abcb;
     }
 }
 

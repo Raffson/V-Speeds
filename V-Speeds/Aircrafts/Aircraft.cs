@@ -63,8 +63,7 @@
         public double Rfc { get => _rfc; set => _rfc = Math.Abs(value); }
 
         /// <summary>
-        ///     Virtual function to indicate whether or not the aircraft has an afterburner,<br></br>
-        ///     if so there are 2 settings for <c>Thr</c> and <c>Rc</c> => this is TODO!
+        ///     Virtual function to indicate whether or not the aircraft has an afterburner.
         /// </summary>
         /// <returns><c>true</c> if the aircraft has afterburner, otherwise <c>false</c>.</returns>
         public virtual bool HasAfterburner() => false;

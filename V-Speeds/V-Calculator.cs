@@ -68,24 +68,9 @@ namespace V_Speeds
         public double Rfc { get => Craft.Rfc; set => Craft.Rfc = value; }
 
 
-        // internal setter-functions for Form1
-        internal void SetGw(double value) => Gw = value;
-        internal void SetOat(double value) => Oat = value;
-        internal void SetQfe(double value) => Qfe = value;
-        internal void SetLsa(double value) => Lsa = value;
-        internal void SetCl(double value) => Cl = value;
-        internal void SetClg(double value) => Clg = value;
-        internal void SetThr(double value) => Thr = value;
-        internal void SetBf(double value) => Bf = value;
-        internal void SetRl(double value) => Rl = value;
-        internal void SetRc(double value) => Rc = value;
-        internal void SetCd(double value) => Cd = value;
-        internal void SetRtr(double value) => Rtr = value;
-        internal void SetRfc(double value) => Rfc = value;
-
         // Expecting v0 in m/s, acc in m/s² and time in seconds
         //  return distance travelled in meters
-        public static double CalcDistance(double v0, double a, double time) => (v0 * time) + (a * Math.Pow(time, 2) / 2);
+        public static double CalcDistance(double v0, double a, double time) => (v0 * time) + (a * Math.Pow(time, 2) / 2); // need a better spot for this function...
 
 
         /// <summary>
