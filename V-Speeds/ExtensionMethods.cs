@@ -1,8 +1,8 @@
 ﻿namespace V_Speeds
 {
-    public static class ExtensionMethods
+    internal static class ExtensionMethods
     {
-        public static string DisplayName(this AircraftType e)
+        internal static string DisplayName(this AircraftType e)
         {
             return e switch
             {
@@ -18,7 +18,7 @@
             };
         }
 
-        public static AircraftType FromString(this string s)
+        internal static AircraftType AircraftTypeFromString(this string s)
         {
             return s switch
             {

@@ -73,32 +73,30 @@
             if (sender is not ComboBox cb || cb.SelectedIndex == lastProfileIndex) return;
             lastProfileIndex = cb.SelectedIndex;
             bool enabled = cb.SelectedIndex == 0;
-            foreach (var input in fixed_inputs) input.Enabled = enabled; // (un)lock
-            if (cb.SelectedIndex > 0) // locked, now load!
+            foreach (var input in fixed_inputs) input.Enabled = enabled; // (un)Lock
+            // & Load...
+            var aircraftString = (string)cb.SelectedItem;
+            vcalc.Craft = AircraftFactory.CreateAircraft(aircraftString.AircraftTypeFromString());
+            vcalc.Gw = (double)gw_in.Value;
+            abcb.Checked = false;
+            abcb.Visible = vcalc.Craft.HasAfterburner();
+
+            int backup = 0; // for backing up the unit...
+            foreach (var input in profile_inputs)
             {
-                var aircraft = (string)cb.SelectedItem;
-                vcalc.Craft = AircraftFactory.CreateAircraft(aircraft.FromString());
-                vcalc.Gw = (double)gw_in.Value;
-                abcb.Checked = false;
-                abcb.Visible = vcalc.Craft.HasAfterburner();
+                input.ValueChanged -= new EventHandler(UpdateModel); // no model update needed now...
 
-                int backup = 0; // for backing up the unit...
-                foreach (var input in profile_inputs)
+                if (model_map[input].Unit is not null) // change unit only if there is one...
                 {
-                    input.ValueChanged -= new EventHandler(UpdateModel); // no model update needed now...
-
-                    if (model_map[input].Unit is not null) // change unit only if there is one...
-                    {
-                        backup = model_map[input].Unit.SelectedIndex;
-                        model_map[input].LastIndex = 0; // to prevent converters in "UnitChanged"
-                        model_map[input].Unit.SelectedIndex = 0; // set metric, triggers "UnitChanged"
-                    }
-                    input.Value = (decimal)(double)vcalc[model_map[input].Property]; // triggers "UpdateModel"
-                    if (model_map[input].Unit is not null) 
-                        model_map[input].Unit.SelectedIndex = backup; // restore unit...
-
-                    input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
+                    backup = model_map[input].Unit.SelectedIndex;
+                    model_map[input].LastIndex = 0; // to prevent converters in "UnitChanged"
+                    model_map[input].Unit.SelectedIndex = 0; // set metric, triggers "UnitChanged"
                 }
+                input.Value = (decimal)(double)vcalc[model_map[input].Property]; // triggers "UpdateModel"
+                if (model_map[input].Unit is not null) 
+                    model_map[input].Unit.SelectedIndex = backup; // restore unit...
+
+                input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
             }
         }
 
@@ -159,24 +157,11 @@
                 MessageBox.Show("Given configuration can't reach Vs!", "WARNING!!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private void UpdateCheckboxVisuals()
-        {
-            if (abcb.Checked)
-            {
-                abcb.Text = "AB";
-                abcb.ForeColor = Color.Red;
-            }
-            else
-            {
-                abcb.Text = "MIL";
-                abcb.ForeColor = Color.FromKnownColor(KnownColor.HotTrack);
-            }
-        }
-
         private void AfterburnerToggle(object? sender, EventArgs e)
         {
-            UpdateCheckboxVisuals();
-            if(vcalc.Craft is Aircrafts.IAfterburnable ac) ac.AB = abcb.Checked;
+            if (vcalc.Craft is not Aircrafts.IAfterburnable ac) return; // FUBAR...
+            ac.AB = abcb.Checked;
+            (abcb.Text, abcb.ForeColor) = abcb.Checked ? ("AB", Color.Red) : ("MIL", Color.FromKnownColor(KnownColor.HotTrack));
         }
     }
 }
