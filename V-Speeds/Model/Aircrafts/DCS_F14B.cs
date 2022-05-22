@@ -1,8 +1,8 @@
-﻿namespace V_Speeds.Aircrafts
+﻿namespace V_Speeds.Model.Aircrafts
 {
-    internal class DCS_F14A : AircraftAB
+    internal class DCS_F14B : AircraftAB
     {
-        public DCS_F14A(double gw = 18198.0)
+        public DCS_F14B(double gw = 19838.0)
         {
             Gw = Math.Abs(gw);
             Lsa = 94;
@@ -12,8 +12,8 @@
             RcAB = 2;
             Cd = 0.058;
             Rtr = 0;
-            Thr = 98000;
-            ThrAB = 153000;
+            Thr = 135000;
+            ThrAB = 213000;
             Clg = 0.0;
             Rfc = 0.0;
         }

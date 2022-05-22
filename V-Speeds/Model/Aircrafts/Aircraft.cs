@@ -1,4 +1,4 @@
-﻿namespace V_Speeds.Aircrafts
+﻿namespace V_Speeds.Model.Aircrafts
 {
     public class Aircraft
     {

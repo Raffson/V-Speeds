@@ -1,4 +1,4 @@
-﻿namespace V_Speeds
+﻿namespace V_Speeds.Model
 {
     /// <summary>
     ///     A class respresenting (as the name suggests) an airfield.

@@ -1,4 +1,4 @@
-﻿namespace V_Speeds
+﻿namespace V_Speeds.Model
 {
     /// <summary>
     ///     A class representing (as the name suggests) an atmosphere.

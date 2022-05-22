@@ -1,6 +1,4 @@
-﻿using V_Speeds.Aircrafts;
-
-namespace V_Speeds
+﻿namespace V_Speeds.Model.Aircrafts
 {
     public enum AircraftType
     {

@@ -1,9 +1,13 @@
-﻿using V_Speeds.Aircrafts;
+﻿using V_Speeds.Model;
+using V_Speeds.Model.Aircrafts;
+using V_Speeds.ObserverPattern;
 
 namespace V_Speeds
 {
-    public class V_Calculator
+    public class V_Calculator : IMyObservable<V_Calculator>
     {
+        private readonly List<IMyObserver<V_Calculator>> _observers = new();
+
         private Airfield _field = new();
         private Aircraft _acft = new();
 
@@ -26,6 +30,27 @@ namespace V_Speeds
             Rtr = rtr;  // reverse thrust ratio: no unit
             Rfc = rfc;  // Rolling friction co.: no unit
         }
+
+        public void Subscribe(IMyObserver<V_Calculator> observer)
+        {
+            // Check whether observer is already registered. If not, add it
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+                observer.Update(this);
+            }
+        }
+
+        public void Unsubscribe(IMyObserver<V_Calculator> observer)
+        {
+            if(_observers.Contains(observer)) _observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            foreach (var observer in _observers) observer.Update(this);
+        }
+
         public override string ToString() // for debugging purposes...
         {
             return $"V-Calculator config:\n" +
@@ -47,10 +72,20 @@ namespace V_Speeds
         public Airfield Field { get => _field; set => _field = value; }
         public Aircraft Craft { get => _acft; set => _acft = value; }
 
-        public object this[string propertyName]
+        public object? this[string propertyName]
         {
-            get => this.GetType().GetProperty(propertyName).GetValue(this, null);
-            set => this.GetType().GetProperty(propertyName).SetValue(this, value, null);
+            get
+            {
+                if (this.GetType().GetProperty(propertyName) is System.Reflection.PropertyInfo pi)
+                    return pi.GetValue(this, null);
+                return null;
+            }
+
+            set
+            {
+                if (this.GetType().GetProperty(propertyName) is System.Reflection.PropertyInfo pi)
+                    pi.SetValue(this, value, null);
+            }
         }
 
         public double Gw { get => Craft.Gw; set => Craft.Gw = value; }
@@ -91,10 +126,10 @@ namespace V_Speeds
             double avgacc = Craft.ProjectedAcceleration(tas, p);
             double avgdec = Craft.ProjectedDeceleration(tas, p);
             double rc = Field.Rl < 1500 ? Rc + (1500 - Field.Rl) * 0.003 : Rc; // shorter runway tend to get overshot...
-            while( true )
+            while (true)
             {
                 double acc = Craft.ProjectedAcceleration(tas, p);
-                double dec = Craft.ProjectedDeceleration(tas+acc, p); // 1 second ahead
+                double dec = Craft.ProjectedDeceleration(tas + acc, p); // 1 second ahead
                 avgacc = (avgacc + acc) / 2;
                 avgdec = (avgdec + dec) / 2;
                 //System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + avgacc*_gw + "  " + avgdec * _gw);
