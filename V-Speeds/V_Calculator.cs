@@ -4,7 +4,7 @@ using V_Speeds.ObserverPattern;
 
 namespace V_Speeds
 {
-    public class V_Calculator : IMyObservable<V_Calculator>
+    public class V_Calculator : IMyObservable<V_Calculator>, IMyObserver<Airfield>, IMyObserver<Aircraft>
     {
         private readonly List<IMyObserver<V_Calculator>> _observers = new();
 
@@ -29,26 +29,7 @@ namespace V_Speeds
             Cd = cd;    // drag coefficient:     no unit
             Rtr = rtr;  // reverse thrust ratio: no unit
             Rfc = rfc;  // Rolling friction co.: no unit
-        }
-
-        public void Subscribe(IMyObserver<V_Calculator> observer)
-        {
-            // Check whether observer is already registered. If not, add it
-            if (!_observers.Contains(observer))
-            {
-                _observers.Add(observer);
-                observer.Update(this);
-            }
-        }
-
-        public void Unsubscribe(IMyObserver<V_Calculator> observer)
-        {
-            if(_observers.Contains(observer)) _observers.Remove(observer);
-        }
-
-        public void Notify()
-        {
-            foreach (var observer in _observers) observer.Update(this);
+            _field.Subscribe(this);
         }
 
         public override string ToString() // for debugging purposes...
@@ -69,9 +50,28 @@ namespace V_Speeds
                 $"RFC = {Rfc}\n";
         }
 
-        public Airfield Field { get => _field; set => _field = value; }
-        public Aircraft Craft { get => _acft; set => _acft = value; }
+        public Airfield Field
+        {
+            get => _field;
+            set
+            {
+                _field.Unsubscribe(this);
+                _field = value;
+                _field.Subscribe(this);
+            }
+        }
+        public Aircraft Craft
+        {
+            get => _acft;
+            set
+            {
+                _acft.Unsubscribe(this);
+                _acft = value;
+                _acft.Subscribe(this);
+            }
+        }
 
+        // Should still do type-checking in setter...
         public object? this[string propertyName]
         {
             get
@@ -248,6 +248,49 @@ namespace V_Speeds
             //  9C;  24.49inHg; 12001ft; CD = 0.116  => 56000lbs (serious overweight though...)
             //  16C; 28.00inHg; 4937ft;  CD = 0.116  => 43100lbs (can't clear hill at mesquite so beware...)
             //  16C; 28.00inHg; 4937ft;  CD = 0.116; CL = 1.21  => 46750lbs (very close at mesquite with the hil...)
+        }
+
+
+        // Observer Pattern Stuff
+        public void Subscribe(IMyObserver<V_Calculator> observer)
+        {
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+                observer.Update(this);
+            }
+        }
+
+        public void Unsubscribe(IMyObserver<V_Calculator> observer)
+        {
+            if (_observers.Contains(observer)) _observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            foreach (var observer in _observers) observer.Update(this);
+        }
+
+        public void Notify(string property)
+        {
+            foreach (var observer in _observers) observer.Update(property);
+        }
+
+        public void Update(Airfield value)
+        {
+            string[] properties = { "Oat", "Qfe", "Rl" };
+            foreach( var property in properties) Notify(property);
+        }
+
+        public void Update(string property)
+        {
+            Notify(property);
+        }
+
+        public void Update(Aircraft value)
+        {
+            string[] properties = { "Gw", "Lsa", "Cl", "Clg", "Thr", "Bf", "Rc", "Cd", "Rtr", "Rfc" };
+            foreach (var property in properties) Notify(property);
         }
     }
 }

@@ -21,7 +21,16 @@
         /// <summary>
         ///     Property for the state of the afterburner.
         /// </summary>
-        public bool AB { get => _ab; set => _ab = value; }
+        public bool AB
+        {
+            get => _ab;
+            set
+            {
+                _ab = value;
+                Notify("Thr");
+                Notify("Rc");
+            }
+        }
 
         /// <summary>
         ///     Property for the thrust force of the afterburner, expected in Newtons.<br></br>

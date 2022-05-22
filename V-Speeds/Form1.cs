@@ -1,6 +1,9 @@
-﻿namespace V_Speeds
+﻿using V_Speeds.Model.Aircrafts;
+using V_Speeds.ObserverPattern;
+
+namespace V_Speeds
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IMyObserver<V_Calculator>
     {
         private readonly V_Calculator vcalc = new();
 
@@ -16,10 +19,15 @@
         // list of inputs to overwrite when profile is selected...
         private readonly NumericUpDown[] profile_inputs;
 
+        // mapping Property names to their inputs
+        private readonly Dictionary<string, NumericUpDown> prop_map;
+
 
         private int lastProfileIndex = 0;
 
-        private void InitializeDictionaries(out Dictionary<NumericUpDown, BaseDelegate> model_map, out Dictionary<ComboBox, BaseDelegate> unit_map)
+        private void InitializeDictionaries(out Dictionary<NumericUpDown, BaseDelegate> model_map,
+                                            out Dictionary<ComboBox, BaseDelegate> unit_map,
+                                            out Dictionary<string, NumericUpDown> prop_map)
         {
             model_map = new Dictionary<NumericUpDown, BaseDelegate> {
                     { gw_in,  new WeightDelegate(gw_in, "Gw", weightUnit, (100m, 100m)) },
@@ -47,6 +55,9 @@
                 pair.key.SelectedIndex = 0;
                 pair.key.SelectedIndexChanged += new EventHandler(UnitChanged);
             }
+            // Build property_map
+            prop_map = new();
+            foreach(var pair in model_map) prop_map.Add(pair.Value.Property, pair.Key);
         }
 
         public Form1()
@@ -61,11 +72,13 @@
 
             fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in, clg_in, rfc_in };
             profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rc_in, cd_in, rtr_in, thr_in, clg_in, rfc_in };
-            InitializeDictionaries(out model_map, out unit_map);
+            InitializeDictionaries(out model_map, out unit_map, out prop_map);
 
             foreach(var aircraft in Enum.GetValues<AircraftType>()) apSelect.Items.Add(aircraft.DisplayName());
             apSelect.SelectedIndex = 0;
             apSelect.SelectedIndexChanged += new EventHandler(ProfileChanged);
+
+            vcalc.Subscribe(this);
         }
 
         private void ProfileChanged(object? sender, EventArgs e)
@@ -80,24 +93,6 @@
             vcalc.Gw = (double)gw_in.Value;
             abcb.Checked = false;
             abcb.Visible = vcalc.Craft.HasAfterburner();
-
-            int backup = 0; // for backing up the unit...
-            foreach (var input in profile_inputs)
-            {
-                input.ValueChanged -= new EventHandler(UpdateModel); // no model update needed now...
-
-                if (model_map[input].Unit is not null) // change unit only if there is one...
-                {
-                    backup = model_map[input].Unit.SelectedIndex;
-                    model_map[input].LastIndex = 0; // to prevent converters in "UnitChanged"
-                    model_map[input].Unit.SelectedIndex = 0; // set metric, triggers "UnitChanged"
-                }
-                input.Value = (decimal)(double)vcalc[model_map[input].Property]; // triggers "UpdateModel"
-                if (model_map[input].Unit is not null) 
-                    model_map[input].Unit.SelectedIndex = backup; // restore unit...
-
-                input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
-            }
         }
 
         private void NumericUpDown_Focus(object? sender, EventArgs e)
@@ -108,9 +103,10 @@
         private void UnitChanged(object? sender, EventArgs e)
         {
             if (sender is not ComboBox cb || cb.SelectedIndex == unit_map[cb].LastIndex) return; // no change in selection, thus nothing to do...
+            if (unit_map[cb].I2M is not Func<decimal, decimal> i2m || unit_map[cb].M2I is not Func<decimal, decimal> m2i) return; // FUBAR?
             NumericUpDown input = unit_map[cb].Input;
             input.ValueChanged -= new EventHandler(UpdateModel); // disable model update since the underlying value stays the same
-            input.Value = cb.SelectedIndex == 0 ? unit_map[cb].I2M(input.Value) : unit_map[cb].M2I(input.Value);
+            input.Value = cb.SelectedIndex == 0 ? i2m(input.Value) : m2i(input.Value);
             unit_map[cb].LastIndex = cb.SelectedIndex;
             input.Increment = unit_map[cb].Increment;
             input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
@@ -120,9 +116,10 @@
         {
             if (sender is not NumericUpDown nud) return;
             double nudval = (double)nud.Value;
-            if (model_map[nud].Unit is null) vcalc[model_map[nud].Property] = nudval;
-            else vcalc[model_map[nud].Property] = model_map[nud].Unit.SelectedIndex == 0 ? 
-                    model_map[nud].M2SI(nudval) : model_map[nud].I2SI(nudval);
+            if (model_map[nud].Unit is ComboBox unit && model_map[nud].M2SI is Func<double, double> m2si
+                                                     && model_map[nud].I2SI is Func<double, double> i2si)
+                vcalc[model_map[nud].Property] = unit.SelectedIndex == 0 ? m2si(nudval) : i2si(nudval);
+            else vcalc[model_map[nud].Property] = nudval;
         }
 
         private void DoCalculations(object sender, EventArgs e)
@@ -159,9 +156,42 @@
 
         private void AfterburnerToggle(object? sender, EventArgs e)
         {
-            if (vcalc.Craft is not Aircrafts.IAfterburnable ac) return; // FUBAR...
+            if (vcalc.Craft is not IAfterburnable ac) return; // FUBAR...
             ac.AB = abcb.Checked;
             (abcb.Text, abcb.ForeColor) = abcb.Checked ? ("AB", Color.Red) : ("MIL", Color.FromKnownColor(KnownColor.HotTrack));
+        }
+
+        public void Update(V_Calculator vc) // update entire view
+        {
+            foreach ( var (input, dlgt) in model_map.Select(x => (x.Key, x.Value)) )
+            {
+                if (vc[dlgt.Property] is double value)
+                {
+                    input.ValueChanged -= new EventHandler(UpdateModel); // no model update needed now...
+                    if (dlgt.Unit is ComboBox unit && dlgt.SI2M is Func<double, double> si2m && dlgt.SI2I is Func<double, double> si2i)
+                    {
+                        input.Value = unit.SelectedIndex == 0 ? (decimal)si2m(value) : (decimal)si2i(value);
+                    }
+                    else input.Value = (decimal)value;
+                    input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
+                }
+            }
+        }
+
+        public void Update(string property)
+        {
+            if (vcalc[property] is double value)
+            {
+                var input = prop_map[property];
+                var dlgt = model_map[input];
+                input.ValueChanged -= new EventHandler(UpdateModel); // no model update needed now...
+                if (dlgt.Unit is ComboBox unit && dlgt.SI2M is Func<double, double> si2m && dlgt.SI2I is Func<double, double> si2i)
+                {
+                    input.Value = unit.SelectedIndex == 0 ? (decimal)si2m(value) : (decimal)si2i(value);
+                }
+                else input.Value = (decimal)value;
+                input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
+            }
         }
     }
 }

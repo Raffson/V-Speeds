@@ -15,7 +15,9 @@
         public static double celc2fahr(double c) => c * 9 / 5 + 32;
         public static double fahr2celc(double f) => (f - 32) * 5 / 9;
         public static double mbar2pa(double mb) => mb * 100;
+        public static double pa2mbar(double pa) => pa / mbar2pa(1.0);
         public static double inHg2pa(double inHg) => mbar2pa(inHg2mbar(inHg));
+        public static double pa2inHg(double pa) => mbar2inHg(pa2mbar(pa));
         public static double mbar2inHg(double mb) => mb / inHg2mbar(1.0);
         public static double inHg2mbar(double inHg) => inHg * 33.8639;
         public static double sqft2sqm(double sqft) => sqft * 0.09290304;

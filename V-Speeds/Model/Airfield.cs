@@ -1,10 +1,17 @@
-﻿namespace V_Speeds.Model
+﻿using V_Speeds.ObserverPattern;
+
+namespace V_Speeds.Model
 {
     /// <summary>
     ///     A class respresenting (as the name suggests) an airfield.
     /// </summary>
-    public class Airfield
+    public class Airfield : IMyObservable<Airfield>, IMyObserver<Atmosphere>
     {
+        /// <summary>
+        ///     List of observers to be notified if a property changes.
+        /// </summary>
+        private readonly List<IMyObserver<Airfield>> _observers = new();
+
         /// <summary>
         ///     Runway length, expected in meters.
         /// </summary>
@@ -25,13 +32,22 @@
         {
             _atmos = atmos is null ? _atmos : atmos;
             Rl = rl;
+            _atmos.Subscribe(this);
         }
 
         /// <summary>
         ///     Property for accessing the runway length, expected in meters.<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public double Rl { get => _rl; set => _rl = Math.Abs(value); }
+        public double Rl
+        {
+            get => _rl;
+            set
+            {
+                _rl = Math.Abs(value);
+                Notify("Rl");
+            }
+        }
 
         /// <summary>
         ///     Property for accessing the airfield's outside air temperature (OAT), expected in Kelvin.
@@ -55,5 +71,42 @@
         /// </summary>
         /// <returns>The atmosphere's density in kg/m³</returns>
         public double LocalDensity() => Atmosphere.Density();
+
+
+        // Observer Pattern Stuff
+        public void Subscribe(IMyObserver<Airfield> observer)
+        {
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+                observer.Update(this);
+            }
+        }
+
+        public void Unsubscribe(IMyObserver<Airfield> observer)
+        {
+            if (_observers.Contains(observer)) _observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            foreach (var observer in _observers) observer.Update(this);
+        }
+
+        public void Notify(string property)
+        {
+            foreach (var observer in _observers) observer.Update(property);
+        }
+
+        public void Update(Atmosphere value)
+        {
+            Notify("Oat");
+            Notify("Qfe");
+        }
+
+        public void Update(string property)
+        {
+            Notify(property);
+        }
     }
 }

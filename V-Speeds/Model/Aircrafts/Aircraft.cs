@@ -1,7 +1,15 @@
-﻿namespace V_Speeds.Model.Aircrafts
+﻿using V_Speeds.ObserverPattern;
+
+namespace V_Speeds.Model.Aircrafts
 {
-    public class Aircraft
+    public class Aircraft : IMyObservable<Aircraft>
     {
+        /// <summary>
+        ///     List of observers to be notified if a property changes.
+        /// </summary>
+        private readonly List<IMyObserver<Aircraft>> _observers = new();
+
+        // private fields...
         private double _gw = 1000.0, _lsa = 10.0, _cl = 1.0, _clg = 0.1, _thr = 1000.0, _bf = 500.0, _rc = 2.0, _cd = 0.1, _rtr = 0.0, _rfc = 0.05;
 
 
@@ -205,6 +213,31 @@
             double totalbrake = brakeforce + Thrust(tas, density) * (Rtr - 0.08); // _thr * 0.08 for idle thrust <- Add idle thrust parameter???
             double dec = totalbrake / Gw; // we're basically aiming for the average deceleration
             return dec;
+        }
+
+        // Observer Pattern Stuff
+        public void Subscribe(IMyObserver<Aircraft> observer)
+        {
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+                observer.Update(this);
+            }
+        }
+
+        public void Unsubscribe(IMyObserver<Aircraft> observer)
+        {
+            if (_observers.Contains(observer)) _observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            foreach (var observer in _observers) observer.Update(this);
+        }
+
+        public void Notify(string property)
+        {
+            foreach (var observer in _observers) observer.Update(property);
         }
     }
 }

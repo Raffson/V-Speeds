@@ -11,6 +11,8 @@
         private readonly Func<decimal, decimal>? _i2m;
         private readonly Func<double, double>? _m2si;
         private readonly Func<double, double>? _i2si;
+        private readonly Func<double, double>? _si2m;
+        private readonly Func<double, double>? _si2i;
 
         public BaseDelegate(NumericUpDown input,
                             string property,
@@ -19,7 +21,9 @@
                             Func<decimal, decimal>? i2m = null,
                             Func<decimal, decimal>? m2i = null,
                             Func<double, double>? m2si = null,
-                            Func<double, double>? i2si = null)
+                            Func<double, double>? i2si = null,
+                            Func<double, double>? si2m = null,
+                            Func<double, double>? si2i = null)
         {
             _index = 0;
             _input = input;
@@ -29,6 +33,8 @@
             _m2i = m2i;
             _m2si = m2si;
             _i2si = i2si;
+            _si2m = si2m;
+            _si2i = si2i;
             _increment = increment;
         }
 
@@ -36,43 +42,56 @@
 
         public NumericUpDown Input => _input;
 
-        public Func<decimal, decimal> M2I => _m2i;
+        public Func<decimal, decimal>? M2I => _m2i;
 
-        public Func<decimal, decimal> I2M => _i2m;
+        public Func<decimal, decimal>? I2M => _i2m;
 
         public string Property => _property;
 
-        public ComboBox Unit => _unit;
+        public ComboBox? Unit => _unit;
 
-        public Func<double, double> M2SI => _m2si;
+        public Func<double, double>? M2SI => _m2si;
 
-        public Func<double, double> I2SI => _i2si;
+        public Func<double, double>? I2SI => _i2si;
+
+        public Func<double, double>? SI2M => _si2m;
+
+        public Func<double, double>? SI2I => _si2i;
 
         public decimal Increment => _index == 0 ? _increment.metric : _increment.imperial;
+
     }
 
     internal class WeightDelegate : BaseDelegate
     {
         public WeightDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) : 
-            base(input, property, increment, unit, Converter.lbs2kgs, Converter.kgs2lbs, Converter.do_nothing, Converter.lbs2kgs) { }
+            base(input, property, increment, unit, Converter.lbs2kgs, Converter.kgs2lbs,
+                                                   Converter.do_nothing, Converter.lbs2kgs,
+                                                   Converter.do_nothing, Converter.kgs2lbs) { }
     }
 
     internal class TemperatureDelegate : BaseDelegate
     {
         public TemperatureDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :
-            base(input, property, increment, unit, Converter.fahr2celc, Converter.celc2fahr, Converter.celc2kel, Converter.fahr2kel) { }
+            base(input, property, increment, unit, Converter.fahr2celc, Converter.celc2fahr,
+                                                   Converter.celc2kel, Converter.fahr2kel,
+                                                   Converter.kel2celc, Converter.kel2fahr) { }
     }
 
     internal class PressureDelegate : BaseDelegate
     {
         public PressureDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :
-            base(input, property, increment, unit, Converter.inHg2mbar, Converter.mbar2inHg, Converter.mbar2pa, Converter.inHg2pa) { }
+            base(input, property, increment, unit, Converter.inHg2mbar, Converter.mbar2inHg,
+                                                   Converter.mbar2pa, Converter.inHg2pa,
+                                                   Converter.pa2mbar, Converter.pa2inHg) { }
     }
 
     internal class AreaDelegate : BaseDelegate
     {
         public AreaDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :
-            base(input, property, increment, unit, Converter.sqft2sqm, Converter.sqm2sqft, Converter.do_nothing, Converter.sqft2sqm) { }
+            base(input, property, increment, unit, Converter.sqft2sqm, Converter.sqm2sqft,
+                                                   Converter.do_nothing, Converter.sqft2sqm,
+                                                   Converter.do_nothing, Converter.sqm2sqft) { }
     }
 
     internal class UnitlessDelegate : BaseDelegate
@@ -83,12 +102,16 @@
     internal class ForceDelegate : BaseDelegate
     {
         public ForceDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :
-            base(input, property, increment, unit, Converter.lbf2newton, Converter.newton2lbf, Converter.do_nothing, Converter.lbf2newton) { }
+            base(input, property, increment, unit, Converter.lbf2newton, Converter.newton2lbf,
+                                                   Converter.do_nothing, Converter.lbf2newton,
+                                                   Converter.do_nothing, Converter.newton2lbf) { }
     }
 
     internal class DistanceDelegate : BaseDelegate
     {
         public DistanceDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :
-            base(input, property, increment, unit, Converter.ft2m, Converter.m2ft, Converter.do_nothing, Converter.ft2m) { }
+            base(input, property, increment, unit, Converter.ft2m, Converter.m2ft,
+                                                   Converter.do_nothing, Converter.ft2m,
+                                                   Converter.do_nothing, Converter.m2ft) { }
     }
 }

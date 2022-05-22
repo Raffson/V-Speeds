@@ -1,4 +1,6 @@
-﻿namespace V_Speeds
+﻿using V_Speeds.Model.Aircrafts;
+
+namespace V_Speeds
 {
     internal static class ExtensionMethods
     {
