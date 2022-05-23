@@ -25,6 +25,8 @@ namespace V_Speeds
 
         private int lastProfileIndex = 0;
 
+        private NumericUpDown? lastControllerInput = null;
+
         private void InitializeDictionaries(out Dictionary<NumericUpDown, BaseDelegate> model_map,
                                             out Dictionary<ComboBox, BaseDelegate> unit_map,
                                             out Dictionary<string, NumericUpDown> prop_map)
@@ -87,10 +89,13 @@ namespace V_Speeds
             lastProfileIndex = cb.SelectedIndex;
             bool enabled = cb.SelectedIndex == 0;
             foreach (var input in fixed_inputs) input.Enabled = enabled; // (un)Lock
-            // & Load...
-            var aircraftString = (string)cb.SelectedItem;
-            vcalc.Craft = AircraftFactory.CreateAircraft(aircraftString.AircraftTypeFromString());
-            vcalc.Gw = (double)gw_in.Value;
+            // & Load... Observer Pattern takes care of the rest...
+            if (cb.SelectedIndex > 0)
+            {
+                var aircraftString = (string)cb.SelectedItem;
+                vcalc.Craft = AircraftFactory.CreateAircraft(aircraftString.AircraftTypeFromString());
+            }
+            else vcalc.Craft = new Aircraft(vcalc.Craft);
             abcb.Checked = false;
             abcb.Visible = vcalc.Craft.HasAfterburner();
         }
@@ -116,6 +121,7 @@ namespace V_Speeds
         {
             if (sender is not NumericUpDown nud) return;
             double nudval = (double)nud.Value;
+            lastControllerInput = nud;
             if (model_map[nud].Unit is ComboBox unit && model_map[nud].M2SI is Func<double, double> m2si
                                                      && model_map[nud].I2SI is Func<double, double> i2si)
                 vcalc[model_map[nud].Property] = unit.SelectedIndex == 0 ? m2si(nudval) : i2si(nudval);
@@ -180,7 +186,7 @@ namespace V_Speeds
 
         public void Update(string property)
         {
-            if (vcalc[property] is double value)
+            if (vcalc[property] is double value && lastControllerInput != prop_map[property])
             {
                 var input = prop_map[property];
                 var dlgt = model_map[input];
@@ -192,6 +198,7 @@ namespace V_Speeds
                 else input.Value = (decimal)value;
                 input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
             }
+            lastControllerInput = null;
         }
     }
 }

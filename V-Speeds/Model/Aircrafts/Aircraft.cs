@@ -12,63 +12,158 @@ namespace V_Speeds.Model.Aircrafts
         // private fields...
         private double _gw = 1000.0, _lsa = 10.0, _cl = 1.0, _clg = 0.1, _thr = 1000.0, _bf = 500.0, _rc = 2.0, _cd = 0.1, _rtr = 0.0, _rfc = 0.05;
 
+        public Aircraft() { }
+
+        public Aircraft(Aircraft other)
+        {
+            _gw = other._gw;
+            _lsa = other._lsa;
+            _cl = other._cl;
+            _clg = other._clg;
+            _thr = other._thr;
+            _bf = other._bf;
+            _rc = other._rc;
+            _cd = other._cd;
+            _rtr = other._rtr;
+            _rfc = other._rfc;
+        }
 
         /// <summary>
         ///     Property for gross weight of the aircraft, expected kgs.<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public double Gw { get => _gw; set => _gw = Math.Abs(value); }
+        public double Gw
+        {
+            get => _gw;
+            set
+            {
+                _gw = Math.Abs(value);
+                Notify("Gw");
+            }
+        }
 
         /// <summary>
         ///     Property for the wing area of the aircraft (Lifting Surface Area), expected in m².<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public double Lsa { get => _lsa; set => _lsa = Math.Abs(value); }
+        public double Lsa
+        {
+            get => _lsa;
+            set
+            {
+                _lsa = Math.Abs(value);
+                Notify("Lsa");
+            }
+        }
 
         /// <summary>
         ///     Property for the lift coefficient of the aircraft, unitless.
         /// </summary>
-        public double Cl { get => _cl; set => _cl = value; }
+        public double Cl
+        {
+            get => _cl;
+            set
+            {
+                _cl = value;
+                Notify("Cl");
+            }
+        }
 
         /// <summary>
         ///     Property for the lift coefficient of the aircraft at the angle of incidence considering takeoff configuration, unitless.
         /// </summary>
-        public double Clg { get => _clg; set => _clg = value; }
+        public double Clg
+        {
+            get => _clg;
+            set
+            {
+                _clg = value;
+                Notify("Clg");
+            }
+        }
 
         /// <summary>
         ///     Property for the rated nominal thrust of the aircraft at standard atmosphere, expected in Newton.<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public virtual double Thr { get => _thr; set => _thr = Math.Abs(value); }
+        public virtual double Thr
+        {
+            get => _thr;
+            set
+            {
+                _thr = Math.Abs(value);
+                Notify("Thr");
+            }
+        }
 
         /// <summary>
         ///     Property for the brakeforce of the aircraft, expected in Newton.<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public double Bf { get => _bf; set => _bf = Math.Abs(value); }
+        public double Bf
+        {
+            get => _bf;
+            set
+            {
+                _bf = Math.Abs(value);
+                Notify("Bf");
+            }
+        }
 
         /// <summary>
         ///     Property for the reaction time of the aircraft such as engine spooldown, activation of reversers, etc., expected in seconds.<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public virtual double Rc { get => _rc; set => _rc = Math.Abs(value); }
+        public virtual double Rc
+        {
+            get => _rc;
+            set
+            {
+                _rc = Math.Abs(value);
+                Notify("Rc");
+            }
+        }
 
         /// <summary>
         ///     Property for the drag coefficient of the aircraft, unitless.
         /// </summary>
-        public double Cd { get => _cd; set => _cd = value; }
+        public double Cd
+        {
+            get => _cd;
+            set
+            {
+                _cd = value;
+                Notify("Cd");
+            }
+        }
 
         /// <summary>
         ///     Property for the reverse thrust ratio of the aircraft, unitless.<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public double Rtr { get => _rtr; set => _rtr = Math.Abs(value); }
+        public double Rtr
+        {
+            get => _rtr;
+            set
+            {
+                _rtr = Math.Abs(value);
+                Notify("Rtr");
+            }
+        }
 
         /// <summary>
         ///     Property for the rolling friction coefficient of the aircraft, unitless.<br></br>
         ///     Setter takes the absolute value.
         /// </summary>
-        public double Rfc { get => _rfc; set => _rfc = Math.Abs(value); }
+        public double Rfc
+        {
+            get => _rfc;
+            set
+            {
+                _rfc = Math.Abs(value);
+                Notify("Rfc");
+            }
+        }
 
         /// <summary>
         ///     Virtual function to indicate whether or not the aircraft has an afterburner.
@@ -186,7 +281,7 @@ namespace V_Speeds.Model.Aircrafts
             double thrust = Thrust(tas, density);
             double fn = Math.Max(0, RequiredForce(Constants.g) - LiftForce(tas, density, Clg));
             double drag = DragForce(tas, density) + FrictionForce(fn);
-            double acc = (thrust - drag) / Gw;
+            double acc = Math.Max(0, thrust - drag) / Gw;
             return acc;
         }
 
@@ -211,7 +306,7 @@ namespace V_Speeds.Model.Aircrafts
             //System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + brakecoeff);
             double brakeforce = _bf * brakecoeff + ff; // account for weight on wheels, reduced efficiency for reduced weight
             double totalbrake = brakeforce + Thrust(tas, density) * (Rtr - 0.08); // _thr * 0.08 for idle thrust <- Add idle thrust parameter???
-            double dec = totalbrake / Gw; // we're basically aiming for the average deceleration
+            double dec = Math.Max(0, totalbrake) / Gw; // we're basically aiming for the average deceleration
             return dec;
         }
 

@@ -30,6 +30,7 @@ namespace V_Speeds
             Rtr = rtr;  // reverse thrust ratio: no unit
             Rfc = rfc;  // Rolling friction co.: no unit
             _field.Subscribe(this);
+            _acft.Subscribe(this);
         }
 
         public override string ToString() // for debugging purposes...
@@ -89,14 +90,14 @@ namespace V_Speeds
         }
 
         public double Gw { get => Craft.Gw; set => Craft.Gw = value; }
-        public double Oat { get => Field.Oat; set => Field.Oat = Math.Abs(value); }
-        public double Qfe { get => Field.Qfe; set => Field.Qfe = Math.Abs(value); }
+        public double Oat { get => Field.Oat; set => Field.Oat = value; }
+        public double Qfe { get => Field.Qfe; set => Field.Qfe = value; }
         public double Lsa { get => Craft.Lsa; set => Craft.Lsa = value; }
         public double Cl { get => Craft.Cl; set => Craft.Cl = value; }
         public double Clg { get => Craft.Clg; set => Craft.Clg = value; }
         public double Thr { get => Craft.Thr; set => Craft.Thr = value; }
         public double Bf { get => Craft.Bf; set => Craft.Bf = value; }
-        public double Rl { get => Field.Rl; set => Field.Rl = Math.Abs(value); }
+        public double Rl { get => Field.Rl; set => Field.Rl = value; }
         public double Rc { get => Craft.Rc; set => Craft.Rc = value; }
         public double Cd { get => Craft.Cd; set => Craft.Cd = value; }
         public double Rtr { get => Craft.Rtr; set => Craft.Rtr = value; }
@@ -125,6 +126,7 @@ namespace V_Speeds
             double rwl = Field.Rl; // how much runway do we have left
             double avgacc = Craft.ProjectedAcceleration(tas, p);
             double avgdec = Craft.ProjectedDeceleration(tas, p);
+            if (avgacc == 0 || avgdec == 0) return (double.NaN, double.NaN); // Configuration is FUBAR...
             double rc = Field.Rl < 1500 ? Rc + (1500 - Field.Rl) * 0.003 : Rc; // shorter runway tend to get overshot...
             while (true)
             {
@@ -132,7 +134,7 @@ namespace V_Speeds
                 double dec = Craft.ProjectedDeceleration(tas + acc, p); // 1 second ahead
                 avgacc = (avgacc + acc) / 2;
                 avgdec = (avgdec + dec) / 2;
-                //System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + avgacc*_gw + "  " + avgdec * _gw);
+                //System.Diagnostics.Debug.WriteLine(Converter.mps2kts(tas) + "  " + avgacc*Gw + "  " + avgdec * Gw);
 
                 // start thinking in terms of energy... Fa * RLa = Fb * RLb and RL = RLa + RLb + RLrc
                 //  where Fa is the net thrust, RLa the distance covered during acceleration,

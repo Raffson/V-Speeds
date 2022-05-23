@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using V_Speeds;
-using V_Speeds.Aircrafts;
+using V_Speeds.Model.Aircrafts;
 
 namespace V_Speeds_Tester
 {
