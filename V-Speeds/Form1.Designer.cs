@@ -88,6 +88,7 @@
             this.mtow_lbs_output = new System.Windows.Forms.TextBox();
             this.mtow_kg_output = new System.Windows.Forms.TextBox();
             this.abcb = new System.Windows.Forms.CheckBox();
+            this.dllName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.oat_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lsa_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cl_in)).BeginInit();
@@ -337,7 +338,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label16.Location = new System.Drawing.Point(3, 88);
+            this.label16.Location = new System.Drawing.Point(16, 88);
             this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(88, 13);
@@ -810,7 +811,7 @@
             // apSelect
             // 
             this.apSelect.FormattingEnabled = true;
-            this.apSelect.Location = new System.Drawing.Point(113, 85);
+            this.apSelect.Location = new System.Drawing.Point(109, 83);
             this.apSelect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.apSelect.Name = "apSelect";
             this.apSelect.Size = new System.Drawing.Size(140, 23);
@@ -949,11 +950,23 @@
             this.abcb.Visible = false;
             this.abcb.CheckedChanged += new System.EventHandler(this.AfterburnerToggle);
             // 
+            // dllName
+            // 
+            this.dllName.AutoSize = true;
+            this.dllName.Font = new System.Drawing.Font("Segoe UI", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.dllName.Location = new System.Drawing.Point(262, 87);
+            this.dllName.Name = "dllName";
+            this.dllName.Size = new System.Drawing.Size(67, 15);
+            this.dllName.TabIndex = 61;
+            this.dllName.Text = "DLL_Name";
+            this.dllName.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 509);
+            this.Controls.Add(this.dllName);
             this.Controls.Add(this.abcb);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.mtow_lbs_output);
@@ -1095,6 +1108,7 @@
         private TextBox mtow_kg_output;
         private Label label26;
         private CheckBox abcb;
+        private Label dllName;
     }
 }
 

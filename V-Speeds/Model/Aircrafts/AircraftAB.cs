@@ -48,13 +48,13 @@
         /// <summary>
         ///     Overriding Thr property to make it behave the same as an aircraft with no afterburner.
         /// </summary>
-        public override double Thr { get => AB ? ThrAB : base.Thr; set => base.Thr = value; }
+        public override sealed double Thr { get => AB ? ThrAB : base.Thr; set => base.Thr = value; }
 
 
         /// <summary>
         ///     Overriding Rc property to make it behave the same as an aircraft with no afterburner.
         /// </summary>
-        public override double Rc { get => AB ? RcAB : base.Rc; set => base.Rc = value; }
+        public override sealed double Rc { get => AB ? RcAB : base.Rc; set => base.Rc = value; }
 
         /// <summary>
         ///     Returns a boolean value indicating whether or not this aircraft has an afterburner.
