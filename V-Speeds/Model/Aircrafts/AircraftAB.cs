@@ -34,27 +34,61 @@
 
         /// <summary>
         ///     Property for the thrust force of the afterburner, expected in Newtons.<br></br>
-        ///     Setter takes absolute value.
+        ///     Setter takes absolute value and notifies observers.
         /// </summary>
-        public double ThrAB { get => _thrAB; set => _thrAB = value; }
+        public double ThrAB
+        {
+            get => _thrAB;
+            set
+            {
+                _thrAB = value;
+                if (AB) Notify("Thr"); // for Aircraft observers
+                Notify("ThrAB");    // for AircraftAB observers
+            }
+        }
 
         /// <summary>
         ///     Property for the reaction time associated with the afterburner on, expected in seconds.<br></br>
-        ///     Setter takes absolute value.
+        ///     Setter takes absolute value and notifies observers.
         /// </summary>
-        public double RcAB { get => _rcAB; set => _rcAB = value; }
+        public double RcAB
+        {
+            get => _rcAB;
+            set
+            {
+                _rcAB = value;
+                if (AB) Notify("Rc"); // for Aircraft observers
+                Notify("RcAB"); // for AircraftAB observers
+            }
+        }
 
 
         /// <summary>
         ///     Overriding Thr property to make it behave the same as an aircraft with no afterburner.
         /// </summary>
-        public override sealed double Thr { get => AB ? ThrAB : base.Thr; set => base.Thr = value; }
+        public override sealed double Thr
+        {
+            get => AB ? ThrAB : base.Thr;
+            set
+            {
+                if( AB ) ThrAB = value;
+                else base.Thr = value;
+            }
+        }
 
 
         /// <summary>
         ///     Overriding Rc property to make it behave the same as an aircraft with no afterburner.
         /// </summary>
-        public override sealed double Rc { get => AB ? RcAB : base.Rc; set => base.Rc = value; }
+        public override sealed double Rc
+        {
+            get => AB ? RcAB : base.Rc;
+            set
+            {
+                if( AB ) RcAB = value;
+                else base.Rc = value;
+            }
+        }
 
         /// <summary>
         ///     Returns a boolean value indicating whether or not this aircraft has an afterburner.

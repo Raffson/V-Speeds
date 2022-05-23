@@ -29,7 +29,7 @@ namespace V_Speeds.Model.Aircrafts
         }
 
         /// <summary>
-        ///     Property for gross weight of the aircraft, expected kgs.<br></br>
+        ///     Property for gross weight of the aircraft, expected in kgs.<br></br>
         ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public double Gw

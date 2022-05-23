@@ -7,24 +7,22 @@ namespace V_Speeds
     {
         private readonly V_Calculator vcalc = new();
 
-        // mapping numericUpDowns to their setter-function for model, combobox + converters to ensure metric data is passed...
+        // mapping numericUpDowns to their setter-function for model, combobox + converters to ensure metric data is passed
         private readonly Dictionary<NumericUpDown, BaseDelegate> model_map;
 
         // mapping unit to a delegate with lastSelectedIndex, respective numericUpDown, Conversion functions
         private readonly Dictionary<ComboBox, BaseDelegate> unit_map;
 
-        // list of inputs to be (un)locked when profile is selected...
-        private readonly NumericUpDown[] fixed_inputs;
-
-        // list of inputs to overwrite when profile is selected...
-        private readonly NumericUpDown[] profile_inputs;
-
         // mapping Property names to their inputs
         private readonly Dictionary<string, NumericUpDown> prop_map;
 
+        // list of inputs to be (un)locked when profile is selected
+        private readonly NumericUpDown[] fixed_inputs;
 
+        // keep track of last selected profile to prevent unnecessary updates to the model
         private int lastProfileIndex = 0;
 
+        // keep track of last controller input to prevent unnecessary updates to the view
         private NumericUpDown? lastControllerInput = null;
 
         private void InitializeDictionaries(out Dictionary<NumericUpDown, BaseDelegate> model_map,
@@ -46,7 +44,7 @@ namespace V_Speeds
                     { clg_in, new UnitlessDelegate(clg_in, "Clg", 0.001m) },
                     { rfc_in, new UnitlessDelegate(rfc_in, "Rfc", 0.001m) },
                 };
-            // Link unitmap...
+            // Build unit_map
             unit_map = new();
             var units = new ComboBox[] { weightUnit, oatUnit, qfeUnit, lsaUnit, thrUnit, bfUnit, rlUnit };
             var inputs = new NumericUpDown[] { gw_in, oat_in, qfe_in, lsa_in, thr_in, bf_in, rl_in };
@@ -57,7 +55,7 @@ namespace V_Speeds
                 pair.key.SelectedIndex = 0;
                 pair.key.SelectedIndexChanged += new EventHandler(UnitChanged);
             }
-            // Build property_map
+            // Build prop_map
             prop_map = new();
             foreach(var pair in model_map) prop_map.Add(pair.Value.Property, pair.Key);
         }
@@ -73,7 +71,6 @@ namespace V_Speeds
             InitializeComponent();
 
             fixed_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rtr_in, clg_in, rfc_in };
-            profile_inputs = new NumericUpDown[] { lsa_in, cl_in, bf_in, rc_in, cd_in, rtr_in, thr_in, clg_in, rfc_in };
             InitializeDictionaries(out model_map, out unit_map, out prop_map);
 
             foreach(var aircraft in Enum.GetValues<AircraftType>()) apSelect.Items.Add(aircraft.DisplayName());
@@ -164,6 +161,7 @@ namespace V_Speeds
         {
             if (vcalc.Craft is not IAfterburnable ac) return; // FUBAR...
             ac.AB = abcb.Checked;
+            ac.ThrAB = 5000;
             (abcb.Text, abcb.ForeColor) = abcb.Checked ? ("AB", Color.Red) : ("MIL", Color.FromKnownColor(KnownColor.HotTrack));
         }
 
@@ -187,8 +185,10 @@ namespace V_Speeds
 
         public void Update(string property)
         {
+            System.Diagnostics.Debug.WriteLine(property);
             if (vcalc[property] is double value && lastControllerInput != prop_map[property])
             {
+                System.Diagnostics.Debug.WriteLine(property);
                 var input = prop_map[property];
                 var dlgt = model_map[input];
                 input.ValueChanged -= new EventHandler(UpdateModel); // no model update needed now...
