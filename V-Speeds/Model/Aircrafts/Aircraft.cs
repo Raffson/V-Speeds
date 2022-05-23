@@ -30,7 +30,7 @@ namespace V_Speeds.Model.Aircrafts
 
         /// <summary>
         ///     Property for gross weight of the aircraft, expected kgs.<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public double Gw
         {
@@ -44,7 +44,7 @@ namespace V_Speeds.Model.Aircrafts
 
         /// <summary>
         ///     Property for the wing area of the aircraft (Lifting Surface Area), expected in m².<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public double Lsa
         {
@@ -57,7 +57,8 @@ namespace V_Speeds.Model.Aircrafts
         }
 
         /// <summary>
-        ///     Property for the lift coefficient of the aircraft, unitless.
+        ///     Property for the lift coefficient of the aircraft, unitless.<br></br>
+        ///     Setter notifies observers.
         /// </summary>
         public double Cl
         {
@@ -71,6 +72,7 @@ namespace V_Speeds.Model.Aircrafts
 
         /// <summary>
         ///     Property for the lift coefficient of the aircraft at the angle of incidence considering takeoff configuration, unitless.
+        ///     Setter notifies observers.
         /// </summary>
         public double Clg
         {
@@ -84,7 +86,7 @@ namespace V_Speeds.Model.Aircrafts
 
         /// <summary>
         ///     Property for the rated nominal thrust of the aircraft at standard atmosphere, expected in Newton.<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public virtual double Thr
         {
@@ -98,7 +100,7 @@ namespace V_Speeds.Model.Aircrafts
 
         /// <summary>
         ///     Property for the brakeforce of the aircraft, expected in Newton.<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public double Bf
         {
@@ -112,7 +114,7 @@ namespace V_Speeds.Model.Aircrafts
 
         /// <summary>
         ///     Property for the reaction time of the aircraft such as engine spooldown, activation of reversers, etc., expected in seconds.<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public virtual double Rc
         {
@@ -125,7 +127,8 @@ namespace V_Speeds.Model.Aircrafts
         }
 
         /// <summary>
-        ///     Property for the drag coefficient of the aircraft, unitless.
+        ///     Property for the drag coefficient of the aircraft, unitless.<br></br>
+        ///     Setter notifies observers.
         /// </summary>
         public double Cd
         {
@@ -139,7 +142,7 @@ namespace V_Speeds.Model.Aircrafts
 
         /// <summary>
         ///     Property for the reverse thrust ratio of the aircraft, unitless.<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value, ensures 0 <= Rtr <= 1 and notifies observers.
         /// </summary>
         public double Rtr
         {
@@ -153,7 +156,7 @@ namespace V_Speeds.Model.Aircrafts
 
         /// <summary>
         ///     Property for the rolling friction coefficient of the aircraft, unitless.<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public double Rfc
         {

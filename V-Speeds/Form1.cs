@@ -167,6 +167,7 @@ namespace V_Speeds
             (abcb.Text, abcb.ForeColor) = abcb.Checked ? ("AB", Color.Red) : ("MIL", Color.FromKnownColor(KnownColor.HotTrack));
         }
 
+        // Observer Pattern Stuff
         public void Update(V_Calculator vc) // update entire view
         {
             foreach ( var (input, dlgt) in model_map.Select(x => (x.Key, x.Value)) )
