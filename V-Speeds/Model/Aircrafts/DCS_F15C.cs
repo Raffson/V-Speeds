@@ -1,5 +1,8 @@
 ﻿namespace V_Speeds.Model.Aircrafts
 {
+    /// <summary>
+    ///     Container class for DCS F-15C by Eagle Dynamics
+    /// </summary>
     internal class DCS_F15C : AircraftAB
     {
         public DCS_F15C(double gw = 12701.0)

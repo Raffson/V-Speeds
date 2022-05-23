@@ -146,7 +146,7 @@ namespace V_Speeds.Model.Aircrafts
             get => _rtr;
             set
             {
-                _rtr = Math.Abs(value);
+                _rtr = Math.Min(1, Math.Abs(value));
                 Notify("Rtr");
             }
         }

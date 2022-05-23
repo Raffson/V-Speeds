@@ -42,7 +42,7 @@ namespace V_Speeds.Model
 
         /// <summary>
         ///     Property for temperature, expected in Kelvin.<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public double Temp
         {
@@ -56,7 +56,7 @@ namespace V_Speeds.Model
 
         /// <summary>
         ///     Property for pressure, expected in Pascal.<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public double Press
         {
@@ -70,7 +70,7 @@ namespace V_Speeds.Model
 
         /// <summary>
         ///     Property for molar mass, expected in kg/mol.<br></br>
-        ///     Setter takes the absolute value.
+        ///     Setter takes the absolute value and notifies observers.
         /// </summary>
         public double Mmass
         {

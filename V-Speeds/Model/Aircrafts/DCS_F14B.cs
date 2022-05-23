@@ -1,5 +1,8 @@
 ﻿namespace V_Speeds.Model.Aircrafts
 {
+    /// <summary>
+    ///     Container class for DCS F-14B by Heatblur
+    /// </summary>
     internal class DCS_F14B : AircraftAB
     {
         public DCS_F14B(double gw = 19838.0)

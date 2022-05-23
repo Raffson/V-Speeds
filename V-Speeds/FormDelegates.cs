@@ -1,5 +1,8 @@
 ﻿namespace V_Speeds
 {
+    /// <summary>
+    ///     A custom container to make life easier in Form1, bundeling all components together for accessing or transforming the relevant data.
+    /// </summary>
     internal abstract class BaseDelegate // delegate is perhaps not the right name, but it'll have to do for now...
     {
         private int _index;
@@ -14,6 +17,19 @@
         private readonly Func<double, double>? _si2m;
         private readonly Func<double, double>? _si2i;
 
+        /// <summary>
+        ///     Constructor for initializing the different "delegates".
+        /// </summary>
+        /// <param name="input">The <see cref="NumericUpDown"/> input component of the form.</param>
+        /// <param name="property">The property that corresponds with <paramref name="input"/>.</param>
+        /// <param name="increment">The increment values depending on the unit.</param>
+        /// <param name="unit">The <see cref="ComboBox"/> unit component of the form.</param>
+        /// <param name="i2m">A function converting the unit from imperial to metric.</param>
+        /// <param name="m2i">A function converting the unit from metric to imperial.</param>
+        /// <param name="m2si">A function converting the unit from metric to SI (e.g. millibar to Pascal).</param>
+        /// <param name="i2si">A function converting the unit from imperial to SI.</param>
+        /// <param name="si2m">A function converting the unit from SI to metric (e.g. Pascal to millbar).</param>
+        /// <param name="si2i">A function converting the unit from SI to imperial.</param>
         public BaseDelegate(NumericUpDown input,
                             string property,
                             (decimal, decimal) increment,
@@ -38,30 +54,66 @@
             _increment = increment;
         }
 
+        /// <summary>
+        ///     Property indicating the last selected index of the unit (0 is metric, 1 is imperial).
+        /// </summary>
         public int LastIndex { get => _index; set => _index = value; }
 
+        /// <summary>
+        ///     Property for the input component of Form1.
+        /// </summary>
         public NumericUpDown Input => _input;
 
+        /// <summary>
+        ///     Property for the metric-to-imperial converter.
+        /// </summary>
         public Func<decimal, decimal>? M2I => _m2i;
 
+        /// <summary>
+        ///     Property for the imperial-to-metric converter.
+        /// </summary>
         public Func<decimal, decimal>? I2M => _i2m;
 
+        /// <summary>
+        ///     Property indicating the corresponding property of the model.
+        /// </summary>
         public string Property => _property;
 
+        /// <summary>
+        ///     Property for the unit component of Form1.
+        /// </summary>
         public ComboBox? Unit => _unit;
 
+        /// <summary>
+        ///     Property for the metric-to-SI converter.
+        /// </summary>
         public Func<double, double>? M2SI => _m2si;
 
+        /// <summary>
+        ///     Property for the imperial-to-SI converter.
+        /// </summary>
         public Func<double, double>? I2SI => _i2si;
 
+        /// <summary>
+        ///     Property for the SI-to-metric converter.
+        /// </summary>
         public Func<double, double>? SI2M => _si2m;
 
+        /// <summary>
+        ///     Property for the SI-to-imperial converter.
+        /// </summary>
         public Func<double, double>? SI2I => _si2i;
 
+        /// <summary>
+        ///     Property indicating which increment should be used, either for metric or imperial.
+        /// </summary>
         public decimal Increment => _index == 0 ? _increment.metric : _increment.imperial;
 
     }
 
+    /// <summary>
+    ///     Container for any input that's based on weight.
+    /// </summary>
     internal class WeightDelegate : BaseDelegate
     {
         public WeightDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) : 
@@ -70,6 +122,9 @@
                                                    Converter.do_nothing, Converter.kgs2lbs) { }
     }
 
+    /// <summary>
+    ///     Container for any input that's based on temperature.
+    /// </summary>
     internal class TemperatureDelegate : BaseDelegate
     {
         public TemperatureDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :
@@ -78,6 +133,9 @@
                                                    Converter.kel2celc, Converter.kel2fahr) { }
     }
 
+    /// <summary>
+    ///     Container for any input that's based on pressure.
+    /// </summary>
     internal class PressureDelegate : BaseDelegate
     {
         public PressureDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :
@@ -86,6 +144,9 @@
                                                    Converter.pa2mbar, Converter.pa2inHg) { }
     }
 
+    /// <summary>
+    ///     Container for any input that's based on an area.
+    /// </summary>
     internal class AreaDelegate : BaseDelegate
     {
         public AreaDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :
@@ -94,11 +155,17 @@
                                                    Converter.do_nothing, Converter.sqm2sqft) { }
     }
 
+    /// <summary>
+    ///     Container for any input that's based no unit.
+    /// </summary>
     internal class UnitlessDelegate : BaseDelegate
     {
         public UnitlessDelegate(NumericUpDown input, string property, decimal increment) : base(input, property, (increment, 0m)) { }
     }
 
+    /// <summary>
+    ///     Container for any input that's based on force.
+    /// </summary>
     internal class ForceDelegate : BaseDelegate
     {
         public ForceDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :
@@ -107,6 +174,9 @@
                                                    Converter.do_nothing, Converter.newton2lbf) { }
     }
 
+    /// <summary>
+    ///     Container for any input that's based on distance.
+    /// </summary>
     internal class DistanceDelegate : BaseDelegate
     {
         public DistanceDelegate(NumericUpDown input, string property, ComboBox unit, (decimal, decimal) increment) :

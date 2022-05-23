@@ -4,6 +4,14 @@ namespace V_Speeds
 {
     internal static class ExtensionMethods
     {
+        /// <summary>
+        ///     Returns the string that corresponds with the given <see cref="AircraftType"/>.
+        /// </summary>
+        /// <param name="e">The <see cref="AircraftType"/> to be interpreted as a string</param>
+        /// <returns>
+        ///     The string representation of the given <see cref="AircraftType"/>.<br></br>
+        ///     If an invalid type was passed, "Unknown" is returned.
+        /// </returns>
         internal static string DisplayName(this AircraftType e)
         {
             return e switch
@@ -20,6 +28,14 @@ namespace V_Speeds
             };
         }
 
+        /// <summary>
+        ///     Returns the <see cref="AircraftType"/> that corresponds with the given string.
+        /// </summary>
+        /// <param name="s">The string representing an <see cref="AircraftType"/>.</param>
+        /// <returns>
+        ///     The <see cref="AircraftType"/> represented by the given string.<br></br>
+        ///     If an invalid string was passed, <see cref="AircraftType.Custom"/> is returned.
+        /// </returns>
         internal static AircraftType AircraftTypeFromString(this string s)
         {
             return s switch

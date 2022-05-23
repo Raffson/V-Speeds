@@ -1,5 +1,8 @@
 ﻿namespace V_Speeds.Model.Aircrafts
 {
+    /// <summary>
+    ///     Enum representing the different aircraft profiles.
+    /// </summary>
     public enum AircraftType
     {
         Custom = 0,     // 0
@@ -14,8 +17,19 @@
         External = int.MaxValue
     }
 
+    /// <summary>
+    ///     Factory for creating aircraft.
+    /// </summary>
     public static class AircraftFactory
     {
+        /// <summary>
+        ///     Creates an aircraft of the given type.
+        /// </summary>
+        /// <param name="t">The type of the aircraft to be created, refer to <see cref="AircraftType"/> for the different types.</param>
+        /// <returns>
+        ///     The created aircraft depending on the provided type.<br></br>
+        ///     If the type is invalid, a default <see cref="Aircraft"/> is returned.
+        /// </returns>
         public static Aircraft CreateAircraft(AircraftType t)
         {
             return t switch

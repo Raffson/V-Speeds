@@ -1,5 +1,8 @@
 ﻿namespace V_Speeds.Model.Aircrafts
 {
+    /// <summary>
+    ///     Container class for DCS F-16C block 50 by Eagle Dynamics
+    /// </summary>
     internal class DCS_F16C_blk50 : AircraftAB
     {
         public DCS_F16C_blk50(double gw = 8573.0)

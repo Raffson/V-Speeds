@@ -6,12 +6,38 @@ namespace V_Speeds
 {
     public class V_Calculator : IMyObservable<V_Calculator>, IMyObserver<Airfield>, IMyObserver<Aircraft>
     {
+        /// <summary>
+        ///     List of observers to be notified if a property changes.
+        /// </summary>
         private readonly List<IMyObserver<V_Calculator>> _observers = new();
 
+        /// <summary>
+        ///     Represents the airfield.
+        /// </summary>
         private Airfield _field = new();
+
+        /// <summary>
+        ///     Represents the aircraft.
+        /// </summary>
         private Aircraft _acft = new();
 
 
+        /// <summary>
+        ///     Constructor for initializing all properties.
+        /// </summary>
+        /// <param name="gw">The Gross Weight, expected in kgs.</param>
+        /// <param name="oat">The Outside Air Temperature, expected in Kelvin.</param>
+        /// <param name="qfe">The local pressure, expected in Pascal.</param>
+        /// <param name="lsa">The lifting surface area, expected in m².</param>
+        /// <param name="cl">The lift coefficient for a certain angle of attack, usually around 10° AoA.</param>
+        /// <param name="clg">The lift coefficient at the angle of incidence.</param>
+        /// <param name="thr">The thrust force, expected in Newton.</param>
+        /// <param name="bf">The brake force, expected in Newton.</param>
+        /// <param name="rl">The length of the runway, expected in meters.</param>
+        /// <param name="rc">The reaction time accounting for spooldown, deployement of reverservs, etc., expected in seconds.</param>
+        /// <param name="cd">The drag coefficient at the angle of incidence, i.e. during the roll on take-off.</param>
+        /// <param name="rtr">The reverse thrust ratio.</param>
+        /// <param name="rfc">The rolling friction coefficient.</param>
         public V_Calculator(double gw = 1000.0, double oat = 288.15, double qfe = 101325, double lsa = 10.0, double cl = 1.0, double clg = 0.5,
             double thr = 1000.0, double bf = 500.0, double rl = 2500.0, double rc = 2.0, double cd = 0.1, double rtr = 0.0, double rfc = 0.05)
         {
@@ -33,6 +59,10 @@ namespace V_Speeds
             _acft.Subscribe(this);
         }
 
+        /// <summary>
+        ///     Overrides ToString().
+        /// </summary>
+        /// <returns>A string describing the current state of this object.</returns>
         public override string ToString() // for debugging purposes...
         {
             return $"V-Calculator config:\n" +
@@ -51,6 +81,10 @@ namespace V_Speeds
                 $"RFC = {Rfc}\n";
         }
 
+        /// <summary>
+        ///     Property for the airfield.<br></br>
+        ///     Setter unsubscribes from the old <see cref="Airfield"/>, and subscribes to the new one.
+        /// </summary>
         public Airfield Field
         {
             get => _field;
@@ -61,6 +95,11 @@ namespace V_Speeds
                 _field.Subscribe(this);
             }
         }
+
+        /// <summary>
+        ///     Property for the aircraft.<br></br>
+        ///     Setter unsubscribes from the old <see cref="Aircraft"/>, and subscribes to the new one.
+        /// </summary>
         public Aircraft Craft
         {
             get => _acft;
@@ -72,7 +111,11 @@ namespace V_Speeds
             }
         }
 
-        // Should still do type-checking in setter...
+        /// <summary>
+        ///     Property accessor.
+        /// </summary>
+        /// <param name="propertyName">The name of the property to be accessed.</param>
+        /// <returns>Gets/Sets the property represented by <paramref name="propertyName"/> if it exists, otherwise null (get) or do nothing (set).</returns>
         public object? this[string propertyName]
         {
             get
@@ -82,6 +125,7 @@ namespace V_Speeds
                 return null;
             }
 
+            // Should still do type-checking here...
             set
             {
                 if (this.GetType().GetProperty(propertyName) is System.Reflection.PropertyInfo pi)
@@ -89,23 +133,81 @@ namespace V_Speeds
             }
         }
 
+        /// <summary>
+        ///     Property for the Gross Weight, expected in kgs.
+        /// </summary>
         public double Gw { get => Craft.Gw; set => Craft.Gw = value; }
+
+        /// <summary>
+        ///     Property for the Outside Air Temperature, expected in Kelvin.
+        /// </summary>
         public double Oat { get => Field.Oat; set => Field.Oat = value; }
+
+        /// <summary>
+        ///     Property for the local pressure, expected in Pascal.
+        /// </summary>
         public double Qfe { get => Field.Qfe; set => Field.Qfe = value; }
+        
+        /// <summary>
+        ///     Property for the lifting surface area, expected in m².
+        /// </summary>
         public double Lsa { get => Craft.Lsa; set => Craft.Lsa = value; }
+
+        /// <summary>
+        ///     Property for the lift coefficient.
+        /// </summary>
         public double Cl { get => Craft.Cl; set => Craft.Cl = value; }
+
+        /// <summary>
+        ///     Property for the lift coefficient at angle of incidence.
+        /// </summary>
         public double Clg { get => Craft.Clg; set => Craft.Clg = value; }
+
+        /// <summary>
+        ///     Property for the thrust force, expected in Newton.
+        /// </summary>
         public double Thr { get => Craft.Thr; set => Craft.Thr = value; }
+
+        /// <summary>
+        ///     Property for the brake force, expected in Newton.
+        /// </summary>
         public double Bf { get => Craft.Bf; set => Craft.Bf = value; }
+
+        /// <summary>
+        ///     Property for the runway length, expected in meters.
+        /// </summary>
         public double Rl { get => Field.Rl; set => Field.Rl = value; }
+
+        /// <summary>
+        ///     Property for the reaction time, expected in seconds.
+        /// </summary>
         public double Rc { get => Craft.Rc; set => Craft.Rc = value; }
+
+        /// <summary>
+        ///     Property for the drag coefficient at angle of incidence.
+        /// </summary>
         public double Cd { get => Craft.Cd; set => Craft.Cd = value; }
+
+        /// <summary>
+        ///     Property for the reverse thrust ratio.
+        /// </summary>
         public double Rtr { get => Craft.Rtr; set => Craft.Rtr = value; }
+
+        /// <summary>
+        ///     Property for the rolling friction coefficient.
+        /// </summary>
         public double Rfc { get => Craft.Rfc; set => Craft.Rfc = value; }
 
 
         // Expecting v0 in m/s, acc in m/s² and time in seconds
         //  return distance travelled in meters
+        /// <summary>
+        ///     Calculates the covered distance given an initial speed, an acceleration rate and a timespan.
+        /// </summary>
+        /// <param name="v0">The initial velocity.</param>
+        /// <param name="a">The rate of acceleration.</param>
+        /// <param name="time">The timespan of the acceleration.</param>
+        /// <returns>The covered distance, unit depends on what was provided for <paramref name="v0"/> and <paramref name="a"/>.</returns>
         public static double CalcDistance(double v0, double a, double time) => (v0 * time) + (a * Math.Pow(time, 2) / 2); // need a better spot for this function...
 
 

@@ -1,5 +1,8 @@
 ﻿namespace V_Speeds.Model.Aircrafts
 {
+    /// <summary>
+    ///     Container class for DCS A-10 (A/C/C-II) by Eagle Dynamics
+    /// </summary>
     internal class DCS_A10 : Aircraft
     {
         public DCS_A10(double gw = 11321.0)
