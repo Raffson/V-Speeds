@@ -161,7 +161,6 @@ namespace V_Speeds
         {
             if (vcalc.Craft is not IAfterburnable ac) return; // FUBAR...
             ac.AB = abcb.Checked;
-            ac.ThrAB = 5000;
             (abcb.Text, abcb.ForeColor) = abcb.Checked ? ("AB", Color.Red) : ("MIL", Color.FromKnownColor(KnownColor.HotTrack));
         }
 
@@ -185,10 +184,10 @@ namespace V_Speeds
 
         public void Update(string property)
         {
-            System.Diagnostics.Debug.WriteLine(property);
+            //System.Diagnostics.Debug.WriteLine(property);
             if (vcalc[property] is double value && lastControllerInput != prop_map[property])
             {
-                System.Diagnostics.Debug.WriteLine(property);
+                //System.Diagnostics.Debug.WriteLine(property);
                 var input = prop_map[property];
                 var dlgt = model_map[input];
                 input.ValueChanged -= new EventHandler(UpdateModel); // no model update needed now...
