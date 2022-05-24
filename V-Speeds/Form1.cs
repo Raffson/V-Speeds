@@ -87,11 +87,8 @@ namespace V_Speeds
             bool enabled = cb.SelectedIndex == 0;
             foreach (var input in fixed_inputs) input.Enabled = enabled; // (un)Lock
             // & Load... Observer Pattern takes care of the rest...
-            if (cb.SelectedIndex > 0)
-            {
-                var aircraftString = (string)cb.SelectedItem;
+            if (cb.SelectedIndex > 0 && cb.SelectedItem is string aircraftString)
                 vcalc.Craft = AircraftFactory.CreateAircraft(aircraftString.AircraftTypeFromString());
-            }
             else vcalc.Craft = new Aircraft(vcalc.Craft);
             abcb.Checked = false;
             abcb.Visible = vcalc.Craft.HasAfterburner();
@@ -159,9 +156,12 @@ namespace V_Speeds
 
         private void AfterburnerToggle(object? sender, EventArgs e)
         {
-            if (vcalc.Craft is not IAfterburnable ac) return; // FUBAR...
-            ac.AB = abcb.Checked;
-            (abcb.Text, abcb.ForeColor) = abcb.Checked ? ("AB", Color.Red) : ("MIL", Color.FromKnownColor(KnownColor.HotTrack));
+            if (vcalc.Craft is IAfterburnable ac)
+            {
+                ac.AB = abcb.Checked;
+                (abcb.Text, abcb.ForeColor) = abcb.Checked ? ("AB", Color.Red) : ("MIL", Color.FromKnownColor(KnownColor.HotTrack));
+            }
+            // else FUBAR...
         }
 
         // Observer Pattern Stuff
@@ -199,6 +199,16 @@ namespace V_Speeds
                 input.ValueChanged += new EventHandler(UpdateModel); // re-enable model update...
             }
             lastControllerInput = null;
+        }
+
+        private void ResetProfile(object sender, EventArgs e)
+        {
+            if (apSelect.SelectedItem is string aircraftString)
+            {
+                vcalc.Craft = AircraftFactory.CreateAircraft(aircraftString.AircraftTypeFromString());
+                abcb.Checked = false;
+            }
+            else MessageBox.Show("Can't reset profile! Selected profile is invalid...", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

@@ -89,6 +89,7 @@
             this.mtow_kg_output = new System.Windows.Forms.TextBox();
             this.abcb = new System.Windows.Forms.CheckBox();
             this.dllName = new System.Windows.Forms.Label();
+            this.resetBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.oat_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lsa_in)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cl_in)).BeginInit();
@@ -961,11 +962,24 @@
             this.dllName.Text = "DLL_Name";
             this.dllName.Visible = false;
             // 
+            // resetBtn
+            // 
+            this.resetBtn.AutoSize = true;
+            this.resetBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.resetBtn.Location = new System.Drawing.Point(16, 12);
+            this.resetBtn.Name = "resetBtn";
+            this.resetBtn.Size = new System.Drawing.Size(90, 23);
+            this.resetBtn.TabIndex = 62;
+            this.resetBtn.Text = "Reset Profile";
+            this.resetBtn.UseVisualStyleBackColor = true;
+            this.resetBtn.Click += new System.EventHandler(this.ResetProfile);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 509);
+            this.Controls.Add(this.resetBtn);
             this.Controls.Add(this.dllName);
             this.Controls.Add(this.abcb);
             this.Controls.Add(this.label24);
@@ -1109,6 +1123,7 @@
         private Label label26;
         private CheckBox abcb;
         private Label dllName;
+        private Button resetBtn;
     }
 }
 

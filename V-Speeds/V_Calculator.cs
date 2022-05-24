@@ -38,7 +38,7 @@ namespace V_Speeds
         /// <param name="cd">The drag coefficient at the angle of incidence, i.e. during the roll on take-off.</param>
         /// <param name="rtr">The reverse thrust ratio.</param>
         /// <param name="rfc">The rolling friction coefficient.</param>
-        public V_Calculator(double gw = 1000.0, double oat = 288.15, double qfe = 101325, double lsa = 10.0, double cl = 1.0, double clg = 0.5,
+        public V_Calculator(double gw = 1000.0, double oat = 288.15, double qfe = 101325, double lsa = 10.0, double cl = 1.0, double clg = 0.1,
             double thr = 1000.0, double bf = 500.0, double rl = 2500.0, double rc = 2.0, double cd = 0.1, double rtr = 0.0, double rfc = 0.05)
         {
             // all members should stay positve, except Cl and Cd... thus setters will use absolute value
@@ -319,8 +319,8 @@ namespace V_Speeds
                 double dist = CalcNeededRunway(false);  // assuming full thrust
                 if (double.IsNaN(dist) || dist > Field.Rl)
                 {
-                    if (incrementer == 1) return last > 0 ? last : double.NaN; // means we're stuck in a loop, 'last' should be our best estimate...
                     mtow = last;
+                    if (incrementer == 1) break; // means we're stuck in a loop, 'last' should be our best estimate...
                     incrementer = 1;
                     continue;
                 }
