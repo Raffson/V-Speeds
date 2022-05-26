@@ -33,7 +33,7 @@ namespace V_Speeds_Tester
                 subject.Subscribe(t);
                 foreach (var prop in subject.GetType().GetProperties())
                 {
-                    if (prop.PropertyType == typeof(double)) // Aircraft and Airfield will be tested on their own...
+                    if (prop.PropertyType == typeof(double)) // only check properties of type double
                     {
                         lastRandom = System.Random.Shared.NextDouble();
                         prop.SetValue(subject, lastRandom);
