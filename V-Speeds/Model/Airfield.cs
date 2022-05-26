@@ -106,6 +106,8 @@ namespace V_Speeds.Model
 
         public void Update(string property)
         {
+            if (property == "Temp") property = "Oat";
+            else if (property == "Press") property = "Qfe";
             Notify(property);
         }
     }

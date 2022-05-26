@@ -128,8 +128,12 @@ namespace V_Speeds
             // Should still do type-checking here...
             set
             {
-                if (this.GetType().GetProperty(propertyName) is System.Reflection.PropertyInfo pi)
+                if (this.GetType().GetProperty(propertyName) is System.Reflection.PropertyInfo pi &&
+                    value is not null && pi.PropertyType == value.GetType())
+                {
                     pi.SetValue(this, value, null);
+                }
+
             }
         }
 
