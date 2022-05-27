@@ -23,7 +23,7 @@ namespace V_Speeds
                 AircraftType.DCS_F15C => "DCS F-15C",
                 AircraftType.DCS_F16C_blk50 => "DCS F-16C blk50",
                 AircraftType.DCS_F18C => "DCS F-18C",
-                AircraftType.External => "External DLL (WIP)",
+                AircraftType.External => "External DLL",
                 _ => "Unknown..."
             };
         }
