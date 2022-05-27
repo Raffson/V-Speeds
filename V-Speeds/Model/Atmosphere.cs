@@ -1,4 +1,5 @@
-﻿using V_Speeds.ObserverPattern;
+﻿using V_Speeds.ConstantsAndConverters;
+using V_Speeds.ObserverPattern;
 
 namespace V_Speeds.Model
 {

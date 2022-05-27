@@ -1,4 +1,5 @@
-﻿using V_Speeds.Model.Aircrafts;
+﻿using V_Speeds.ConstantsAndConverters;
+using V_Speeds.Model.Aircrafts;
 using V_Speeds.ObserverPattern;
 using System.Reflection;
 
@@ -156,8 +157,7 @@ namespace V_Speeds
                         if (instance is Aircraft ac)
                         {
                             vcalc.Craft = ac;
-                            // Show label with the loaded type
-                            dllName.Text = extType.Name; // change fname to the type selected aircraft...
+                            dllName.Text = extType.Name;
                             dllName.Visible = true;
                         }
                         else apSelect.SelectedIndex = lastProfileIndex; // FUBAR in this case, revert to last selected index...

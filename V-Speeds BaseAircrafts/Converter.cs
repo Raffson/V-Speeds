@@ -1,4 +1,4 @@
-﻿namespace V_Speeds
+﻿namespace V_Speeds.ConstantsAndConverters
 {
     /// <summary>
     ///     Static class for making conversions

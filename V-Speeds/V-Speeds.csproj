@@ -14,4 +14,8 @@
     <Content Include="vspeeds.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\V-Speeds BaseAircrafts\V-Speeds BaseAircrafts.csproj" />
+  </ItemGroup>
+
 </Project>

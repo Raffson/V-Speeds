@@ -1,4 +1,5 @@
-﻿using V_Speeds.Model;
+﻿using V_Speeds.ConstantsAndConverters;
+using V_Speeds.Model;
 using V_Speeds.Model.Aircrafts;
 using V_Speeds.ObserverPattern;
 
@@ -203,8 +204,6 @@ namespace V_Speeds
         public double Rfc { get => Craft.Rfc; set => Craft.Rfc = value; }
 
 
-        // Expecting v0 in m/s, acc in m/s² and time in seconds
-        //  return distance travelled in meters
         /// <summary>
         ///     Calculates the covered distance given an initial speed, an acceleration rate and a timespan.
         /// </summary>
