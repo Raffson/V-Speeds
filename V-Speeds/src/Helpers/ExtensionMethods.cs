@@ -1,6 +1,6 @@
 ﻿using V_Speeds.Model.Aircrafts;
 
-namespace V_Speeds
+namespace V_Speeds.Helpers
 {
     internal static class ExtensionMethods
     {

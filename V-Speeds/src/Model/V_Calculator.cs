@@ -3,7 +3,7 @@ using V_Speeds.Model;
 using V_Speeds.Model.Aircrafts;
 using V_Speeds.ObserverPattern;
 
-namespace V_Speeds
+namespace V_Speeds.Model
 {
     public class V_Calculator : IMyObservable<V_Calculator>, IMyObserver<Airfield>, IMyObserver<Aircraft>
     {

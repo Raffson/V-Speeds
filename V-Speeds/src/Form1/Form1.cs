@@ -1,4 +1,6 @@
 ﻿using V_Speeds.ConstantsAndConverters;
+using V_Speeds.Helpers;
+using V_Speeds.Model;
 using V_Speeds.Model.Aircrafts;
 using V_Speeds.ObserverPattern;
 using System.Reflection;

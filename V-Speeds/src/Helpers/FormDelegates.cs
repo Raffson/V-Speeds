@@ -1,6 +1,6 @@
 ﻿using V_Speeds.ConstantsAndConverters;
 
-namespace V_Speeds
+namespace V_Speeds.Helpers
 {
     /// <summary>
     ///     A custom container to make life easier in Form1, bundeling all components together for accessing or transforming the relevant data.
