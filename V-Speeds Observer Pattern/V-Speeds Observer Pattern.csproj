@@ -5,7 +5,7 @@
     <RootNamespace>V_Speeds.ObserverPattern</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>V-Speeds_ObserverPattern</AssemblyName>
+    <AssemblyName>V-Speeds ObserverPattern</AssemblyName>
   </PropertyGroup>
 
 </Project>

@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\V-Speeds BaseAircrafts\V-Speeds BaseAircrafts.csproj" />
+    <ProjectReference Include="..\V-Speeds API\V-Speeds API.csproj" />
   </ItemGroup>
 
 </Project>

@@ -153,8 +153,7 @@ namespace V_Speeds
                 {
                     if (extType != vcalc.Craft.GetType())
                     {
-                        object? instance = Activator.CreateInstance(extType);
-                        if (instance is Aircraft ac)
+                        if (Activator.CreateInstance(extType) is Aircraft ac)
                         {
                             vcalc.Craft = ac;
                             dllName.Text = extType.Name;

@@ -5,7 +5,7 @@
     <RootNamespace>V_Speeds.Model.Aircrafts</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>BaseAircrafts</AssemblyName>
+    <AssemblyName>V-Speeds API</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
